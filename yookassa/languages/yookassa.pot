@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the ЮKassa для WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: yookassa 2.9.1\n"
+"Project-Id-Version: yookassa 2.10.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yookassa\n"
-"POT-Creation-Date: 2024-08-09T07:20:58+00:00\n"
-"PO-Revision-Date: 2024-08-09 10:31+0300\n"
+"POT-Creation-Date: 2024-09-06T09:27:58+00:00\n"
+"PO-Revision-Date: 2024-09-06 09:27+0300\n"
 "Last-Translator: yoomoney <cms@yoomoney.ru>\n"
 "Language-Team: RU <cms@yoomoney.ru>\n"
 "MIME-Version: 1.0\n"
@@ -14,27 +14,22 @@ msgstr ""
 "X-Generator: Poedit 3.4.4\n"
 
 #. Plugin Name of the plugin
-#: yookassa.php
 msgid "ЮKassa для WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: yookassa.php
 msgid "https://wordpress.org/plugins/yookassa/"
 msgstr ""
 
 #. Description of the plugin
-#: yookassa.php
 msgid "Платежный модуль для работы с сервисом ЮKassa через плагин WooCommerce"
 msgstr ""
 
 #. Author of the plugin
-#: yookassa.php
 msgid "YooMoney"
 msgstr ""
 
 #. Author URI of the plugin
-#: yookassa.php
 msgid "http://yookassa.ru"
 msgstr ""
 
@@ -178,7 +173,7 @@ msgid "Умный платёж (рекомендуем)"
 msgstr ""
 
 #: admin/partials/tabs/section2.php:20
-#: gateway/YooKassaWidgetGateway.php:28
+#: gateway/YooKassaWidgetGateway.php:30
 msgid "Виджет ЮKassa"
 msgstr ""
 
@@ -197,7 +192,7 @@ msgid "Подробнее про сценарий оплаты"
 msgstr ""
 
 #: admin/partials/tabs/section2.php:33
-#: gateway/YooKassaWidgetGateway.php:29
+#: gateway/YooKassaWidgetGateway.php:31
 msgid "Покупатель сможет выбрать способ оплаты в платёжной форме, которая встроена в ваш сайт — переходить на нашу страницу для оплаты не нужно."
 msgstr ""
 
@@ -522,7 +517,7 @@ msgstr ""
 
 #: admin/YooKassaAdmin.php:255
 #: admin/YooKassaAdmin.php:267
-#: gateway/YooKassaGateway.php:586
+#: gateway/YooKassaGateway.php:593
 #: gateway/YooKassaGatewayB2bSberbank.php:162
 msgid "Оплата заказа №%order_number%"
 msgstr ""
@@ -667,21 +662,21 @@ msgstr ""
 #: gateway/YooKassaGateway.php:354
 #: gateway/YooKassaGateway.php:419
 #: gateway/YooKassaGateway.php:429
-#: gateway/YooKassaWidgetGateway.php:164
-#: gateway/YooKassaWidgetGateway.php:198
-#: gateway/YooKassaWidgetGateway.php:206
+#: gateway/YooKassaWidgetGateway.php:205
+#: gateway/YooKassaWidgetGateway.php:239
+#: gateway/YooKassaWidgetGateway.php:247
 msgid "Не удалось создать платеж. Для заказа %1$s"
 msgstr ""
 
 #: gateway/YooKassaGateway.php:379
 #: gateway/YooKassaGateway.php:421
 #: gateway/YooKassaGateway.php:431
-#: gateway/YooKassaWidgetGateway.php:199
-#: gateway/YooKassaWidgetGateway.php:207
+#: gateway/YooKassaWidgetGateway.php:240
+#: gateway/YooKassaWidgetGateway.php:248
 msgid "Платеж не прошел. Попробуйте еще или выберите другой способ оплаты"
 msgstr ""
 
-#: gateway/YooKassaGateway.php:686
+#: gateway/YooKassaGateway.php:693
 msgid "Тестовое списание для привязки карты, средства будут возвращены."
 msgstr ""
 
@@ -698,27 +693,41 @@ msgid "Умный платёж"
 msgstr ""
 
 #: gateway/YooKassaGatewayEPL.php:26
-#: gateway/YooKassaWidgetGateway.php:31
+#: gateway/YooKassaWidgetGateway.php:33
 msgid "ЮKassa"
 msgstr ""
 
 #: gateway/YooKassaGatewayEPL.php:27
-#: gateway/YooKassaWidgetGateway.php:32
+#: gateway/YooKassaWidgetGateway.php:34
 msgid "Банковской картой, через SberPay и другими подключёнными способами"
 msgstr ""
 
-#: gateway/YooKassaWidgetGateway.php:87
-#: gateway/YooKassaWidgetGateway.php:105
+#: gateway/YooKassaGatewayEPL.php:48
+#: gateway/YooKassaWidgetGateway.php:77
+msgid "Сохранять платежный метод"
+msgstr ""
+
+#: gateway/YooKassaGatewayEPL.php:50
+#: gateway/YooKassaWidgetGateway.php:79
+msgid "Покупатели могут сохранять карту для повторной оплаты"
+msgstr ""
+
+#: gateway/YooKassaWidgetGateway.php:128
+#: gateway/YooKassaWidgetGateway.php:146
 msgid "Что-то пошло не так!"
 msgstr ""
 
-#: gateway/YooKassaWidgetGateway.php:89
-#: gateway/YooKassaWidgetGateway.php:107
+#: gateway/YooKassaWidgetGateway.php:130
+#: gateway/YooKassaWidgetGateway.php:148
 msgid "Попробовать заново"
 msgstr ""
 
-#: gateway/YooKassaWidgetGateway.php:256
+#: gateway/YooKassaWidgetGateway.php:297
 msgid "Чтобы покупатели могли заплатить вам через Apple Pay, <a href=\"https://yookassa.ru/docs/merchant.ru.yandex.kassa\">скачайте файл apple-developer-merchantid-domain-association</a> и добавьте его в папку ./well-known на вашем сайте. Если не знаете, как это сделать, обратитесь к администратору сайта или в поддержку хостинга. Не забудьте также подключить оплату через Apple Pay <a href=\"https://yookassa.ru/my/payment-methods/settings#applePay\">в личном кабинете ЮKassa</a>. <a href=\"https://yookassa.ru/developers/payment-forms/widget#apple-pay-configuration\">Почитать о подключении Apple Pay в документации ЮKassa</a>"
+msgstr ""
+
+#: includes/WC_Payment_Token_SBP.php:11
+msgid "Система быстрых платежей"
 msgstr ""
 
 #: includes/WC_Payment_Token_YooKassa.php:15

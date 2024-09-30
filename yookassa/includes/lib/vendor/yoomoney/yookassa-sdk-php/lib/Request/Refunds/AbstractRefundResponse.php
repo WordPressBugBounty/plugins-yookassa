@@ -26,6 +26,7 @@
 
 namespace YooKassa\Request\Refunds;
 
+use YooKassa\Model\RefundCancellationDetails;
 use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Refund;
 
@@ -63,6 +64,13 @@ abstract class AbstractRefundResponse extends Refund
 
         if (!empty($options['deal'])) {
             $this->setDeal($options['deal']);
+        }
+
+        if (!empty($options['cancellation_details'])) {
+            $cancellationDetails = $options['cancellation_details'];
+            $party               = isset($cancellationDetails['party']) ? $cancellationDetails['party'] : null;
+            $reason              = isset($cancellationDetails['reason']) ? $cancellationDetails['reason'] : null;
+            $this->setCancellationDetails(new RefundCancellationDetails($party, $reason));
         }
     }
 }

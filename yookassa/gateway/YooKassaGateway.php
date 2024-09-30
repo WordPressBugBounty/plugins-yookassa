@@ -551,6 +551,13 @@ class YooKassaGateway extends WC_Payment_Gateway
         YooKassaLogger::info('Return url: '.$order->get_checkout_payment_url(true));
         YooKassaHandler::setReceiptIfNeeded($builder, $order, $this->subscribe);
 
+        if (
+            is_user_logged_in()
+            && get_option('yookassa_save_card')
+        ) {
+            $this->setMerchantCustomerId($builder, $order);
+        }
+
         return $builder;
     }
 
@@ -793,5 +800,22 @@ class YooKassaGateway extends WC_Payment_Gateway
         global $wp_rewrite;
 
         return empty($wp_rewrite->permalink_structure) ? self::RETURN_SIMPLE_PATTERN : self::RETURN_URI_PATTERN;
+    }
+
+    /**
+     * Generate merchant_customer_id for save card
+     * @param WC_Order $order
+     * @param CreatePaymentRequestBuilder $builder
+     * @return void
+     */
+    public function setMerchantCustomerId(CreatePaymentRequestBuilder $builder, WC_Order $order)
+    {
+        $userId = get_current_user_id();
+        YooKassaLogger::info('Check merchant_customer_id: ' . $order->get_billing_email() . ' - ' . $order->get_billing_phone() . ' - ' . $userId);
+        if ($order->get_billing_email() && $order->get_billing_phone()) {
+            $email = trim($order->get_billing_email());
+            $phone = preg_replace('/[^\d]/', '', $order->get_billing_phone());
+            $builder->setMerchantCustomerId(md5($email . ':' . $phone . ':' . $userId));
+        }
     }
 }

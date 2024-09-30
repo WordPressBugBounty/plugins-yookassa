@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div id="save-card" class="qa-save-card" style="<?= ($payMode == 0) ? '' : 'display:none;' ?>">
+        <div id="save-card" class="qa-save-card">
             <div class="row">
                 <div class="col-md-12 form-group">
                     <div class="custom-control custom-switch qa-checkbox">

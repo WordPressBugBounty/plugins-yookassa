@@ -40,6 +40,8 @@ use YooKassa\Model\Deal\RefundDealInfo;
  * @property string $paymentId Идентификатор платежа
  * @property string $payment_id Идентификатор платежа
  * @property string $status Статус возврата
+ * @property CancellationDetailsInterface $cancellationDetails Комментарий к статусу `canceled`
+ * @property CancellationDetailsInterface $cancellation_details Комментарий к статусу `canceled`
  * @property \DateTime $createdAt Время создания возврата
  * @property \DateTime $created_at Время создания возврата
  * @property AmountInterface $amount Сумма возврата
@@ -64,6 +66,11 @@ class Refund extends AbstractObject implements RefundInterface
      * @var string Статус возврата
      */
     private $_status;
+
+    /**
+     * @var CancellationDetailsInterface|null Комментарий к статусу `canceled`
+     */
+    private $_cancellationDetails;
 
     /**
      * @var \DateTime Время создания возврата
@@ -214,6 +221,25 @@ class Refund extends AbstractObject implements RefundInterface
                 $value
             );
         }
+    }
+
+    /**
+     * Возвращает комментарий к статусу canceled: кто отменил возврат и по какой причине
+     * @return CancellationDetailsInterface|null Комментарий к статусу canceled
+     * @since 1.0.13
+     */
+    public function getCancellationDetails()
+    {
+        return $this->_cancellationDetails;
+    }
+
+    /**
+     * Устанавливает комментарий к статусу canceled: кто отменил возврат и по какой причине
+     * @param CancellationDetailsInterface $value Комментарий к статусу canceled
+     */
+    public function setCancellationDetails(CancellationDetailsInterface $value)
+    {
+        $this->_cancellationDetails = $value;
     }
 
     /**

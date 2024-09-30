@@ -12,6 +12,9 @@ use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Payment;
 use YooKassa\Model\ReceiptRegistrationStatus;
 use YooKassa\Model\Refund;
+use YooKassa\Model\RefundCancellationDetails;
+use YooKassa\Model\RefundCancellationDetailsPartyCode;
+use YooKassa\Model\RefundCancellationDetailsReasonCode;
 use YooKassa\Model\RefundStatus;
 use YooKassa\Model\Source;
 use YooKassa\Request\Refunds\CreateRefundRequest;
@@ -695,4 +698,54 @@ class RefundTest extends TestCase
             array(new \stdClass()),
         );
     }
+
+    /**
+     * @dataProvider validDataProvider
+     * @param array $options
+     */
+    public function testGetSetCancellationDetails($options)
+    {
+        $instance = new Refund();
+
+        self::assertNull($instance->getCancellationDetails());
+        self::assertNull($instance->cancellationDetails);
+        self::assertNull($instance->cancellation_details);
+
+        $instance->setCancellationDetails($options['cancellation_details']);
+        self::assertSame($options['cancellation_details'], $instance->getCancellationDetails());
+        self::assertSame($options['cancellation_details'], $instance->cancellationDetails);
+        self::assertSame($options['cancellation_details'], $instance->cancellation_details);
+
+        $instance = new Refund();
+        $instance->cancellationDetails = $options['cancellation_details'];
+        self::assertSame($options['cancellation_details'], $instance->getCancellationDetails());
+        self::assertSame($options['cancellation_details'], $instance->cancellationDetails);
+        self::assertSame($options['cancellation_details'], $instance->cancellation_details);
+
+        $instance = new Refund();
+        $instance->cancellation_details = $options['cancellation_details'];
+        self::assertSame($options['cancellation_details'], $instance->getCancellationDetails());
+        self::assertSame($options['cancellation_details'], $instance->cancellationDetails);
+        self::assertSame($options['cancellation_details'], $instance->cancellation_details);
+    }
+
+    public function validDataProvider()
+    {
+        $result = array();
+        $cancellationDetailsParties = RefundCancellationDetailsPartyCode::getValidValues();
+        $countCancellationDetailsParties = count($cancellationDetailsParties);
+        $cancellationDetailsReasons = RefundCancellationDetailsReasonCode::getValidValues();
+        $countCancellationDetailsReasons = count($cancellationDetailsReasons);
+        for ($i = 0; $i < 20; $i++) {
+            $payment = array(
+                'cancellation_details' => new RefundCancellationDetails(
+                    $cancellationDetailsParties[$i % $countCancellationDetailsParties],
+                    $cancellationDetailsReasons[$i % $countCancellationDetailsReasons]
+                ),
+            );
+            $result[] = array($payment);
+        }
+        return $result;
+    }
+
 }

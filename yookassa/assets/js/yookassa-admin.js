@@ -107,8 +107,6 @@
                 $(target).find('#yookassa_pay_mode').on('change', function(e){
                     $('.pay-mode-block').hide();
                     $('#pay-mode-' + $(this).val()).show();
-                    const saveCardBlock = $('div#save-card');
-                    $(this).val() == '0' ? saveCardBlock.show() : saveCardBlock.hide();
                 });
             },
             error : function(error){ console.log(error) }

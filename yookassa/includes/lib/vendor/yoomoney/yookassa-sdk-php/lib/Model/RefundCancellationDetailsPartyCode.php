@@ -29,18 +29,20 @@ namespace YooKassa\Model;
 use YooKassa\Common\AbstractEnum;
 
 /**
- * CancellationDetailsPartyCode - Возможные инициаторы отмены платежа
+ * Класс, представляющий модель CancellationDetailsPartyCode.
+ *
+ * Возможные инициаторы отмены возврата:
+ * - `yoo_money` - ЮKassa
+ * - `refund_network` - Любые участники процесса возврата, кроме ЮKassa и вас
+ *
+ * @category Class
+ * @package  YooKassa\Model
+ * @author   cms@yoomoney.ru
+ * @link     https://yookassa.ru/developers/api
  */
-class CancellationDetailsPartyCode extends AbstractEnum
+class RefundCancellationDetailsPartyCode extends AbstractEnum
 {
-    /**
-     * Продавец товаров и услуг.
-     */
-    const MERCHANT = 'merchant';
-
-    /**
-     * ЮKassa.
-     */
+    /** ЮKassa */
     const YOO_MONEY = 'yoo_money';
 
     /**
@@ -48,15 +50,12 @@ class CancellationDetailsPartyCode extends AbstractEnum
      */
     const YANDEX_CHECKOUT = 'yandex_checkout';
 
-    /**
-     * «Внешние» участники платежного процесса (например, эмитент, сторонний платежный сервис).
-     */
-    const PAYMENT_NETWORK = 'payment_network';
+    /** Любые участники процесса возврата, кроме ЮKassa и вас (например, эмитент банковской карты) */
+    const REFUND_NETWORK = 'refund_network';
 
     protected static $validValues = array(
-        self::MERCHANT => true,
         self::YOO_MONEY => true,
         self::YANDEX_CHECKOUT => false,
-        self::PAYMENT_NETWORK => true,
+        self::REFUND_NETWORK => true,
     );
 }

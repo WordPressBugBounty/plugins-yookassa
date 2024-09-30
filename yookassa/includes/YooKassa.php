@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.9.1';
+        $this->version     = '2.10.0';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 
@@ -116,6 +116,7 @@ class YooKassa
         require_once self::$pluginPath . 'includes/YooKassaSecondReceipt.php';
         require_once self::$pluginPath . 'includes/YooKassaLogger.php';
         require_once self::$pluginPath . 'includes/WC_Payment_Token_YooKassa.php';
+        require_once self::$pluginPath . 'includes/WC_Payment_Token_SBP.php';
         require_once self::$pluginPath . 'includes/YooKassaFileCache.php';
         require_once self::$pluginPath . 'includes/YooKassaCBRAgent.php';
         require_once self::$pluginPath . 'includes/YooKassaClientFactory.php';

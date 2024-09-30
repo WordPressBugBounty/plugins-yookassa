@@ -635,6 +635,7 @@ class Payment extends AbstractObject implements PaymentInterface
     {
         $this->_cancellationDetails = $value;
     }
+
     /**
      * Возвращает данные об авторизации платежа
      * @return AuthorizationDetailsInterface|null Данные об авторизации платежа

@@ -17,6 +17,8 @@ class YooKassaWidgetGateway extends YooKassaGateway
 
     public $paymentMethod = PaymentMethodType::BANK_CARD;
 
+    public $confirmationType = ConfirmationType::EMBEDDED;
+
     public $id = 'yookassa_widget';
 
     public function __construct()
@@ -33,6 +35,17 @@ class YooKassaWidgetGateway extends YooKassaGateway
 
         $this->title              = $this->getTitle();
         $this->description        = $this->getDescription();
+
+        $this->enableRecurrentPayment = $this->get_option('save_payment_method') === 'yes';
+        $this->supports               = array_merge($this->supports, array(
+            'subscriptions',
+            'tokenization',
+            'subscription_cancellation',
+            'subscription_suspension',
+            'subscription_reactivation',
+            'subscription_date_changes',
+        ));
+        $this->has_fields             = true;
 
         add_action('admin_notices', array($this, 'initial_notice'));
 
@@ -57,7 +70,35 @@ class YooKassaWidgetGateway extends YooKassaGateway
         }
     }
 
-    public $confirmationType = ConfirmationType::EMBEDDED;
+    public function init_form_fields()
+    {
+        parent::init_form_fields();
+        $this->form_fields['save_payment_method'] = array(
+            'title'   => __('Сохранять платежный метод', 'yookassa'),
+            'type'    => 'checkbox',
+            'label'   => __('Покупатели могут сохранять карту для повторной оплаты', 'yookassa'),
+            'default' => 'no',
+        );
+    }
+
+    public function is_available()
+    {
+        if (is_add_payment_method_page() && !$this->enableRecurrentPayment) {
+            return false;
+        }
+
+        return parent::is_available();
+    }
+
+    public function payment_fields()
+    {
+        parent::payment_fields();
+        $displayTokenization = $this->supports('tokenization') && is_checkout() && $this->enableRecurrentPayment;
+        if ($displayTokenization) {
+            $this->saved_payment_methods();
+            $this->save_payment_method_checkbox();
+        }
+    }
 
     /**
      * Receipt Page
@@ -366,20 +407,4 @@ JS;
         include(plugin_dir_path(__FILE__) . $viewPath);
     }
 
-    /**
-     * Generate merchant_customer_id for save card
-     * @param WC_Order $order
-     * @param CreatePaymentRequestBuilder $builder
-     * @return void
-     */
-    private function setMerchantCustomerId(CreatePaymentRequestBuilder $builder, WC_Order $order)
-    {
-        $userId = get_current_user_id();
-        YooKassaLogger::info('Check merchant_customer_id: ' . $order->get_billing_email() . ' - ' . $order->get_billing_phone() . ' - ' . $userId);
-        if ($order->get_billing_email() && $order->get_billing_phone()) {
-            $email = trim($order->get_billing_email());
-            $phone = preg_replace('/[^\d]/', '', $order->get_billing_phone());
-            $builder->setMerchantCustomerId(md5($email . ':' . $phone . ':' . $userId));
-        }
-    }
 }

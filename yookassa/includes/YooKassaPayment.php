@@ -266,7 +266,7 @@ class YooKassaPayment
 
                 YooKassaLogger::info('Token before save');
 
-                if ($token->save()) {
+                if ($token && $token->save()) {
                     YooKassaLogger::info('Token saved id:'.$token->get_id());
                     $this->getApiClient()->cancelPayment($payment->getId());
                     exit();
@@ -294,10 +294,10 @@ class YooKassaPayment
             $saveMethod = $payment->getMetadata()->offsetGet('subscribe_payment_save_card');
             if ($saveMethod) {
                 $token = $this->prepareToken($payment->getPaymentMethod(), $payment);
-                if (!$token->save()) {
-                    YooKassaLogger::info('Token validate failed');
-                } else {
+                if ($token && $token->save()) {
                     YooKassaLogger::info('Token saved id:'.$token->get_id());
+                } else {
+                    YooKassaLogger::info('Token validate failed');
                 }
             }
             exit();
@@ -345,10 +345,10 @@ class YooKassaPayment
 
             if ($isNeedSavedCard) {
                 $token = $this->prepareToken($paymentMethod, $payment);
-                if (!$token->save()) {
-                    YooKassaLogger::info('Token validate failed');
-                } else {
+                if ($token && $token->save()) {
                     YooKassaLogger::info('Token saved id:'.$token->get_id());
+                } else {
+                    YooKassaLogger::info('Token validate failed');
                 }
             } else {
                 YooKassaLogger::info('Token not entered saved = ' . $paymentMethod->getSaved() . ' !empty($userId) = ' . $userId);
@@ -662,17 +662,16 @@ class YooKassaPayment
      * @param $paymentMethod
      * @param $payment
      *
-     * @return WC_Payment_Token|WC_Payment_Token_CC
+     * @return WC_Payment_Token|WC_Payment_Token_CC|null
      */
     protected function prepareToken($paymentMethod, $payment)
     {
+        $gatewayId = get_option('yookassa_pay_mode') == '1' ? 'yookassa_epl' : 'yookassa_widget';
+        $userId = $payment->getMetadata()->offsetGet('wp_user_id');
 
-        if ($paymentMethod->getType() == PaymentMethodType::BANK_CARD) {
-
-            $userId = $payment->getMetadata()->offsetGet('wp_user_id');
-            $token  = null;
+        if (in_array($paymentMethod->getType(), [PaymentMethodType::BANK_CARD, PaymentMethodType::SBERBANK, PaymentMethodType::TINKOFF_BANK], true)) {
             if (!empty($userId)) {
-                $tokens = WC_Payment_Tokens::get_customer_tokens($userId, 'yookassa_'.$paymentMethod->getType());
+                $tokens = WC_Payment_Tokens::get_customer_tokens($userId, $gatewayId);
                 foreach ($tokens as $token) {
                     if ($token->get_token() == $paymentMethod->id || $token->get_last4() == $paymentMethod->getLast4()) {
                         return $token;
@@ -681,20 +680,16 @@ class YooKassaPayment
             }
 
             $token = new WC_Payment_Token_CC();
-
+            $card = $paymentMethod->getCard();
             /** @var PaymentMethodBankCard $paymentMethod */
-            $token->set_card_type($paymentMethod->getCardType());
-            $token->set_last4($paymentMethod->getLast4());
-            $token->set_expiry_month($paymentMethod->getExpiryMonth());
-            $token->set_expiry_year($paymentMethod->getExpiryYear());
-            $token->set_gateway_id('yookassa_'.$paymentMethod->getType());
-        } else {
+            $token->set_card_type($card->getCardType());
+            $token->set_last4($card->getLast4());
+            $token->set_expiry_month($card->getExpiryMonth());
+            $token->set_expiry_year($card->getExpiryYear());
+        } elseif ($paymentMethod->getType() === PaymentMethodType::YOO_MONEY) {
             $accountLast4 = substr($paymentMethod->getAccountNumber(), -4);
-
-            $userId = $payment->getMetadata()->offsetGet('wp_user_id');
-            $token  = null;
             if (!empty($userId)) {
-                $tokens = WC_Payment_Tokens::get_customer_tokens($userId, 'yookassa_wallet');
+                $tokens = WC_Payment_Tokens::get_customer_tokens($userId, $gatewayId);
                 foreach ($tokens as $token) {
                     if ($token->get_token() == $paymentMethod->id || $token->get_last4() == $accountLast4) {
                         return $token;
@@ -703,13 +698,25 @@ class YooKassaPayment
             }
 
             $token = new WC_Payment_Token_YooKassa();
-            $token->set_gateway_id('yookassa_wallet');
             /** @var PaymentMethodYooMoney $paymentMethod */
             $token->set_last4($accountLast4);
+        } elseif ($paymentMethod->getType() === PaymentMethodType::SBP) {
+            if (!empty($userId)) {
+                $tokens = WC_Payment_Tokens::get_customer_tokens($userId, $gatewayId);
+                foreach ($tokens as $token) {
+                    if ($token->get_token() == $paymentMethod->id) {
+                        return $token;
+                    }
+                }
+            }
+            $token = new WC_Payment_Token_SBP();
+        } else {
+            return null;
         }
 
+        $token->set_gateway_id($gatewayId);
         $token->set_token($paymentMethod->id);
-        $token->set_user_id($payment->getMetadata()->offsetGet('wp_user_id'));
+        $token->set_user_id($userId);
 
         return $token;
     }
