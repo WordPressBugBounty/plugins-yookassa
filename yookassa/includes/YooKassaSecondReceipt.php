@@ -162,6 +162,10 @@ class YooKassaSecondReceipt
                 return $receiptBuilder->build();
             } catch (Exception $e) {
                 YooKassaLogger::error($e->getMessage() . '. Property name: '. $e->getProperty());
+                YooKassaLogger::sendAlertLog('Build SecondReceipt error', array(
+                    'methodid' => 'POST/buildSecondReceipt',
+                    'exception' => $e,
+                ));
             }
         }
 
@@ -364,6 +368,10 @@ class YooKassaSecondReceipt
                     $response = $this->getApiClient()->createReceipt($receiptRequest);
                 } catch (Exception $e) {
                     YooKassaLogger::error('Request second receipt error: ' . $e->getMessage());
+                    YooKassaLogger::sendAlertLog('Request second receipt error', array(
+                        'methodid' => 'POST/changeOrderStatus',
+                        'exception' => $e,
+                    ));
                     return;
                 }
 
@@ -373,7 +381,11 @@ class YooKassaSecondReceipt
                 YooKassaLogger::info('Request second receipt result: ' . PHP_EOL . json_encode($response->jsonSerialize()));
             }
         } catch (Exception $e) {
-            YooKassaLogger::info($type . ' Error: ' . $e->getMessage());
+            YooKassaLogger::error($type . ' Error: ' . $e->getMessage());
+            YooKassaLogger::sendAlertLog('Change Order Status error', array(
+                'methodid' => 'POST/changeOrderStatus',
+                'exception' => $e,
+            ));
             return;
         }
     }

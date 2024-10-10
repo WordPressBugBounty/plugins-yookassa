@@ -495,6 +495,7 @@ class YooKassaAdmin
 
         if (wp_remote_retrieve_response_code($data) == 422) {
             $error = empty($body['error']) ? 'Access token not found' : $body['error'];
+            YooKassaLogger::sendAlertLog('Access token not found', array('error' => $error));
             YooKassaLogger::error('Error: ' . $error);
             echo json_encode(array('error' => 'Авторизация не пройдена'));
             wp_die('', '', array('response' => 502));
@@ -540,6 +541,10 @@ class YooKassaAdmin
             $this->saveShopIdByOauth();
         } catch (Exception $e) {
             YooKassaLogger::error('Error occurred during creating webhooks: ' . $e->getMessage());
+            YooKassaLogger::sendAlertLog('Error occurred during creating webhooks', array(
+                'methodid' => 'POST/get_oauth_token',
+                'exception' => $e,
+            ));
             echo json_encode(array('error' => $e->getMessage()));
             wp_die('', '', array('response' => 500));
         }
@@ -593,6 +598,10 @@ class YooKassaAdmin
             return $shopInfo;
         } catch (Exception $e) {
             YooKassaLogger::error('Failed get /me information. Error: ' . $e->getMessage());
+            YooKassaLogger::sendAlertLog('Failed get /me information', array(
+                'methodid' => 'GET/getShopInfo',
+                'exception' => $e,
+            ));
             return;
         }
     }

@@ -147,6 +147,10 @@ class YooKassaWidgetGateway extends YooKassaGateway
                 . '<p><a href="' . $order->get_checkout_payment_url() . '" target="_top" class="woocommerce-button button pay">'
                 . __('Попробовать заново', 'yookassa') . '</a></p>';
             YooKassaLogger::error('Api error: ' . $e->getMessage());
+            YooKassaLogger::sendAlertLog('Api error', array(
+                'methodid' => 'GET/receipt_page',
+                'exception' => $e,
+            ));
         }
 
         $this->render('../includes/partials/widget.php', array(
@@ -204,6 +208,10 @@ JS;
             } catch (Exception $e) {
                 YooKassaLogger::error(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id) . ' ' . $e->getMessage());
                 wc_add_notice($e->getMessage(), 'error');
+                YooKassaLogger::sendAlertLog('Create payment error', array(
+                    'methodid' => 'POST/process_payment',
+                    'exception' => $e,
+                ));
                 return array('result' => 'fail', 'redirect' => '');
             }
         }
@@ -282,7 +290,10 @@ JS;
             return $response;
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: ' . $e->getMessage());
-
+            YooKassaLogger::sendAlertLog('Api error', array(
+                'methodid' => 'POST/createPayment',
+                'exception' => $e,
+            ));
             return new WP_Error($e->getCode(), $e->getMessage());
         }
     }

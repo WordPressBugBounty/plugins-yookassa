@@ -235,6 +235,10 @@ class YooKassaGateway extends WC_Payment_Gateway
             }
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: '.$e->getMessage());
+            YooKassaLogger::sendAlertLog('Api error', array(
+                'methodid' => 'GET/processReturnUrl',
+                'exception' => $e,
+            ));
         }
     }
 
@@ -299,9 +303,17 @@ class YooKassaGateway extends WC_Payment_Gateway
             return $response;
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: '.$e->getMessage());
+            YooKassaLogger::sendAlertLog('Api error', array(
+                'methodid' => 'POST/createPayment',
+                'exception' => $e,
+            ));
             return new WP_Error($e->getCode(), $e->getMessage());
         } catch (Exception $e) {
-            YooKassaLogger::error('Create payment response: '.json_encode($e));
+            YooKassaLogger::error('Create payment response error: '.json_encode($e));
+            YooKassaLogger::sendAlertLog('Create payment response error', array(
+                'methodid' => 'POST/createPayment',
+                'exception' => $e,
+            ));
         }
     }
 

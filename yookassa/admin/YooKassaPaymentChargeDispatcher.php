@@ -34,6 +34,10 @@ class YooKassaPaymentChargeDispatcher
             YooKassaHandler::updateOrderStatus($order, $payment);
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: '.$e->getMessage());
+            YooKassaLogger::sendAlertLog('Api error', array(
+                'methodid' => 'GET/tryChargePayment',
+                'exception' => $e,
+            ));
         }
     }
 

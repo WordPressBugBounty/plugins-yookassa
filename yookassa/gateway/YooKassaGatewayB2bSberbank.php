@@ -56,7 +56,10 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
             return $response;
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: '.$e->getMessage());
-
+            YooKassaLogger::sendAlertLog('Api error', array(
+                'methodid' => 'POST/createPayment',
+                'exception' => $e,
+            ));
             return new WP_Error($e->getCode(), $e->getMessage());
         }
     }

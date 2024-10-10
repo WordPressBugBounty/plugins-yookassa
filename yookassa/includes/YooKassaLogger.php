@@ -8,6 +8,7 @@ class YooKassaLogger
     const LEVEL_INFO = 'info';
     const LEVEL_WARNING = 'warning';
     const LEVEL_ERROR = 'error';
+    const OAUTH_CMS_URL = 'https://yookassa.ru/integration/oauth-cms';
 
     public static function info($message)
     {
@@ -44,5 +45,52 @@ class YooKassaLogger
         $date = date('Y-m-d H:i:s');
 
         return sprintf("[%s] [%s] Message: %s \r\n", $date, $level, $message);
+    }
+
+    /**
+     * @param $data
+     * @return void
+     */
+    public static function sendMetric($data)
+    {
+        $parameters = array(
+            'cms' => 'woocommerce',
+            'host' => $_SERVER['HTTP_HOST'],
+            'shop_id' => get_option('yookassa_shop_id'),
+        );
+
+        wp_remote_post(self::OAUTH_CMS_URL . '/metric', array(
+            'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
+            'body'        => json_encode(array_merge($data, $parameters)),
+            'method'      => 'POST',
+            'data_format' => 'body',
+        ));
+    }
+
+    public static function sendHeka($metrics)
+    {
+        self::sendMetric(array(
+            'metric_heka' => $metrics
+        ));
+    }
+
+    public static function sendAlertLog($message, $context=array())
+    {
+        if (!empty($context['exception']) && $context['exception'] instanceof Exception) {
+            $exception = $context['exception'];
+            $context['exception'] = array(
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile() . ':' . $exception->getLine(),
+                'trace' => $exception->getTraceAsString(),
+            );
+        }
+        self::sendMetric(array(
+            'metric_app' => array(
+                'level' => 'alert',
+                'message' => $message,
+                'context' => $context,
+            )
+        ));
     }
 }

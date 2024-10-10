@@ -13,6 +13,7 @@ class PaymentsTableModel
     const COL_STATUS = 'status';
     const PAID_Y = 'Y';
 
+    /** @var \wpdb */
     private $wpdb;
 
     public function __construct($wpdb)
@@ -50,5 +51,22 @@ class PaymentsTableModel
         $payment = $this->getPaymentById($paymentId);
 
         return $payment[self::COL_STATUS] === PaymentStatus::SUCCEEDED;
+    }
+
+    /**
+     * @param $status
+     * @param $isPaid
+     * @param $currency
+     * @return mixed [total, count]
+     */
+    public function getSuccessPaymentStat($status = 'succeeded', $isPaid = 'Y', $currency = 'RUB')
+    {
+        $table_name = $this->wpdb->prefix . self::TABLE_NAME;
+
+        $query = "SELECT COUNT(`payment_id`) AS count, SUM(`amount`) as total FROM {$table_name} WHERE `status` = %s AND `paid` = %s AND `currency` = %s";
+
+        $query = $this->wpdb->prepare($query, $status, $isPaid, $currency);
+
+        return $this->wpdb->get_row($query, ARRAY_A);
     }
 }
