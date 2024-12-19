@@ -165,6 +165,7 @@ class YooKassaPayment
             && $_REQUEST['yookassa'] == 'callback'
         ) {
 
+            YooKassaLogger::sendHeka(array('notification.callback.init'));
             YooKassaLogger::info('Notification init');
             $body           = @file_get_contents('php://input');
             $callbackParams = json_decode($body, true);
@@ -173,17 +174,19 @@ class YooKassaPayment
             if (!json_last_error()) {
                 try {
                     $this->processNotification($callbackParams);
+                    YooKassaLogger::sendHeka(array('notification.callback.success'));
                 } catch (Exception $e) {
                     YooKassaLogger::error("Error while process notification: ".$e->getMessage());
                     YooKassaLogger::sendAlertLog('Error while process notification', array(
                         'methodid' => 'POST/processCallback',
                         'exception' => $e,
-                    ));
+                    ), array('notification.callback.fail'));
                 }
             } else {
                 YooKassaLogger::info('Notification json error');
                 header("HTTP/1.1 400 Bad Request");
                 header("Status: 400 Bad Request");
+                YooKassaLogger::sendHeka(array('notification.callback.fail'));
             }
             exit();
         }
@@ -204,6 +207,7 @@ class YooKassaPayment
      */
     protected function processNotification($callbackParams)
     {
+        YooKassaLogger::sendHeka(array('payment.notification.init'));
         YooKassaLogger::info('Process notification init');
 
         $paymentTableModel = $this->getPaymentTableModel();
@@ -227,6 +231,7 @@ class YooKassaPayment
                     $order ? $order->get_order_number() : '???',
                     $refund->getPaymentId()
                 ));
+                YooKassaLogger::sendHeka(array('payment.notification.success'));
                 exit();
             }
         } catch (\Exception $e) {
@@ -234,7 +239,7 @@ class YooKassaPayment
             YooKassaLogger::sendAlertLog('Invalid notification object', array(
                 'methodid' => 'POST/processNotification',
                 'exception' => $e,
-            ));
+            ), array('payment.notification.fail'));
             header("HTTP/1.1 400 Bad Request");
             header("Status: 400 Bad Request");
             exit();
@@ -245,6 +250,7 @@ class YooKassaPayment
         $cms_name = $payment->getMetadata()->offsetGet('cms_name');
         if (empty($cms_name) || !in_array($cms_name, array(YooKassaGateway::CMS_NAME, YooKassaGateway::CMS_NAME_OLD), true)) {
             YooKassaLogger::info(sprintf('This notification not for this module. This notification for: «%s»', $cms_name));
+            YooKassaLogger::sendHeka(array('payment.notification.skip'));
             exit();
         }
         $shopId = get_option('yookassa_shop_id', 'null');
@@ -278,6 +284,7 @@ class YooKassaPayment
                 if ($token && $token->save()) {
                     YooKassaLogger::info('Token saved id:'.$token->get_id());
                     $this->getApiClient()->cancelPayment($payment->getId());
+                    YooKassaLogger::sendHeka(array('payment.notification.skip'));
                     exit();
                 } else {
                     YooKassaLogger::info('Token validate failed');
@@ -287,6 +294,7 @@ class YooKassaPayment
             YooKassaLogger::error('Order not found for payment '.$payment->getId());
             header("HTTP/1.1 404 Not Found");
             header("Status: 404 Not Found");
+            YooKassaLogger::sendHeka(array('payment.notification.skip'));
             exit();
         }
 
@@ -297,6 +305,7 @@ class YooKassaPayment
                 YooKassaLogger::error('Wrong payment status: '.$payment->getStatus());
                 header("HTTP/1.1 402 Payment Required");
                 header("Status: 402 Payment Required");
+                YooKassaLogger::sendHeka(array('payment.notification.skip'));
                 exit();
             }
             YooKassaHandler::competeSubscribe($order, $payment);
@@ -309,6 +318,7 @@ class YooKassaPayment
                     YooKassaLogger::info('Token validate failed');
                 }
             }
+            YooKassaLogger::sendHeka(array('payment.notification.skip'));
             exit();
         }
 
@@ -321,6 +331,7 @@ class YooKassaPayment
 
         if ($payment->getStatus() === PaymentStatus::SUCCEEDED) {
             if ($succeededNtfChecker->isHandled($notificationModel)) {
+                YooKassaLogger::sendHeka(array('payment.notification.skip'));
                 return;
             }
             $paymentMethod = $payment->paymentMethod;
@@ -339,6 +350,10 @@ class YooKassaPayment
                     YooKassaLogger::error('Error adding discount to order - ' . json_encode($e));
                     header("HTTP/1.1 500 Internal server error");
                     header("Status: 500 Internal server error");
+                    YooKassaLogger::sendAlertLog('Error adding discount to order', array(
+                        'methodid' => 'POST/processNotification',
+                        'exception' => $e,
+                    ), array('payment.notification.fail'));
                     exit();
                 }
             }
@@ -367,6 +382,7 @@ class YooKassaPayment
             if (!YooKassaHandler::completeOrder($order, $payment)) {
                 header("HTTP/1.1 500 Internal server error");
                 header("Status: 500 Internal server error");
+                YooKassaLogger::sendHeka(array('payment.notification.fail'));
                 exit();
             }
 
@@ -429,7 +445,7 @@ class YooKassaPayment
         }
 
         $gateway->updatePaymentData($payment->getId(), $updateData);
-
+        YooKassaLogger::sendHeka(array('payment.notification.success'));
         exit();
     }
 
@@ -573,11 +589,10 @@ class YooKassaPayment
      */
     public function changeOrderStatusToProcessing($order_id)
     {
+        YooKassaLogger::sendHeka(array('order-status.change.init'));
         YooKassaLogger::info('Init changeOrderStatusToProcessing');
-        if (!get_option('yookassa_enable_hold')) {
-            return;
-        }
-        if (!$order_id) {
+        if (!$order_id || !get_option('yookassa_enable_hold')) {
+            YooKassaLogger::sendHeka(array('order-status.change.skip'));
             return;
         }
 
@@ -586,6 +601,7 @@ class YooKassaPayment
 
         if (!$this->isYooKassaOrder($order)) {
             YooKassaLogger::info('Payment method is not YooKassa!');
+            YooKassaLogger::sendHeka(array('order-status.change.skip'));
             return;
         }
 
@@ -607,6 +623,7 @@ class YooKassaPayment
                 $order->update_status(YooKassaOrderHelper::WC_STATUS_ON_HOLD);
                 $order->add_order_note(__('Платёж не подтвердился. Попробуйте ещё раз.', 'yookassa'));
             }
+            YooKassaLogger::sendHeka(array('order-status.change.success'));
         } catch (Exception $e) {
             $order->update_status(YooKassaOrderHelper::WC_STATUS_ON_HOLD);
             $order->add_order_note(__('Платёж не подтвердился. Попробуйте ещё раз.', 'yookassa'));
@@ -614,7 +631,7 @@ class YooKassaPayment
             YooKassaLogger::sendAlertLog('Api error', array(
                 'methodid' => 'POST/changeOrderStatusToProcessing',
                 'exception' => $e,
-            ));
+            ), array('order-status.change.fail'));
         }
     }
 
@@ -625,11 +642,10 @@ class YooKassaPayment
      */
     public function changeOrderStatusToCancelled($order_id)
     {
+        YooKassaLogger::sendHeka(array('order-status.change.init'));
         YooKassaLogger::info('Init changeOrderStatusToCancelled');
-        if (!get_option('yookassa_enable_hold')) {
-            return;
-        }
-        if (!$order_id) {
+        if (!$order_id || !get_option('yookassa_enable_hold')) {
+            YooKassaLogger::sendHeka(array('order-status.change.skip'));
             return;
         }
 
@@ -638,6 +654,7 @@ class YooKassaPayment
 
         if (!$this->isYooKassaOrder($order)) {
             YooKassaLogger::info('Payment method is not YooKassa!');
+            YooKassaLogger::sendHeka(array('order-status.change.skip'));
             return;
         }
 
@@ -649,6 +666,7 @@ class YooKassaPayment
                 $order->update_status(YooKassaOrderHelper::WC_STATUS_ON_HOLD);
                 $order->add_order_note(__('Платёж не отменился. Попробуйте ещё раз.', 'yookassa'));
             }
+            YooKassaLogger::sendHeka(array('order-status.change.success'));
         } catch (Exception $e) {
             $order->update_status(YooKassaOrderHelper::WC_STATUS_ON_HOLD);
             $order->add_order_note(__('Платёж не отменился. Попробуйте ещё раз.', 'yookassa'));
@@ -656,7 +674,7 @@ class YooKassaPayment
             YooKassaLogger::sendAlertLog('Api error', array(
                 'methodid' => 'POST/changeOrderStatusToCancelled',
                 'exception' => $e,
-            ));
+            ), array('order-status.change.fail'));
         }
     }
 

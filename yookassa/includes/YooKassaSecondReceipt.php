@@ -111,8 +111,10 @@ class YooKassaSecondReceipt
      */
     private function buildSecondReceipt($lastReceipt, $paymentId, $order)
     {
+        YooKassaLogger::sendHeka(array('second-receipt.create.init'));
         if ($lastReceipt instanceof ReceiptResponseInterface) {
             if ($lastReceipt->getType() === "refund") {
+                YooKassaLogger::sendHeka(array('second-receipt.create.skip'));
                 return null;
             }
 
@@ -120,6 +122,7 @@ class YooKassaSecondReceipt
 
             if (count($resendItems['items']) < 1) {
                 YooKassaLogger::info('Second receipt is not required');
+                YooKassaLogger::sendHeka(array('second-receipt.create.skip'));
                 return null;
             }
 
@@ -128,6 +131,7 @@ class YooKassaSecondReceipt
 
                 if (empty($customer)) {
                     YooKassaLogger::error('Need customer phone or email for second receipt');
+                    YooKassaLogger::sendHeka(array('second-receipt.create.fail'));
                     return null;
                 }
 
@@ -159,16 +163,18 @@ class YooKassaSecondReceipt
                     }
                 }
 
-                return $receiptBuilder->build();
+                $receipt = $receiptBuilder->build();
+                YooKassaLogger::sendHeka(array('second-receipt.create.success'));
+                return $receipt;
             } catch (Exception $e) {
                 YooKassaLogger::error($e->getMessage() . '. Property name: '. $e->getProperty());
                 YooKassaLogger::sendAlertLog('Build SecondReceipt error', array(
                     'methodid' => 'POST/buildSecondReceipt',
                     'exception' => $e,
-                ));
+                ), array('second-receipt.create.fail'));
             }
         }
-
+        YooKassaLogger::sendHeka(array('second-receipt.create.skip'));
         return null;
     }
 
@@ -328,10 +334,12 @@ class YooKassaSecondReceipt
             return;
         }
 
+        YooKassaLogger::sendHeka(array('second-receipt.webhook.init'));
         YooKassaLogger::info('Init YooKassaSecondReceipt::' . $type);
 
         if (!$order_id) {
             YooKassaLogger::info('Order ID is empty!');
+            YooKassaLogger::sendHeka(array('second-receipt.webhook.skip'));
             return;
         }
 
@@ -340,11 +348,13 @@ class YooKassaSecondReceipt
 
         if (!$this->isYooKassaOrder($order)) {
             YooKassaLogger::info('Payment method is not YooKassa!');
+            YooKassaLogger::sendHeka(array('second-receipt.webhook.skip'));
             return;
         }
 
         if (!$this->isNeedSecondReceipt($order->get_status())) {
             YooKassaLogger::info('Second receipt is not need!');
+            YooKassaLogger::sendHeka(array('second-receipt.webhook.skip'));
             return;
         }
 
@@ -356,22 +366,24 @@ class YooKassaSecondReceipt
                 YooKassaLogger::info($type . ' LastReceipt:' . PHP_EOL . json_encode($lastReceipt->jsonSerialize()));
             } else {
                 YooKassaLogger::info($type . ' LastReceipt is empty!');
+                YooKassaLogger::sendHeka(array('second-receipt.webhook.fail'));
                 return;
             }
 
             if ($receiptRequest = $this->buildSecondReceipt($lastReceipt, $paymentId, $order)) {
-
+                YooKassaLogger::sendHeka(array('second-receipt.send.init'));
                 YooKassaLogger::info("Second receipt request data: " . PHP_EOL . json_encode($receiptRequest->jsonSerialize()));
                 /** if merchant wants to change */
                 $receiptRequest = apply_filters( 'woocommerce_yookassa_second_receipt_request', $receiptRequest );
                 try {
                     $response = $this->getApiClient()->createReceipt($receiptRequest);
+                    YooKassaLogger::sendHeka(array('second-receipt.send.success'));
                 } catch (Exception $e) {
                     YooKassaLogger::error('Request second receipt error: ' . $e->getMessage());
                     YooKassaLogger::sendAlertLog('Request second receipt error', array(
                         'methodid' => 'POST/changeOrderStatus',
                         'exception' => $e,
-                    ));
+                    ), array('second-receipt.send.fail'));
                     return;
                 }
 
@@ -379,13 +391,16 @@ class YooKassaSecondReceipt
                 $comment = sprintf(__('Отправлен второй чек. Сумма %s рублей.', 'yookassa'), $amount);
                 $order->add_order_note($comment, 0, false);
                 YooKassaLogger::info('Request second receipt result: ' . PHP_EOL . json_encode($response->jsonSerialize()));
+                YooKassaLogger::sendHeka(array('second-receipt.webhook.success'));
+            } else {
+                YooKassaLogger::sendHeka(array('second-receipt.webhook.fail'));
             }
         } catch (Exception $e) {
             YooKassaLogger::error($type . ' Error: ' . $e->getMessage());
             YooKassaLogger::sendAlertLog('Change Order Status error', array(
                 'methodid' => 'POST/changeOrderStatus',
                 'exception' => $e,
-            ));
+            ), array('second-receipt.webhook.fail'));
             return;
         }
     }

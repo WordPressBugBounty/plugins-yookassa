@@ -50,16 +50,25 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
         $serializer     = new CreatePaymentRequestSerializer();
         $serializedData = $serializer->serialize($paymentRequest);
         YooKassaLogger::info('Create payment request: '.json_encode($serializedData));
+        YooKassaLogger::sendHeka(array('payment.request.init'));
         try {
             $response = $this->getApiClient()->createPayment($paymentRequest);
-
+            YooKassaLogger::info('Create payment response: '.json_encode($response->toArray()));
+            YooKassaLogger::sendHeka(array('payment.request.success'));
             return $response;
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: '.$e->getMessage());
             YooKassaLogger::sendAlertLog('Api error', array(
                 'methodid' => 'POST/createPayment',
                 'exception' => $e,
-            ));
+            ), array('payment.request.fail'));
+            return new WP_Error($e->getCode(), $e->getMessage());
+        } catch (Exception $e) {
+            YooKassaLogger::error('Create payment response error: '.json_encode($e));
+            YooKassaLogger::sendAlertLog('Create payment response error', array(
+                'methodid' => 'POST/createPayment',
+                'exception' => $e,
+            ), array('payment.request.fail'));
             return new WP_Error($e->getCode(), $e->getMessage());
         }
     }
@@ -74,6 +83,7 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
      */
     protected function getBuilder($order)
     {
+        YooKassaLogger::sendHeka(array('payment.create.init'));
         $paymentData = new PaymentDataB2bSberbank();
         $order_total = YooKassaOrderHelper::getTotal($order);
         $data        = $order->get_data();
@@ -131,7 +141,7 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
                    ))
                    ->setMetadata($metadata);
         YooKassaLogger::info('Return url: '.$order->get_checkout_payment_url(true));
-
+        YooKassaLogger::sendHeka(array('payment.create.success'));
         return $builder;
     }
 

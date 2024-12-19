@@ -55,7 +55,7 @@ class YooKassaHandler
         if (!self::isReceiptEnabled()) {
             return;
         }
-
+        YooKassaLogger::sendHeka(array('receipt.create.init'));
         if ($order->get_billing_email()) {
             $builder->setReceiptEmail($order->get_billing_email());
         }
@@ -125,6 +125,7 @@ class YooKassaHandler
                 $builder->setTaxSystemCode($defaultTaxSystemCode);
             }
         }
+        YooKassaLogger::sendHeka(array('receipt.create.success'));
     }
 
     /**

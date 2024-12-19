@@ -284,16 +284,18 @@ JS;
         $serializer     = new CreatePaymentRequestSerializer();
         $serializedData = $serializer->serialize($paymentRequest);
         YooKassaLogger::info('Create payment request: ' . json_encode($serializedData));
+        YooKassaLogger::sendHeka(array('payment.request.init'));
         try {
             $response = $this->getApiClient()->createPayment($paymentRequest);
-
+            YooKassaLogger::info('Create payment response: '.json_encode($response->toArray()));
+            YooKassaLogger::sendHeka(array('payment.request.success'));
             return $response;
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: ' . $e->getMessage());
             YooKassaLogger::sendAlertLog('Api error', array(
                 'methodid' => 'POST/createPayment',
                 'exception' => $e,
-            ));
+            ), array('payment.request.fail'));
             return new WP_Error($e->getCode(), $e->getMessage());
         }
     }

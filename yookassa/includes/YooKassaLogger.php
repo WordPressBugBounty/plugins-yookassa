@@ -59,7 +59,7 @@ class YooKassaLogger
             'shop_id' => get_option('yookassa_shop_id'),
         );
 
-        wp_remote_post(self::OAUTH_CMS_URL . '/metric', array(
+        wp_remote_post(self::OAUTH_CMS_URL . '/metric/woocommerce', array(
             'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
             'body'        => json_encode(array_merge($data, $parameters)),
             'method'      => 'POST',
@@ -74,7 +74,7 @@ class YooKassaLogger
         ));
     }
 
-    public static function sendAlertLog($message, $context=array())
+    public static function sendAlertLog($message, $context=array(), $metrics=array())
     {
         if (!empty($context['exception']) && $context['exception'] instanceof Exception) {
             $exception = $context['exception'];
@@ -85,12 +85,16 @@ class YooKassaLogger
                 'trace' => $exception->getTraceAsString(),
             );
         }
-        self::sendMetric(array(
+        $data = array(
             'metric_app' => array(
                 'level' => 'alert',
                 'message' => $message,
                 'context' => $context,
             )
-        ));
+        );
+        if (!empty($metrics)) {
+            $data['metric_heka'] = $metrics;
+        }
+        self::sendMetric($data);
     }
 }

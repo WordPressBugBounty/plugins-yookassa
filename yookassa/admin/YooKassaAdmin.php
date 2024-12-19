@@ -399,8 +399,9 @@ class YooKassaAdmin
     public function get_oauth_url()
     {
         header('Content-Type: application/json');
-
+        YooKassaLogger::sendHeka(array('oauth.process.init'));
         if (!is_ajax()) {
+            YooKassaLogger::sendHeka(array('oauth.process.fail'));
             echo json_encode(array('status' => 'error', 'error' => 'Unknown', 'code' => 'unknown'));
             wp_die();
         }
@@ -422,6 +423,7 @@ class YooKassaAdmin
 
         if (is_wp_error($data)) {
             $error = $data->get_error_message();
+            YooKassaLogger::sendHeka(array('oauth.process.fail'));
             YooKassaLogger::error('Got error while getting OAuth link. Error: ' . $error);
             echo json_encode(array('error' => 'Got error while getting OAuth link.'));
             wp_die('', '', array('response' => 502));
@@ -432,6 +434,7 @@ class YooKassaAdmin
         $body = json_decode($body, true);
 
         if (!isset($body['oauth_url'])) {
+            YooKassaLogger::sendHeka(array('oauth.process.fail'));
             $error = empty($body['error']) ? 'OAuth URL not found' : $body['error'];
             YooKassaLogger::error('Got error while getting OAuth link. Response body: ' . json_encode($body));
             echo json_encode(array('error' => $error));
@@ -439,6 +442,7 @@ class YooKassaAdmin
         }
 
         echo json_encode(array('oauth_url' => $body['oauth_url']));
+        YooKassaLogger::sendHeka(array('oauth.process.success'));
         wp_die();
     }
 
@@ -467,7 +471,7 @@ class YooKassaAdmin
     public function get_oauth_token()
     {
         header('Content-Type: application/json');
-
+        YooKassaLogger::sendHeka(array('oauth.callback.init'));
         if (!is_ajax()) {
             echo json_encode(array('status' => 'error', 'error' => 'Unknown', 'code' => 'unknown'));
             wp_die();
@@ -478,7 +482,7 @@ class YooKassaAdmin
         $parameters = array('state' => $state);
 
         YooKassaLogger::info('Sending request for OAuth token. Request parameters: ' . json_encode($parameters));
-
+        YooKassaLogger::sendHeka(array('oauth.get-token.init'));
         $data = wp_remote_post(self::OAUTH_CMS_URL . '/get-token', array(
             'headers'     => array('Content-Type' => 'application/json; charset=utf-8'),
             'body'        => json_encode($parameters),
@@ -489,13 +493,14 @@ class YooKassaAdmin
         if (is_wp_error($data)) {
             $error = $data->get_error_message();
             YooKassaLogger::error('Got error while getting OAuth token. Error: ' . $error);
+            YooKassaLogger::sendHeka(array('oauth.callback.fail','oauth.get-token.fail'));
             echo json_encode(array('error' => 'Got error while getting OAuth token.'));
             wp_die('', '', array('response' => 502));
         }
 
         if (wp_remote_retrieve_response_code($data) == 422) {
             $error = empty($body['error']) ? 'Access token not found' : $body['error'];
-            YooKassaLogger::sendAlertLog('Access token not found', array('error' => $error));
+            YooKassaLogger::sendAlertLog('Access token not found', array('error' => $error), array('oauth.callback.fail','oauth.get-token.fail'));
             YooKassaLogger::error('Error: ' . $error);
             echo json_encode(array('error' => 'Авторизация не пройдена'));
             wp_die('', '', array('response' => 502));
@@ -511,6 +516,7 @@ class YooKassaAdmin
                 'Got error while getting OAuth token. Key access_token not found. Response body: '
                 . json_encode($body)
             );
+            YooKassaLogger::sendHeka(array('oauth.callback.fail','oauth.get-token.fail'));
             echo json_encode(array('error' => $error));
             wp_die('', '', array('response' => 502));
         }
@@ -521,6 +527,7 @@ class YooKassaAdmin
                 'Got error while getting OAuth token. Key expires_in not found. Response body: '
                 . json_encode($body)
             );
+            YooKassaLogger::sendHeka(array('oauth.callback.fail','oauth.get-token.fail'));
             echo json_encode(array('error' => $error));
             wp_die('', '', array('response' => 502));
         }
@@ -534,21 +541,24 @@ class YooKassaAdmin
 
         update_option('yookassa_access_token', $body['access_token']);
         update_option('yookassa_token_expires_in', $body['expires_in']);
+        YooKassaLogger::sendHeka(array('oauth.get-token.success'));
 
         try {
+            YooKassaLogger::sendHeka(array('webhooks.subscribe.init'));
             $client = YooKassaClientFactory::getYooKassaClient();
             YookassaWebhookSubscriber::subscribe($client);
             $this->saveShopIdByOauth();
+            YooKassaLogger::sendHeka(array('webhooks.subscribe.success'));
         } catch (Exception $e) {
             YooKassaLogger::error('Error occurred during creating webhooks: ' . $e->getMessage());
             YooKassaLogger::sendAlertLog('Error occurred during creating webhooks', array(
                 'methodid' => 'POST/get_oauth_token',
                 'exception' => $e,
-            ));
+            ), array('oauth.callback.fail','webhooks.subscribe.fail'));
             echo json_encode(array('error' => $e->getMessage()));
             wp_die('', '', array('response' => 500));
         }
-
+        YooKassaLogger::sendHeka(array('oauth.callback.success'));
         echo json_encode(array('status' => 'success'));
         wp_die();
     }
@@ -562,6 +572,7 @@ class YooKassaAdmin
      */
     private function revokeOldToken($token, $state)
     {
+        YooKassaLogger::sendHeka(array('token.revoke.init'));
         $parameters = array(
             'state' => $state,
             'token' => $token,
@@ -579,10 +590,13 @@ class YooKassaAdmin
         $body = json_decode($body, true);
 
         if (!isset($body['success'])) {
+            YooKassaLogger::sendHeka(array('token.revoke.fail'));
             YooKassaLogger::error(
                 'Got error while revoking OAuth token. Response body: '
                 . json_encode($body)
             );
+        } else {
+            YooKassaLogger::sendHeka(array('token.revoke.success'));
         }
     }
 
@@ -591,17 +605,19 @@ class YooKassaAdmin
      */
     private function getShopInfo()
     {
+        YooKassaLogger::sendHeka(array('oauth.get-shop.init'));
         try {
             $apiClient = YooKassaClientFactory::getYooKassaClient();
             $shopInfo = $apiClient->me();
             YooKassaLogger::info('Shop Info ' . json_encode($shopInfo));
+            YooKassaLogger::sendHeka(array('oauth.get-shop.success'));
             return $shopInfo;
         } catch (Exception $e) {
             YooKassaLogger::error('Failed get /me information. Error: ' . $e->getMessage());
             YooKassaLogger::sendAlertLog('Failed get /me information', array(
                 'methodid' => 'GET/getShopInfo',
                 'exception' => $e,
-            ));
+            ), array('oauth.get-shop.fail'));
             return;
         }
     }
@@ -629,7 +645,7 @@ class YooKassaAdmin
     public function save_settings()
     {
         header('Content-Type: application/json');
-
+        YooKassaLogger::sendHeka(array('settings.save.init'));
         $this->isRequestSecure();
 
         if ($options = explode(',', wp_unslash($_POST['page_options']))) {
@@ -658,10 +674,11 @@ class YooKassaAdmin
                 load_default_textdomain($user_language_new);
             }
         } else {
+            YooKassaLogger::sendHeka(array('settings.save.fail'));
             echo json_encode(array('status' => 'error', 'error' => 'Unknown', 'code' => 'unknown'));
             wp_die();
         }
-
+        YooKassaLogger::sendHeka(array('settings.save.success'));
         echo json_encode(array('status' => 'success'));
         wp_die();
     }
@@ -691,15 +708,18 @@ class YooKassaAdmin
     private function isRequestSecure()
     {
         if (!is_ajax()) {
+            YooKassaLogger::sendHeka(array('settings.save.fail'));
             echo json_encode(array('status' => 'error', 'error' => 'Unknown', 'code' => 'unknown'));
             wp_die();
         }
 
         if( !current_user_can('manage_woocommerce') && !current_user_can('administrator') ) {
+            YooKassaLogger::sendHeka(array('settings.save.fail'));
             wp_die('Forbidden', 'Forbidden', 403);
         }
 
         if (!isset($_POST['form_nonce']) || !wp_verify_nonce($_POST['form_nonce'],'yookassa-nonce')) {
+            YooKassaLogger::sendHeka(array('settings.save.fail'));
             wp_die('Bad request', 'Bad request', 400);
         }
     }

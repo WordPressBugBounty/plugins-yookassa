@@ -297,23 +297,26 @@ class YooKassaGateway extends WC_Payment_Gateway
         $serializer     = new CreatePaymentRequestSerializer();
         $serializedData = $serializer->serialize($paymentRequest);
         YooKassaLogger::info('Create payment request: '.json_encode($serializedData));
+        YooKassaLogger::sendHeka(array('payment.request.init'));
         try {
             $response = $this->getApiClient()->createPayment($paymentRequest);
             YooKassaLogger::info('Create payment response: '.json_encode($response->toArray()));
+            YooKassaLogger::sendHeka(array('payment.request.success'));
             return $response;
         } catch (ApiException $e) {
             YooKassaLogger::error('Api error: '.$e->getMessage());
             YooKassaLogger::sendAlertLog('Api error', array(
                 'methodid' => 'POST/createPayment',
                 'exception' => $e,
-            ));
+            ), array('payment.request.fail'));
             return new WP_Error($e->getCode(), $e->getMessage());
         } catch (Exception $e) {
             YooKassaLogger::error('Create payment response error: '.json_encode($e));
             YooKassaLogger::sendAlertLog('Create payment response error', array(
                 'methodid' => 'POST/createPayment',
                 'exception' => $e,
-            ));
+            ), array('payment.request.fail'));
+            return new WP_Error($e->getCode(), $e->getMessage());
         }
     }
 
@@ -414,6 +417,7 @@ class YooKassaGateway extends WC_Payment_Gateway
                     if ($result->confirmation->type == ConfirmationType::EXTERNAL) {
                         return array('result' => 'success', 'redirect' => $order->get_checkout_order_received_url());
                     } elseif ($result->confirmation->type == ConfirmationType::REDIRECT) {
+                        YooKassaLogger::sendHeka(array('payment.redirect.init'));
                         return array('result' => 'success', 'redirect' => $result->confirmation->confirmationUrl);
                     }
                 } elseif ($result->status == PaymentStatus::WAITING_FOR_CAPTURE) {
@@ -520,6 +524,7 @@ class YooKassaGateway extends WC_Payment_Gateway
      */
     protected function getBuilder($order)
     {
+        YooKassaLogger::sendHeka(array('payment.create.init'));
         $paymentMethodsForHold = array(
             '',
             PaymentMethodType::BANK_CARD,
@@ -569,7 +574,7 @@ class YooKassaGateway extends WC_Payment_Gateway
         ) {
             $this->setMerchantCustomerId($builder, $order);
         }
-
+        YooKassaLogger::sendHeka(array('payment.create.success'));
         return $builder;
     }
 
@@ -686,6 +691,7 @@ class YooKassaGateway extends WC_Payment_Gateway
      */
     public function add_payment_method()
     {
+        YooKassaLogger::sendHeka(array('card.binding.init'));
         try {
             $builder = CreatePaymentRequest::builder()
                        ->setAmount('2.00')
@@ -710,12 +716,13 @@ class YooKassaGateway extends WC_Payment_Gateway
             $response = $this->getApiClient()->createPayment($paymentRequest);
 
         } catch (ApiException $e) {
+            YooKassaLogger::sendHeka(array('card.binding.fail'));
             return array(
                 'result'   => 'failure',
                 'redirect' => wc_get_endpoint_url('payment-methods'),
             );
         }
-
+        YooKassaLogger::sendHeka(array('card.binding.success'));
         return array(
             'result'   => 'success',
             'redirect' => $response->confirmation->confirmationUrl,
@@ -780,7 +787,7 @@ class YooKassaGateway extends WC_Payment_Gateway
     public function updatePaymentData($paymentId, $data=array())
     {
         global $wpdb;
-
+        YooKassaLogger::sendHeka(array('payment-status.change.init'));
         $table_name = $wpdb->prefix . 'yookassa_payment';
         if (!empty($data)) {
             $result = $wpdb->update(
@@ -793,11 +800,15 @@ class YooKassaGateway extends WC_Payment_Gateway
                     'payment_id' => $paymentId,
                 )
             );
+            if ($result) {
+                YooKassaLogger::sendHeka(array('payment-status.change.success'));
+            }
         } else {
             $result = null;
         }
 
         if (!$result) {
+            YooKassaLogger::sendHeka(array('payment-status.change.fail'));
             YooKassaLogger::error('Не удалось обновить данные платежа '.$paymentId.' в базе данных!');
         }
 
@@ -822,12 +833,16 @@ class YooKassaGateway extends WC_Payment_Gateway
      */
     public function setMerchantCustomerId(CreatePaymentRequestBuilder $builder, WC_Order $order)
     {
+        YooKassaLogger::sendHeka(array('card.binding.init'));
         $userId = get_current_user_id();
         YooKassaLogger::info('Check merchant_customer_id: ' . $order->get_billing_email() . ' - ' . $order->get_billing_phone() . ' - ' . $userId);
         if ($order->get_billing_email() && $order->get_billing_phone()) {
             $email = trim($order->get_billing_email());
             $phone = preg_replace('/[^\d]/', '', $order->get_billing_phone());
             $builder->setMerchantCustomerId(md5($email . ':' . $phone . ':' . $userId));
+            YooKassaLogger::sendHeka(array('card.binding.success'));
+        } else {
+            YooKassaLogger::sendHeka(array('card.binding.fail'));
         }
     }
 }

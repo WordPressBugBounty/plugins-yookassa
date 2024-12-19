@@ -14,9 +14,16 @@ class YooKassaActivator extends YooKassaInstaller
      */
     public static function activate()
     {
-        self::update_db();
-
-        self::log('info', 'YooKassa plugin activate!');
+        YooKassaLogger::sendHeka(array('module.install.init'));
+        try {
+            self::update_db();
+            YooKassaLogger::sendHeka(array('module.install.success'));
+            self::log('info', 'YooKassa plugin activate!');
+        } catch (Exception $ex) {
+            $message = 'YooKassa plugin activate error: ' . $ex->getMessage();
+            self::log('error', $message);
+            YooKassaLogger::sendAlertLog($message, array('exception' => $ex), array('module.install.fail'));
+        }
     }
 
     /**
