@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the ЮKassa для Woocommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ЮKassa для WooCommerce 2.11.0\n"
+"Project-Id-Version: ЮKassa для WooCommerce 2.11.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yookassa\n"
-"POT-Creation-Date: 2025-01-21T17:44:58+00:00\n"
-"PO-Revision-Date: 2025-01-21 17:48+0300\n"
+"POT-Creation-Date: 2025-04-15T12:18:58+00:00\n"
+"PO-Revision-Date: 2025-04-15 12:23+0300\n"
 "Last-Translator: yoomoney <cms@yoomoney.ru>\n"
 "Language-Team: yoomoney <cms@yoomoney.ru>\n"
 "Language: en\n"
@@ -849,12 +849,12 @@ msgid "Умный платёж"
 msgstr "Smart payment"
 
 #: gateway/YooKassaGatewayEPL.php:26 gateway/YooKassaWidgetGateway.php:33
-msgid "ЮKassa"
-msgstr "YooMoney"
+msgid "Онлайн-оплата"
+msgstr "Online Payment"
 
 #: gateway/YooKassaGatewayEPL.php:27 gateway/YooKassaWidgetGateway.php:34
-msgid "Банковской картой, через SberPay и другими подключёнными способами"
-msgstr "By bank card, via SberPay, and using other methods"
+msgid "Банковской картой или другими способами"
+msgstr "By bank card or other methods"
 
 #: gateway/YooKassaGatewayEPL.php:48 gateway/YooKassaWidgetGateway.php:77
 msgid "Сохранять платежный метод"
@@ -1009,3 +1009,6 @@ msgstr ""
 "The YooKassa For WooCommerce plugin requires the <a href=\"https://wordpress."
 "org/extend/plugins/woocommerce/\" target=\"_blank\">WooCommerce</a> plugin "
 "to be active!"
+
+#~ msgid "ЮKassa"
+#~ msgstr "YooMoney"

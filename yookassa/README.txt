@@ -3,8 +3,8 @@ Contributors: yoomoney
 Tags: woocommerce, payment, gateway, yookassa, юkassa
 Requires PHP: 5.6.20
 Requires at least: 5.2
-Tested up to: 6.7.1
-Stable tag: 2.11.0
+Tested up to: 6.8
+Stable tag: 2.11.1
 License: GPLv3
 License URI: https://yoomoney.ru/doc.xml?id=527132
 

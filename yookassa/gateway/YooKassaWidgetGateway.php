@@ -30,8 +30,8 @@ class YooKassaWidgetGateway extends YooKassaGateway
         $this->method_title       = __('Виджет ЮKassa', 'yookassa');
         $this->method_description = __('Покупатель сможет выбрать способ оплаты в платёжной форме, которая встроена в ваш сайт — переходить на нашу страницу для оплаты не нужно.', 'yookassa');
 
-        $this->defaultTitle       = __('ЮKassa', 'yookassa');
-        $this->defaultDescription = __('Банковской картой, через SberPay и другими подключёнными способами', 'yookassa');
+        $this->defaultTitle       = __('Онлайн-оплата', 'yookassa');
+        $this->defaultDescription = __('Банковской картой или другими способами', 'yookassa');
 
         $this->title              = $this->getTitle();
         $this->description        = $this->getDescription();
