@@ -194,10 +194,6 @@ class YooKassaSecondReceipt
             $customerData['phone'] = preg_replace('/[^\d]/', '', $order->get_billing_phone());
         }
 
-        if (!empty($order->get_formatted_billing_full_name())) {
-            $customerData['full_name'] = $order->get_formatted_billing_full_name();
-        }
-
         return new ReceiptCustomer($customerData);
     }
 
