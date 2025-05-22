@@ -402,7 +402,8 @@ class YooKassaGateway extends WC_Payment_Gateway
                 if ($this->subscribe) {
                     $subscriptions = wcs_get_subscriptions_for_order($order);
                     foreach ($subscriptions as $subscription) {
-                        update_post_meta( $subscription->get_id(), '_yookassa_saved_payment_id', $result->getId());
+                        $subscription->update_meta_data('_yookassa_saved_payment_id', $result->getId());
+                        $subscription->save();
                         YooKassaLogger::info(
                             'Subscription id = '. $subscription->get_id() . 'succeeded created. Token = '. $result->getId()
                         );
@@ -411,7 +412,7 @@ class YooKassaGateway extends WC_Payment_Gateway
 
                 if ($result->status == PaymentStatus::PENDING) {
                     $order->update_status('wc-pending');
-                    if (get_option('yookassa_force_clear_cart') == '1') {
+                    if (get_option('yookassa_force_clear_cart') == '1' && !empty($woocommerce->cart)) {
                         $woocommerce->cart->empty_cart();
                     }
                     if ($result->confirmation->type == ConfirmationType::EXTERNAL) {
