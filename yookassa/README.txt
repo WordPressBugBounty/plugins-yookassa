@@ -4,7 +4,7 @@ Tags: woocommerce, payment, gateway, yookassa, юkassa
 Requires PHP: 5.6.20
 Requires at least: 5.2
 Tested up to: 6.8
-Stable tag: 2.11.3
+Stable tag: 2.12.0
 License: GPLv3
 License URI: https://yoomoney.ru/doc.xml?id=527132
 
@@ -99,11 +99,13 @@ Your own Merchant Profile at the YooKassa website. Use it to make refunds, creat
 8. Оплата на стороне ЮKassa - Выбор способа оплаты
 
 == Changelog ==
+= 2.12.0 =
+* Добавлена поддержка маркировки товаров
+
 = 2.11.3 =
 * Исправлен баг с автоплатежами с использованием legacy/high-perfomance хранилищами
 * Исправлен баг с автоплатежами при очищении корзины
 
-== Changelog ==
 = 2.11.2 =
 * Удалено имя покупателя из второго чека
 
