@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the ЮKassa для Woocommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ЮKassa для WooCommerce 2.12.0\n"
+"Project-Id-Version: ЮKassa для WooCommerce 2.12.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yookassa\n"
-"POT-Creation-Date: 2025-06-26 16:17+0300\n"
-"PO-Revision-Date: 2025-06-27 11:42+0300\n"
+"POT-Creation-Date: 2025-07-07T10:02:11+00:00\n"
+"PO-Revision-Date: 2025-07-07 13:41+0300\n"
 "Last-Translator: yoomoney <cms@yoomoney.ru>\n"
 "Language-Team: yoomoney <cms@yoomoney.ru>\n"
 "Language: en\n"
@@ -70,6 +70,14 @@ msgstr "Labeling"
 #: admin/marking/marking_product/marking_product_tab.php:22
 msgid "Категория товара"
 msgstr "Product category"
+
+#: admin/marking/marking_product/marking_product_tab.php:35
+msgid "Единица измерения"
+msgstr "Measurement unit"
+
+#: admin/marking/marking_product/marking_product_tab.php:57
+msgid "Количество в упаковке"
+msgstr "Quantity per package"
 
 #: admin/partials/admin-settings-view.php:26
 #: admin/partials/admin-settings-view.php:41
@@ -854,7 +862,7 @@ msgstr ""
 "It didn't work. Please refresh the page and add marking again. If this "
 "doesn't help, contact us at cms@yoomoney.ru"
 
-#: admin/YooKassaMarkingOrder.php:473
+#: admin/YooKassaMarkingOrder.php:472
 msgid ""
 "Заполните пустые поля в карточке маркировки: за продажу товара без "
 "маркировки можно получить штраф"

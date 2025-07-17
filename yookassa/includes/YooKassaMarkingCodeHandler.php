@@ -1,6 +1,6 @@
 <?php
 
-use YooKassa\Helpers\ProductCode;
+use YooKassa\Helpers\FiscalizationProvider;
 use YooKassa\Model\Receipt\MarkCodeInfo;
 use YooKassa\Model\Receipt\MarkQuantity;
 use YooKassa\Model\ReceiptItem;
@@ -33,32 +33,32 @@ class YooKassaMarkingCodeHandler
      * Онлайн кассы, требующие кодирования данных в base64
      */
     const BASE64_ENCODED_PROVIDER = [
-        'atol',          // АТОЛ Онлайн
-        'evotor',        // Эвотор
-        'business_ru',   // Бизнес.ру
-        'modul_kassa',   // МодульКасса
-        'mertrade',      // Mertrade
-        'first_ofd',     // Первый ОФД
-        'a_qsi',         // aQsi online
-        'rocket',        // RocketR
-        'digital_kassa', // digitalkassa
-        'komtet'         // КОМТЕТ Касса
+        FiscalizationProvider::ATOL,          // АТОЛ Онлайн
+        FiscalizationProvider::EVOTOR,        // Эвотор
+        FiscalizationProvider::BUSINESS_RU,   // Бизнес.ру
+        FiscalizationProvider::MODUL_KASSA,   // МодульКасса
+        FiscalizationProvider::MERTRADE,      // Mertrade
+        FiscalizationProvider::FIRST_OFD,     // Первый ОФД
+        FiscalizationProvider::A_QSI,         // aQsi online
+        FiscalizationProvider::ROCKET,        // RocketR
+        FiscalizationProvider::KOMTET,        // КОМТЕТ Касса
     ];
 
     /**
      * Онлайн кассы, не требующие специальной обработки данных
      */
     const NO_ENCODED_PROVIDER = [
-        'life_pay',     // LIFE PAY
-        'kit_invest',   // Кит Инвест
-        'avanpost',     // ЮЧеки
+        FiscalizationProvider::LIFE_PAY,      // LIFE PAY
+        FiscalizationProvider::KIT_INVEST,    // Кит Инвест
+        FiscalizationProvider::AVANPOST,      // ЮЧеки
+        FiscalizationProvider::DIGITAL_KASSA, // digitalkassa
     ];
 
     /**
      * Онлайн кассы, требующие передачи данных в mark_code_raw без кодировки
      */
     const RAW_CODE_PROVIDER = [
-        'shtrih_m',     // Orange Data
+        FiscalizationProvider::SHTRIH_M,      // Orange Data
     ];
 
     /**
@@ -195,8 +195,9 @@ class YooKassaMarkingCodeHandler
         }
 
         $errorMsg = sprintf('Unknown provider: "%s"', $provider);
-        YooKassaLogger::error($errorMsg);
-        throw new InvalidArgumentException($errorMsg);
+        YooKassaLogger::warning($errorMsg);
+        YooKassaLogger::sendAlertLog($errorMsg);
+        return array($markField => $markCode);
     }
 
     /**

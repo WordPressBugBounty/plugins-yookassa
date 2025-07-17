@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.12.0';
+        $this->version     = '2.12.1';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 

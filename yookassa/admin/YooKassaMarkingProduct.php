@@ -137,7 +137,7 @@ class YooKassaMarkingProduct
                 $productId
             ));
 
-            $product = new WC_Product($productId);
+            $product = wc_get_product($productId);
             $category = isset($_POST[self::CATEGORY_KEY]) ? sanitize_key($_POST[self::CATEGORY_KEY]) : '';
             if (empty($category)) {
                 YooKassaLogger::info(sprintf(

@@ -858,6 +858,7 @@ class YooKassaAdmin
                 ->setDefaultPaymentMode($settings['defaultPaymentMode'])
                 ->setDefaultShippingPaymentSubject($settings['defaultShippingPaymentSubject'])
                 ->setDefaultShippingPaymentMode($settings['defaultShippingPaymentMode'])
+                ->setMarkingEnabled($settings['isMarkingEnabled'])
                 ->setSecondReceiptEnabled($settings['isSecondReceiptEnabled'])
                 ->setSecondReceiptOrderStatus($settings['orderStatusReceipt'])
             );

@@ -32,7 +32,7 @@
         <div class="yookassa_marking_measure_field">
             <p class="form-field <?= YooKassaMarkingProduct::MEASURE_KEY ?>">
                 <label for="<?= YooKassaMarkingProduct::MEASURE_KEY ?>">
-                    <?= 'Единица измерения'; ?>
+                    <?= __('Единица измерения', 'yookassa') ?>
                 </label>
                 <select
                         class="select short"
@@ -54,7 +54,7 @@
         <div class="yookassa_marking_denominator_field">
             <p class="form-field <?= YooKassaMarkingProduct::DENOMINATOR_KEY ?>">
                 <label for="<?= YooKassaMarkingProduct::DENOMINATOR_KEY ?>">
-                    <?= 'Количество в упаковке'; ?>
+                    <?= __('Количество в упаковке', 'yookassa') ?>
                 </label>
                 <input
                     placeholder="Введите число"

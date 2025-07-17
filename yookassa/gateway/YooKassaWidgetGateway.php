@@ -48,15 +48,7 @@ class YooKassaWidgetGateway extends YooKassaGateway
         $this->has_fields             = true;
 
         add_action('admin_notices', array($this, 'initial_notice'));
-
-        wp_register_script(
-            'yookassa-widget',
-            'https://static.yoomoney.ru/checkout-client/checkout-widget.js',
-            array(),
-            YOOKASSA_VERSION,
-            true
-        );
-        wp_enqueue_script('yookassa-widget');
+        add_action('template_redirect', array($this, 'load_widget_on_payment_pages'));
 
         if (!empty($_POST['action']) && $_POST['action'] === 'woocommerce_toggle_gateway_enabled'
             && !empty($_POST['gateway_id']) && $_POST['gateway_id'] === $this->id
@@ -67,6 +59,23 @@ class YooKassaWidgetGateway extends YooKassaGateway
             }
         } else if ($this->enabled === 'yes') {
             $this->init_apple_pay();
+        }
+    }
+
+    public function load_widget_on_payment_pages()
+    {
+        if (
+            (function_exists('is_checkout_pay_page') && is_checkout_pay_page()) ||
+            (strpos($_SERVER['REQUEST_URI'], '/checkout/order-pay/') !== false)
+        ) {
+            wp_register_script(
+                'yookassa-widget',
+                'https://static.yoomoney.ru/checkout-client/checkout-widget.js',
+                array(),
+                YOOKASSA_VERSION,
+                true
+            );
+            wp_enqueue_script('yookassa-widget');
         }
     }
 

@@ -3,9 +3,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: yookassa 2.12.0\n"
+"Project-Id-Version: yookassa 2.12.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yookassa\n"
-"POT-Creation-Date: 2025-06-26 16:17+0300\n"
+"POT-Creation-Date: 2025-07-07 13:43+0300\n"
 "PO-Revision-Date: 2025-04-15 12:18+0300\n"
 "Last-Translator: yoomoney <cms@yoomoney.ru>\n"
 "Language-Team: RU <cms@yoomoney.ru>\n"
@@ -62,6 +62,14 @@ msgstr ""
 
 #: admin/marking/marking_product/marking_product_tab.php:22
 msgid "Категория товара"
+msgstr ""
+
+#: admin/marking/marking_product/marking_product_tab.php:35
+msgid "Единица измерения"
+msgstr ""
+
+#: admin/marking/marking_product/marking_product_tab.php:57
+msgid "Количество в упаковке"
 msgstr ""
 
 #: admin/partials/admin-settings-view.php:26
@@ -673,7 +681,7 @@ msgstr ""
 msgid "Не получилось — обновите страницу и добавьте маркировку заново. Если ошибка не уйдёт, напишите нам на cms@yoomoney.ru"
 msgstr ""
 
-#: admin/YooKassaMarkingOrder.php:473
+#: admin/YooKassaMarkingOrder.php:472
 msgid "Заполните пустые поля в карточке маркировки: за продажу товара без маркировки можно получить штраф"
 msgstr ""
 
