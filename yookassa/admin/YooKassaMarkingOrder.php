@@ -84,8 +84,16 @@ class YooKassaMarkingOrder
 
             $categoryMeta = $product->get_meta(YooKassaMarkingProduct::CATEGORY_KEY);
             if (empty($categoryMeta)) {
-                $this->renderNoMarkingView(__('Не требуется', 'yookassa'));
-                return;
+                // проверяем, что товар вариативный и ищем категорию у него
+                if ($product->is_type('variation')) {
+                    $parent_product = wc_get_product($product->get_parent_id());
+                    $categoryMeta = $parent_product->get_meta(YooKassaMarkingProduct::CATEGORY_KEY);
+                }
+
+                if (empty($categoryMeta)) {
+                    $this->renderNoMarkingView(__('Не требуется', 'yookassa'));
+                    return;
+                }
             }
 
             $itemMeta = wc_get_order_item_meta($item_id, self::MARKING_FIELD_META_KEY, true);
@@ -101,9 +109,15 @@ class YooKassaMarkingOrder
                 return;
             }
 
+            $remainingQuantity = self::getRemainingQuantity($item);
+            if ($remainingQuantity <= 0) {
+                $this->renderNoMarkingView(__('Не требуется', 'yookassa'));
+                return;
+            }
+
             $iconClass = 'new';
             if (!empty($itemMeta)) {
-                $isFilled = $this->isAllMarkingFieldsFilledInItem($item);
+                $isFilled = $this->isAllMarkingFieldsFilledInItem($item, $remainingQuantity);
 
                 $notAllFilled = 'not-filled';
                 $filled = 'filled';
@@ -133,6 +147,22 @@ class YooKassaMarkingOrder
                 __('Не смогли загрузить карточку с маркировкой. Обновите страницу — если ошибка не уйдёт, напишите нам на cms@yoomoney.ru', 'yookassa')
             );
         }
+    }
+
+    /**
+     * Возвращает значение количества товара в заказе,
+     * после применения числа возвращенных товаров
+     *
+     * @param WC_Order_Item $item
+     * @return int
+     */
+    public static function getRemainingQuantity($item)
+    {
+        $order = $item->get_order();
+        $quantity = $item->get_quantity();
+        $refundedQuantity = $order->get_qty_refunded_for_item($item->get_id());
+        // Вычисляем оставшееся количество
+        return $quantity + $refundedQuantity; // refunded_quantity отрицательный
     }
 
     /**
@@ -258,6 +288,26 @@ class YooKassaMarkingOrder
                 wp_send_json_error(__('Что-то пошло не так. Обновите страницу — если ошибка не уйдёт, напишите нам на cms@yoomoney.ru', 'yookassa'));
             }
 
+            $item = WC_Order_Factory::get_order_item($itemId);
+            if (!$item) {
+                YooKassaLogger::error(sprintf(
+                    'Error while getting order item meta: got error while getting item. ItemId: %d',
+                    $itemId
+                ));
+                wp_send_json_error(__('Не смогли найти товар. Обновите страницу — если ошибка не уйдёт, напишите нам на cms@yoomoney.ru', 'yookassa'));
+            }
+
+            $remainingQuantity = self::getRemainingQuantity($item);
+
+            if ($remainingQuantity <= 0) {
+                YooKassaLogger::error(sprintf(
+                    'Error while getting order item meta: quantity of products is 0. ItemId: %d, Quantity: %d',
+                    $itemId,
+                    $remainingQuantity
+                ));
+                wp_send_json_error(__('Что-то пошло не так. Обновите страницу — если ошибка не уйдёт, напишите нам на cms@yoomoney.ru', 'yookassa'));
+            }
+
             $productId = wc_get_order_item_meta($itemId, '_product_id');
             $product = $productId ? wc_get_product($productId) : null;
 
@@ -280,7 +330,7 @@ class YooKassaMarkingOrder
             );
 
             $response = [
-                'quantity' => wc_get_order_item_meta($itemId, '_qty'),
+                'quantity' => $remainingQuantity,
                 'title' => $this->generateProductLink($product),
                 'fields' => [
                     [
@@ -489,7 +539,12 @@ class YooKassaMarkingOrder
     private function isAllMarkingFieldsFilledInOrder($order)
     {
         foreach ($order->get_items() as $item) {
-            if (!$this->isAllMarkingFieldsFilledInItem($item)) {
+            $remainingQuantity = self::getRemainingQuantity($item);
+            if ($remainingQuantity <= 0) {
+                return true;
+            }
+
+            if (!$this->isAllMarkingFieldsFilledInItem($item, $remainingQuantity)) {
                 return false;
             }
         }
@@ -502,9 +557,10 @@ class YooKassaMarkingOrder
      * и по всем ли позициям товара заполнено
      *
      * @param WC_Order_Item $item
+     * @param int $remainingQuantity
      * @return bool
      */
-    private function isAllMarkingFieldsFilledInItem($item)
+    private function isAllMarkingFieldsFilledInItem($item, $remainingQuantity)
     {
         $data = $item->get_data();
 
@@ -532,16 +588,45 @@ class YooKassaMarkingOrder
         }
 
         $markingData = $item->get_meta(self::MARKING_FIELD_META_KEY);
-        $quantity = $data['quantity'];
 
         if (empty($markingData) || !is_array($markingData)) {
             return false;
         }
 
-        if ($quantity !== count($markingData)) {
+        if ($remainingQuantity !== count($markingData)) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Удаление данных маркировки после применения возврата
+     *
+     * @param $order_id
+     * @param $refund_id
+     * @return void
+     */
+    public function deleteMarkingAfterRefund($order_id, $refund_id)
+    {
+        $order = wc_get_order($order_id);
+        $refund = wc_get_order($refund_id);
+
+        if (!$order || !$refund) {
+            return;
+        }
+
+        foreach ($refund->get_items() as $refundedItem) {
+            if (!$originalItemId = $refundedItem->get_meta('_refunded_item_id')) {
+                continue;
+            }
+
+            if (!$originalItem = $order->get_item($originalItemId)) {
+                continue;
+            }
+
+            $originalItem->delete_meta_data(self::MARKING_FIELD_META_KEY);
+            $originalItem->save();
+        }
     }
 }

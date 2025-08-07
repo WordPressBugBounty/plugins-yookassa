@@ -249,7 +249,6 @@ class YooKassaSecondReceipt
             return $result;
         }
 
-        $markingCodeHandler = $markingEnabled ? new YooKassaMarkingCodeHandler($this->provider) : null;
         $orderItems = $order->get_items();
 
         foreach ($items as $item) {
@@ -259,14 +258,13 @@ class YooKassaSecondReceipt
 
             $item->setPaymentMode(PaymentMode::FULL_PAYMENT);
             try {
-                $result['amount'] += $item->getAmount() / 100.0;
-
                 if ($markingEnabled) {
-                    $processedItems = $this->processItem($item, $orderItems, $markingCodeHandler);
+                    $processedItems = $this->processItem($item, $orderItems, new YooKassaMarkingCodeHandler($this->provider));
                     $result['items'] = array_merge($result['items'], $processedItems);
                 } else {
                     $result['items'][] = new ReceiptItem($item->jsonSerialize());
                 }
+                $result['amount'] += $item->getAmount() / 100.0;
             } catch (Exception $e) {
                 YooKassaLogger::error(sprintf(
                     'Error processing item "%s": %s.',
@@ -312,6 +310,17 @@ class YooKassaSecondReceipt
                 || (int)$productPrice !== $orderItemTotal
                 || $productQuantity !== $itemData['quantity']
             ) {
+                continue;
+            }
+
+            // Получаем оставшееся количество товаров после возвратов, если они были
+            $productQuantity = YooKassaMarkingOrder::getRemainingQuantity($orderItem);
+            $item->setQuantity($productQuantity);
+            if ($productQuantity <= 0) {
+                YooKassaLogger::info(sprintf(
+                    'Item "%s" refunded, skipping receipt generation',
+                    $productName
+                ));
                 continue;
             }
 

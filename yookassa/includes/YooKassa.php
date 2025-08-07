@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.12.1';
+        $this->version     = '2.12.2';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 
@@ -189,6 +189,7 @@ class YooKassa
         $this->loader->addAction('wp_ajax_save_marking_meta', $plugin_admin, 'saveMarkingMetaCallback');
         $this->loader->addAction('wp_ajax_woocommerce_get_oder_item_meta', $plugin_admin, 'getOderItemMetaCallback');
         $this->loader->addAction('admin_notices', $plugin_admin, 'displayOrderWarning');
+        $this->loader->addAction('woocommerce_order_refunded', $plugin_admin, 'deleteMarkingAfterRefund', 10, 2);
     }
 
     /**

@@ -9,7 +9,6 @@
         form: '#yookassa-marking-popup-form',
         footer: '#yookassa-marking-popup-footer',
         preloader: '.yookassa-preloader',
-        btnOpen: '.yookassa-marking-button',
         btnSave: '#yookassa-marking-save-btn',
         btnClear: '#yookassa-marking-clear-btn',
         messageContainer: '#yookassa-marking-popup-message',
@@ -72,8 +71,10 @@
             .on('click', '.clear-field', handleClearFieldClick)
             .on('keydown', '.marking-input', handleInputKeydown);
 
+        // Эту кнопку в кэш не помещаем, т.к. страница заказа не всегда перезагружается после изменений
+        $(document).on('click', '.yookassa-marking-button', handleOpenPopup);
+
         // Основные кнопки
-        elements.btnOpen.on('click', handleOpenPopup);
         elements.btnSave.on('click', handleSaveMarking);
         elements.btnClear.on('click', handleClearMarking);
         elements.btnClose.on('click', handleClosePopup);
