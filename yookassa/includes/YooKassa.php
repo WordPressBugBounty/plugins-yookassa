@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.12.2';
+        $this->version     = '2.12.3';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 
@@ -131,6 +131,7 @@ class YooKassa
         require_once self::$pluginPath . 'includes/CaptureNotificationChecker.php';
         require_once self::$pluginPath . 'includes/SucceededNotificationChecker.php';
         require_once self::$pluginPath . 'includes/YooKassaMarkingCodeHandler.php';
+        require_once self::$pluginPath . 'includes/YooKassaNotice.php';
 
         $this->loader = new YooKassaLoader();
     }

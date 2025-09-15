@@ -216,12 +216,12 @@ JS;
                 YooKassaHandler::checkConditionForSelfEmployed($order);
             } catch (Exception $e) {
                 YooKassaLogger::error(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id) . ' ' . $e->getMessage());
-                wc_add_notice($e->getMessage(), 'error');
+                YooKassaNotice::front_notice_error($e->getMessage());
                 YooKassaLogger::sendAlertLog('Create payment error', array(
                     'methodid' => 'POST/process_payment',
                     'exception' => $e,
                 ));
-                return array('result' => 'fail', 'redirect' => '');
+                return array('result' => 'failure', 'redirect' => '');
             }
         }
 
@@ -254,17 +254,17 @@ JS;
             } else {
                 /* translators: %1$s - order_id */
                 YooKassaLogger::warning(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id));
-                wc_add_notice(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты', 'yookassa'), 'error');
+                YooKassaNotice::front_notice_error(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты', 'yookassa'));
                 $order->update_status('wc-cancelled');
 
-                return array('result' => 'fail', 'redirect' => '');
+                return array('result' => 'failure', 'redirect' => '');
             }
         } else {
             /* translators: %1$s - order_id */
             YooKassaLogger::warning(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id));
-            wc_add_notice(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты', 'yookassa'), 'error');
+            YooKassaNotice::front_notice_error(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты', 'yookassa'));
 
-            return array('result' => 'fail', 'redirect' => '');
+            return array('result' => 'failure', 'redirect' => '');
         }
     }
 

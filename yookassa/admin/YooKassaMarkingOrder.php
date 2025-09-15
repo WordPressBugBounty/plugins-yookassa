@@ -519,13 +519,7 @@ class YooKassaMarkingOrder
         $order_id = $isNew ? absint($_GET['id']) : absint($_GET['post']);
         $order = wc_get_order($order_id);
         if ($order && !$this->isAllMarkingFieldsFilledInOrder($order)) {
-            $message = __( 'Заполните пустые поля в карточке маркировки: за продажу товара без маркировки можно получить штраф', 'yookassa' );
-
-            if (function_exists('wp_admin_notice')) {
-                wp_admin_notice($message, array('type' => 'error'));
-            } else {
-                echo '<div class="notice notice-error"><p>' . esc_html($message) . '</p></div>';
-            }
+            YooKassaNotice::admin_notice_error(__('Заполните пустые поля в карточке маркировки: за продажу товара без маркировки можно получить штраф', 'yookassa'));
         }
     }
 
