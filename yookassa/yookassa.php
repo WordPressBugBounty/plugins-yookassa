@@ -15,7 +15,7 @@
  * Plugin Name:       ЮKassa для WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/yookassa/
  * Description:       Платежный модуль для работы с сервисом ЮKassa через плагин WooCommerce
- * Version:           2.12.3
+ * Version:           2.12.4
  * Author:            YooMoney
  * Author URI:        http://yookassa.ru
  * License URI:       https://yoomoney.ru/doc.xml?id=527132
@@ -26,7 +26,7 @@
  * Requires at least: 5.2
  * Tested up to: 6.8
  * WC requires at least: 3.7
- * WC tested up to: 9.9
+ * WC tested up to: 10.2
  */
 // If this file is called directly, abort.
 

@@ -364,6 +364,18 @@
         updateButtonsState(true);
     }
 
+    function escapeHTML(str) {
+        if (str == null) return '';
+        if (typeof str !== 'string') str = String(str);
+
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
     /**
      * Создает HTML-разметку для группы полей ввода маркировки.
      * @param {Array<Object>} fields - Конфигурация полей
@@ -387,7 +399,7 @@
             groupHTML += `
             <div style="margin-bottom:5px; position:relative;">
                 <input type="text" id="${uniqueFieldName}" name="${uniqueFieldName}"
-                       placeholder="${placeholder}" value="${value}"
+                       placeholder="${placeholder}" value="${escapeHTML(value)}"
                        style="width:100%; padding: 6px 25px 6px 6px;"
                        class="marking-input" />
                 <span class="clear-field">×</span>
@@ -738,7 +750,7 @@
             }
 
             if (fieldRules.pattern && value) {
-                const regex = new RegExp(fieldRules.pattern.slice(1, -1));
+                const regex = new RegExp(fieldRules.pattern);
                 if (!regex.test(value)) {
                     result.invalidFields.push(fieldName);
                     highlightField(key);

@@ -337,7 +337,7 @@ class YooKassaMarkingOrder
                         'name' => self::MARKING_FIELD,
                         'placeholder' => __('Отсканируйте маркировку с упаковки', 'yookassa'),
                         'validate' => [
-                            'pattern' => '/^[A-Za-z0-9!"%&\'()*+,\-.\/_:;=<>?]+$/',
+                            'pattern' => addslashes('^[A-Za-z0-9!"%&\'()*+,-./_:;=<>?\\]+$'),
                             'isEmpty' => true,
                             'isDuplicate' => $isCheckDuplicateMarking,
                             'denominator' => $productDenominator ?: null,
@@ -477,14 +477,23 @@ class YooKassaMarkingOrder
                 continue;
             }
 
-            $productCode = new ProductCode($value);
-            $codeInfo = $productCode->getType();
+            try {
+                $productCode = new ProductCode($value);
+                $codeInfo = $productCode->getType();
 
-            if ($codeInfo !== $productMarkCodeInfo) {
+                if ($codeInfo !== $productMarkCodeInfo) {
+                    $errorFields[$key] = [
+                        'value' => $value,
+                        'expected_type' => $productMarkCodeInfo,
+                        'actual_type' => $codeInfo !== 'unknown' ? $codeInfo : null
+                    ];
+                }
+            } catch (Exception $e) {
                 $errorFields[$key] = [
                     'value' => $value,
                     'expected_type' => $productMarkCodeInfo,
-                    'actual_type' => $codeInfo !== 'unknown' ? $codeInfo : null
+                    'actual_type' => null,
+                    'error' => __('Слишком много символов — проверьте, пожалуйста', 'yookassa'),
                 ];
             }
         }

@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the ЮKassa для Woocommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ЮKassa для WooCommerce 2.12.3\n"
+"Project-Id-Version: ЮKassa для WooCommerce 2.12.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yookassa\n"
-"POT-Creation-Date: 2025-08-07 13:05+0300\n"
-"PO-Revision-Date: 2025-09-15 13:12+0300\n"
+"POT-Creation-Date: 2025-10-01 16:58+0300\n"
+"PO-Revision-Date: 2025-10-02 14:59+0300\n"
 "Last-Translator: yoomoney <cms@yoomoney.ru>\n"
 "Language-Team: yoomoney <cms@yoomoney.ru>\n"
 "Language: en\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: yookassa.pot\n"
 
@@ -716,7 +716,7 @@ msgid "Патентная система налогообложения"
 msgstr "Patent Based Tax System"
 
 #: admin/YooKassaAdmin.php:269 admin/YooKassaAdmin.php:282
-#: gateway/YooKassaGateway.php:611 gateway/YooKassaGatewayB2bSberbank.php:175
+#: gateway/YooKassaGateway.php:608 gateway/YooKassaGatewayB2bSberbank.php:175
 msgid "Оплата заказа №%order_number%"
 msgstr "Payment for order No. %order_number%"
 
@@ -800,11 +800,11 @@ msgstr "Credit"
 msgid "Выплата по кредиту"
 msgstr "Payment on the loan"
 
-#: admin/YooKassaMarkingOrder.php:87
+#: admin/YooKassaMarkingOrder.php:94 admin/YooKassaMarkingOrder.php:114
 msgid "Не требуется"
 msgstr "Not required"
 
-#: admin/YooKassaMarkingOrder.php:100 admin/YooKassaMarkingOrder.php:133
+#: admin/YooKassaMarkingOrder.php:108 admin/YooKassaMarkingOrder.php:147
 msgid ""
 "Не смогли загрузить карточку с маркировкой. Обновите страницу — если ошибка "
 "не уйдёт, напишите нам на cms@yoomoney.ru"
@@ -812,8 +812,8 @@ msgstr ""
 "Unable to load the card with marking. Please refresh the page. If this "
 "doesn't help, contact us at cms@yoomoney.ru"
 
-#: admin/YooKassaMarkingOrder.php:258 admin/YooKassaMarkingOrder.php:308
-#: admin/YooKassaMarkingOrder.php:357
+#: admin/YooKassaMarkingOrder.php:288 admin/YooKassaMarkingOrder.php:308
+#: admin/YooKassaMarkingOrder.php:358 admin/YooKassaMarkingOrder.php:407
 msgid ""
 "Что-то пошло не так. Обновите страницу — если ошибка не уйдёт, напишите нам "
 "на cms@yoomoney.ru"
@@ -821,7 +821,8 @@ msgstr ""
 "Something went wrong. Please refresh the page. If this doesn't help, contact "
 "us at cms@yoomoney.ru"
 
-#: admin/YooKassaMarkingOrder.php:270 admin/YooKassaMarkingOrder.php:415
+#: admin/YooKassaMarkingOrder.php:297 admin/YooKassaMarkingOrder.php:320
+#: admin/YooKassaMarkingOrder.php:465
 msgid ""
 "Не смогли найти товар. Обновите страницу — если ошибка не уйдёт, напишите "
 "нам на cms@yoomoney.ru"
@@ -829,20 +830,20 @@ msgstr ""
 "Couldn't find the product. Please refresh the page. If this doesn't help, "
 "contact us at cms@yoomoney.ru"
 
-#: admin/YooKassaMarkingOrder.php:288
+#: admin/YooKassaMarkingOrder.php:338
 msgid "Отсканируйте маркировку с упаковки"
 msgstr "Scan the label on the package"
 
-#: admin/YooKassaMarkingOrder.php:324
+#: admin/YooKassaMarkingOrder.php:374
 msgid "Маркировка для %s"
 msgstr "Labeling for %s"
 
-#: admin/YooKassaMarkingOrder.php:342
+#: admin/YooKassaMarkingOrder.php:392
 msgid "Нет прав на сохранение маркировки — проверьте доступы в настройках"
 msgstr ""
 "No rights to save marking. Please check your permissions in the settings"
 
-#: admin/YooKassaMarkingOrder.php:366
+#: admin/YooKassaMarkingOrder.php:416
 msgid ""
 "Где-то указаны неверные данные. Нужно указать код маркировки (не штрихкод, "
 "QR-код или другой текст)"
@@ -850,11 +851,11 @@ msgstr ""
 "Some field contains incorrect data. You need to specify the marking code "
 "(not a barcode, QR code, or other text)"
 
-#: admin/YooKassaMarkingOrder.php:378
+#: admin/YooKassaMarkingOrder.php:428
 msgid "Готово — сохранили"
 msgstr "Done — saved"
 
-#: admin/YooKassaMarkingOrder.php:389
+#: admin/YooKassaMarkingOrder.php:439
 msgid ""
 "Не получилось — обновите страницу и добавьте маркировку заново. Если ошибка "
 "не уйдёт, напишите нам на cms@yoomoney.ru"
@@ -862,7 +863,11 @@ msgstr ""
 "It didn't work. Please refresh the page and add marking again. If this "
 "doesn't help, contact us at cms@yoomoney.ru"
 
-#: admin/YooKassaMarkingOrder.php:472
+#: admin/YooKassaMarkingOrder.php:496
+msgid "Слишком много символов — проверьте, пожалуйста"
+msgstr "There are too many characters, please check"
+
+#: admin/YooKassaMarkingOrder.php:531
 msgid ""
 "Заполните пустые поля в карточке маркировки: за продажу товара без "
 "маркировки можно получить штраф"
@@ -1135,19 +1140,19 @@ msgstr ""
 "%2$s."
 
 #. translators: %1$s - order_id
-#: gateway/YooKassaGateway.php:369 gateway/YooKassaGateway.php:436
-#: gateway/YooKassaGateway.php:446 gateway/YooKassaWidgetGateway.php:209
-#: gateway/YooKassaWidgetGateway.php:247 gateway/YooKassaWidgetGateway.php:255
+#: gateway/YooKassaGateway.php:369 gateway/YooKassaGateway.php:435
+#: gateway/YooKassaGateway.php:444 gateway/YooKassaWidgetGateway.php:218
+#: gateway/YooKassaWidgetGateway.php:256 gateway/YooKassaWidgetGateway.php:264
 msgid "Не удалось создать платеж. Для заказа %1$s"
 msgstr "Unable to make a payment. For order %1$s"
 
-#: gateway/YooKassaGateway.php:394 gateway/YooKassaGateway.php:438
-#: gateway/YooKassaGateway.php:448 gateway/YooKassaWidgetGateway.php:248
-#: gateway/YooKassaWidgetGateway.php:256
+#: gateway/YooKassaGateway.php:394 gateway/YooKassaGateway.php:437
+#: gateway/YooKassaGateway.php:446 gateway/YooKassaWidgetGateway.php:257
+#: gateway/YooKassaWidgetGateway.php:265
 msgid "Платеж не прошел. Попробуйте еще или выберите другой способ оплаты"
 msgstr "Payment wasn't processed. Try again or choose another payment method"
 
-#: gateway/YooKassaGateway.php:712
+#: gateway/YooKassaGateway.php:709
 msgid "Тестовое списание для привязки карты, средства будут возвращены."
 msgstr "Test payment to link the card, money will be refunded."
 
@@ -1180,23 +1185,23 @@ msgstr "Online Payment"
 msgid "Банковской картой или другими способами"
 msgstr "By bank card or other methods"
 
-#: gateway/YooKassaGatewayEPL.php:48 gateway/YooKassaWidgetGateway.php:77
+#: gateway/YooKassaGatewayEPL.php:48 gateway/YooKassaWidgetGateway.php:86
 msgid "Сохранять платежный метод"
 msgstr "Save the payment method"
 
-#: gateway/YooKassaGatewayEPL.php:50 gateway/YooKassaWidgetGateway.php:79
+#: gateway/YooKassaGatewayEPL.php:50 gateway/YooKassaWidgetGateway.php:88
 msgid "Покупатели могут сохранять карту для повторной оплаты"
 msgstr "Customers can save the card for re-payment"
 
-#: gateway/YooKassaWidgetGateway.php:128 gateway/YooKassaWidgetGateway.php:146
+#: gateway/YooKassaWidgetGateway.php:137 gateway/YooKassaWidgetGateway.php:155
 msgid "Что-то пошло не так!"
 msgstr "Something went wrong!"
 
-#: gateway/YooKassaWidgetGateway.php:130 gateway/YooKassaWidgetGateway.php:148
+#: gateway/YooKassaWidgetGateway.php:139 gateway/YooKassaWidgetGateway.php:157
 msgid "Попробовать заново"
 msgstr "Try again"
 
-#: gateway/YooKassaWidgetGateway.php:310
+#: gateway/YooKassaWidgetGateway.php:319
 msgid ""
 "Чтобы покупатели могли заплатить вам через Apple Pay, <a href=\"https://"
 "yookassa.ru/docs/merchant.ru.yandex.kassa\">скачайте файл apple-developer-"
@@ -1320,11 +1325,11 @@ msgstr ""
 msgid "Платёж не отменился. Попробуйте ещё раз."
 msgstr "The payment was not canceled. Try again."
 
-#: includes/YooKassaSecondReceipt.php:574
+#: includes/YooKassaSecondReceipt.php:583
 msgid "Отправлен второй чек. Сумма %s рублей."
 msgstr "Second check sent. The amount of %s rubles."
 
-#: includes/YooKassaSecondReceipt.php:674
+#: includes/YooKassaSecondReceipt.php:683
 msgid "Отправлен второй чек (часть %d/%d). Сумма %s рублей."
 msgstr "Second check sent. (part %d/%d).The amount of %s rubles."
 
