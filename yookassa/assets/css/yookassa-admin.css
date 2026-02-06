@@ -89,12 +89,15 @@ b>i {
     padding-top: 30px;
 }
 .info-block {
-    padding: 5px 0 30px 30px;
+    padding: 5px 5px 30px 30px;
     font-size: 14px;
+}
+.info-block.very-important {
+    background: #fdd;
 }
 .info-block .dashicons {
     position: absolute;
-    margin-left: -30px;
+    margin-left: -25px;
     margin-top: 5px;
     font-size: 15px;
 }

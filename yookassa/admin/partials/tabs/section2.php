@@ -103,7 +103,7 @@
                 <?php $ymSbbolTaxRatesEnum = get_option('yookassa_sbbol_tax_rates_enum'); ?>
                 <div class="row">
                     <div class="col-md-5">
-                        <label><?= __("Шаблон для назначения платежа", 'yookassa') ?></label>
+                        <label for="yookassa_sbbol_purpose"><?= __("Шаблон для назначения платежа", 'yookassa') ?></label>
                     </div>
                     <div class="col-md-7">
                         <textarea type="text" id="yookassa_sbbol_purpose" name="yookassa_sbbol_purpose" class="form-control"
@@ -114,10 +114,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-5">
-                        <label><?= __("Ставка по умолчанию", 'yookassa') ?></label>
+                        <label for="yookassa_default_tax_rate"><?= __("Ставка по умолчанию", 'yookassa') ?></label>
                     </div>
                     <div class="col-md-7">
-                        <select id="yookassa_default_tax_rate" name="yookassa_sbbol_default_tax_rate">
+                        <?php $selected20 = get_option('yookassa_sbbol_default_tax_rate') == '20'; ?>
+                        <select id="yookassa_default_tax_rate" name="yookassa_sbbol_default_tax_rate" class="yookassa_sbbol_tax_rate_select">
                             <?php foreach ($ymSbbolTaxRatesEnum as $taxId => $taxName) : ?>
                                 <option value="<?php echo $taxId ?>" <?php echo $taxId == get_option('yookassa_sbbol_default_tax_rate') ? 'selected=\'selected\'' : ''; ?>><?php echo $taxName ?></option>
                             <?php endforeach; ?>
@@ -125,7 +126,7 @@
                         <p><small class="text-muted"><?= __("Эта ставка передаётся в СберБанк Бизнес Онлайн, если в карточке товара не указана другая ставка.", 'yookassa') ?></small></p>
                     </div>
                 </div>
-                <?php if ($wcCalcTaxes == 'yes' && $wcTaxes) : ?>
+                <?php if ($wcCalcTaxes === 'yes' && $wcTaxes) : ?>
                     <div class="row">
                         <div class="col-md-12">
                             <label><?= __("Сопоставьте ставки НДС в вашем магазине со ставками для Сбербанка Бизнес Онлайн", 'yookassa') ?></label>
@@ -144,8 +145,11 @@
                     <div class="row">
                         <div class="col-sm-5"><?= round($wcTax->tax_rate) ?>%</div>
                         <div class="col-sm-7">
-                            <?php $selected = isset($ymTaxes[$wcTax->tax_rate_id]) ? $ymTaxes[$wcTax->tax_rate_id] : null; ?>
-                            <select id="yookassa_sbbol_tax_rate[<?= $wcTax->tax_rate_id ?>]" name="yookassa_sbbol_tax_rate[<?= $wcTax->tax_rate_id ?>]">
+                            <?php
+                                $selected = isset($ymTaxes[$wcTax->tax_rate_id]) ? $ymTaxes[$wcTax->tax_rate_id] : null;
+                                if ($selected == '20') { $selected20 = true; }
+                            ?>
+                            <select id="yookassa_sbbol_tax_rate[<?= $wcTax->tax_rate_id ?>]" name="yookassa_sbbol_tax_rate[<?= $wcTax->tax_rate_id ?>]" class="yookassa_sbbol_tax_rate_select">
                                 <?php foreach ($ymSbbolTaxRatesEnum as $taxId => $taxName) : ?>
                                     <option value="<?php echo $taxId ?>" <?= $selected == $taxId ? 'selected' : '' ?> >
                                         <?= $taxName ?>

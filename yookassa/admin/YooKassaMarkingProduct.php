@@ -35,6 +35,11 @@ class YooKassaMarkingProduct
     const VETERINARY_PRODUCTS = 'veterinary_products';
     const TECHNICAL_REHABILITATION = 'technical_rehabilitation';
     const COSMETICS = 'cosmetics';
+    const CHILDREN = 'children';
+    const CEMENT = 'cement';
+    const SPORTPIT = 'sportpit';
+    const PHARM_SUBSTANCES = 'pharm_substances';
+    const SWEETS = 'sweets';
 
     /** @var string Категория маркировки */
     const CATEGORY_KEY = '_yookassa_marking_category';
@@ -354,7 +359,12 @@ class YooKassaMarkingProduct
             self::PET_FOOD => __('Корма для животных', 'yookassa'),
             self::VETERINARY_PRODUCTS => __('Лекарственные препараты для ветеринарного применения', 'yookassa'),
             self::TECHNICAL_REHABILITATION => __('Технические средства реабилитации', 'yookassa'),
-            self::COSMETICS => __('Парфюмерно-косметическая продукция и бытовая химия', 'yookassa'),
+            self::COSMETICS => __('Косметика и бытовая химия', 'yookassa'),
+            self::CHILDREN => __('Детские игрушки', 'yookassa'),
+            self::CEMENT => __('Строительные материалы', 'yookassa'),
+            self::SPORTPIT => __('Спортивное питание', 'yookassa'),
+            self::PHARM_SUBSTANCES => __('Фармацевтическое сырье, лекарственные средства', 'yookassa'),
+            self::SWEETS => __('Сладости и кондитерские изделия', 'yookassa'),
         );
     }
 

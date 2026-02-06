@@ -30,7 +30,7 @@ class YooKassaFileCache
         $files = glob($this->getCacheDir() . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.*');
 
         if ($files) {
-            $handle = fopen($files[0], 'r');
+            $handle = fopen($files[0], 'rb');
 
             flock($handle, LOCK_SH);
 
@@ -52,7 +52,7 @@ class YooKassaFileCache
 
         $file = $this->getCacheDir() . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.' . (time() + $this->expire);
 
-        $handle = fopen($file, 'w');
+        $handle = fopen($file, 'wb');
 
         flock($handle, LOCK_EX);
 

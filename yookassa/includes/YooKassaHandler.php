@@ -1,6 +1,7 @@
 <?php
 
 use YooKassa\Client;
+use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataRate;
 use YooKassa\Model\PaymentInterface;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
@@ -56,6 +57,7 @@ class YooKassaHandler
             return;
         }
         YooKassaLogger::sendHeka(array('receipt.create.init'));
+        self::replaceOldTaxRates();
         if ($order->get_billing_email()) {
             $builder->setReceiptEmail($order->get_billing_email());
         }
@@ -72,25 +74,14 @@ class YooKassaHandler
                 $amount = YooKassaGateway::MINIMUM_SUBSCRIBE_AMOUNT;
             }
 
-            if (self::isSelfEmployed()) {
-                $builder->addReceiptItem(
-                    $item['name'],
-                    $amount->getValue(),
-                    $item->get_quantity(),
-                    self::VAT_CODE_1
-                );
-            }
-
-            if (self::isLegalEntity()) {
-                $builder->addReceiptItem(
-                    $item['name'],
-                    $amount->getValue(),
-                    $item->get_quantity(),
-                    self::getYmTaxRate($item->get_taxes()),
-                    self::getPaymentMode($item),
-                    self::getPaymentSubject($item)
-                );
-            }
+            $builder->addReceiptItem(
+                $item['name'],
+                $amount->getValue(),
+                $item->get_quantity(),
+                self::getYmTaxRate($item->get_taxes()),
+                self::getPaymentMode($item),
+                self::getPaymentSubject($item)
+            );
         }
 
         $orderData = $order->get_data();
@@ -323,6 +314,36 @@ class YooKassaHandler
                     __('<b>Не получается создать чек </b><br>Цена позиции должна быть больше 0 ₽. Уберите позицию из корзины и попробуйте ещё раз.', 'yookassa')
                 );
             }
+        }
+    }
+
+    public static function replaceOldTaxRates()
+    {
+        $defaultTaxRate = get_option('yookassa_default_tax_rate');
+        if ($defaultTaxRate === '4') {
+            update_option('yookassa_default_tax_rate', '11');
+        }
+        if ($defaultTaxRate === '6') {
+            update_option('yookassa_default_tax_rate', '12');
+        }
+        $sbbolDefaultTaxRate    = get_option('yookassa_sbbol_default_tax_rate');
+        if ($sbbolDefaultTaxRate === VatDataRate::RATE_20) {
+            update_option('yookassa_sbbol_default_tax_rate', VatDataRate::RATE_22);
+        }
+        $ymTaxes = get_option('yookassa_tax_rate');
+        if ($ymTaxes && (in_array('4', $ymTaxes, true) || in_array('6', $ymTaxes, true))) {
+            $ymTaxes = array_map(static function($a) {
+                $mappings = array('4' => '11', '6' => '12');
+                return isset($mappings[$a]) ? $mappings[$a] : $a;
+            }, $ymTaxes);
+            update_option('yookassa_tax_rate', $ymTaxes);
+        }
+        $sbbolTaxRates = get_option('yookassa_sbbol_tax_rate');
+        if ($sbbolTaxRates && in_array('20', $sbbolTaxRates, true)) {
+            $sbbolTaxRates = array_map(static function($a) {
+                return $a === '20' ? '22' : $a;
+            }, $sbbolTaxRates);
+            update_option('yookassa_sbbol_tax_rate', $sbbolTaxRates);
         }
     }
 

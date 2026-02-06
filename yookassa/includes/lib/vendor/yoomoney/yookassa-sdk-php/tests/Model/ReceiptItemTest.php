@@ -646,9 +646,9 @@ class ReceiptItemTest extends TestCase
             array(array()),
             array(new \stdClass()),
             array(0),
-            array(11),
+            array(15),
             array(Random::int(-100, -1)),
-            array(Random::int(11, 100)),
+            array(Random::int(15, 100)),
         );
     }
 

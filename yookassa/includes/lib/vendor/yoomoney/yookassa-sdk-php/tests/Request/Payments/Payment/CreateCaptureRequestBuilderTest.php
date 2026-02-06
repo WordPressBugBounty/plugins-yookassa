@@ -282,7 +282,7 @@ class CreateCaptureRequestBuilderTest extends TestCase
                         'title'    => 'test',
                         'price'    => 123,
                         'quantity' => 1.4,
-                        'vatCode'  => 11,
+                        'vatCode'  => 15,
                     ),
                 ),
             ),

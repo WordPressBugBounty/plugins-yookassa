@@ -84,6 +84,7 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
     protected function getBuilder($order)
     {
         YooKassaLogger::sendHeka(array('payment.create.init'));
+        YooKassaHandler::replaceOldTaxRates();
         $paymentData = new PaymentDataB2bSberbank();
         $order_total = YooKassaOrderHelper::getTotal($order);
         $data        = $order->get_data();

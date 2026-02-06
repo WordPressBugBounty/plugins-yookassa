@@ -3,8 +3,8 @@ Contributors: yoomoney
 Tags: woocommerce, payment, gateway, yookassa, юkassa
 Requires PHP: 5.6.20
 Requires at least: 5.2
-Tested up to: 6.8
-Stable tag: 2.12.4
+Tested up to: 6.9
+Stable tag: 2.14.1
 License: GPLv3
 License URI: https://yoomoney.ru/doc.xml?id=527132
 
@@ -13,71 +13,27 @@ License URI: https://yoomoney.ru/doc.xml?id=527132
 
 == Description ==
 
-**Важно**
+Модуль ЮKassa для сайтов на WooCommerce позволяет принимать платежи от физических и юридических лиц.
 
-Плагин «ЮKassa» разработан для WooCommerce 3.7 и выше.
+Для новых клиентов комиссия за приём платежей картами, SberPay, T-Pay и MirPay — 2,6%. Чтобы получить такую ставку, подключите ЮKassa по кнопке ниже.
 
-The YooKassa plugin is compatible with WooCommerce version 3.7 or later.
+[Подключить ЮKassa](https://yookassa.ru/joinups/?source=wordpress)
 
-**Описание**
+**Возможности**
 
-Плагин «ЮKassa» – платежное решение для сайтов на WooCommerce:
+* Можно принимать оплату популярными способами: банковскими картами, через СБП, SberPay, T-Pay и другими
+* Работает с облачными кассами по 54-ФЗ
+* Поддерживает [Чеки от ЮKassa](https://yookassa.ru/54fz/) — встроенное решение для отправки чеков в налоговую и покупателям
+* Есть настройка двухстадийных платежей и автоплатежей
+* Можно работать с товарами, которые подлежат обязательной маркировке
 
-* включает 10 способов приема платежей,
-* подходит для юрлиц и ИП,
-* деньги поступают на банковский счет компании.
+**Установка**
 
-**Description**
+Установить, настроить и подключить модуль к сайту на WooCommerce можно [по инструкции](https://yookassa.ru/docs/support/payments/onboarding/integration/cms-module/woocommerce). Чтобы всё работало, сначала нужно подключить ЮKassa
 
-The YooKassa plugin is the payment solution for websites that use WooCommerce:
+**О ЮKassa**
 
-* includes 10 payment acceptance methods,
-* suitable for companies and entrepreneurs,
-* settlements are made to the company's bank account.
-
-**Настройка плагина**
-
-Чтобы принимать платежи через плагин, нужно подать [заявку на подключение ЮKassa](https://yoomoney.ru/joinups) и заключить договор с компанией «ЮMoney» (онлайн).
-После этого вы получите нужные настройки.
-[Инструкция по установке и настройке плагина](https://yookassa.ru/docs/support/payments/onboarding/integration/cms-module/woocommerce)
-
-**Plugin configuration**
-
-To accept payments via the plugin, apply for onboarding with YooKassa and enter into a contract with YooMoney (online).
-We will send you the required settings afterwards.
-
-**Поддержка передачи данных чека**
-Если вы настраивали отправку чеков в налоговую через партнеров ЮKassa (по 54-ФЗ), в настройках модуля надо включить отправку данных для чека.
-[Помощь ЮKassa отправка чеков по 54-ФЗ](https://yookassa.ru/docs/support/payments/tax-sync)
-
-**We support the transmission of receipts**
-If you configured the transmission of receipts to the Tax service via YooKassa (in accordance with Federal Law No. 54-FZ), enable the transmission of receipt data in the settings.
-[YooKassa's guide for transmission of receipts in accordance with Federal Law No. 54-FZ](https://yookassa.ru/docs/support/payments/tax-sync?lang=en)
-
-**Тарифы**
-
-Подключение ЮKassa и настройка плагина – бесплатно. Комиссия за прием платежей – от 2,8%.
-[Посмотреть все тарифы на сайте ЮKassa](https://yookassa.ru/fees/)
-
-**Rates**
-Onboarding with YooKassa and plugin configuration are free of charge. The commission for accepting payments starts at 2.8%.
-[View all rates at the YooKassa website](https://yookassa.ru/en/fees/)
-
-**Все возможности ЮKassa**
-
-После подключения ЮKassa доступны:
-* 10 способов приема платежей. Карты, электронные кошельки, интернет-банки, сервисы онлайн-кредитования, наличные, баланс телефона. Вы сами выбираете, какие способы нужны, и перечисляете их в договоре. Кнопки оплаты можно разместить на своем сайте или на сайте ЮMoney: выберите подходящий вариант при настройке плагина.
-* Личный кабинет на сайте ЮKassa. В нем можно делать возвраты платежей, выставлять и отправлять счета, общаться с менеджерами ЮKassa.
-
-[Перейти на сайт ЮKassa](https://yookassa.ru/)
-
-**All features of YooKassa**
-
-After the onboarding, you can access:
-
-10 payment acceptance methods. Cards, e-wallets, online banking, installment plan services, cash, phone balance. Select the methods by yourself and specify them in the contract. You can place the payment buttons at your website or at the YooKassa website: choose the suitable option when setting up the plugin.
-Your own Merchant Profile at the YooKassa website. Use it to make refunds, create and send invoices, or contact the YooKassa manager.
-[Visit the YooKassa website](https://yookassa.ru/en/)
+[ЮKassa](https://yookassa.ru/) — сервис для работы с платежами в интернете. С его помощью ИП, юрлица и самозанятые принимают платежи, отправляют деньги клиентам и решают другие платёжные задачи.
 
 == Installation ==
 
@@ -89,18 +45,47 @@ Your own Merchant Profile at the YooKassa website. Use it to make refunds, creat
 
 == Screenshots ==
 
-1. Настройки - Шаг 1
-2. Настройки - Шаг 2
-3. Настройки - Шаг 3
-4. Настройки - Шаг 4
-5. Настройки - Шаг 5
-6. Настройки - Шаг 6
-7. Оформление заказа - Выбор способа оплаты
-8. Оплата на стороне ЮKassa - Выбор способа оплаты
+1. Оплата на стороне ЮKassa - Выбор способа оплаты
+2. Оплата на стороне ЮKassa - Успешно!
+3. Настройки - Авторизация
+4. Настройки - Авторизация. Шаг 1
+5. Настройки - Авторизация. Шаг 2
+6. Настройки - Авторизация. Шаг 3
+7. Настройки - Авторизация. Шаг 4
+8. Настройки - Оплата
+9. Настройки - Доп. функции
+10. Настройки - Чеки. Общие настройки
+11. Настройки - Чеки. 54-ФЗ
+12. Настройки - Настройка уведомлений
+13. Настройки - Готово
+14. Корзина - Выбор способа оплаты
+15. Оформление заказа - Выбор способа оплаты
 
 == Changelog ==
+= 2.14.1 =
+* Исправлен баг при обработке настроек
+
+= 2.14.0 =
+* Удалена поддержка НДС 20%
+* Удалена поддержка отправки чеков для СМЗ
+
+= 2.13.2 =
+* Добавлена поддержка НДС 22%
+* Обновлен SDK до 2.13.0
+
+= 2.13.1 =
+* Оптимизация работы виджета
+* Добавлены новые категории для маркировки честный знак
+
+= 2.13.0 =
+* Добавлена поддержка работы рекуррентов при оплате через виджет
+
+= 2.12.5 =
+* Обновлено в описание плагина
+* Обновлены скриншоты
+
 = 2.12.4 =
-* В маркировке товаров разрешен обратный слеш
+* В маркировке товаров разрешен обратный слэш
 * Исправлен баг с длиной символов в кодах маркировок
 * Исправлен баг в отображении полей ввода маркировки при использовании специальных символов
 
@@ -306,4 +291,4 @@ Your own Merchant Profile at the YooKassa website. Use it to make refunds, creat
 * Публикация в магазине приложений
 
 == Upgrade Notice ==
-Новая версия плагина лучше чем старая!
+Новая версия плагина лучше, чем старая!

@@ -225,28 +225,40 @@ JS;
             }
         }
 
+        try {
+            $this->prepareSubscription();
+        } catch (Exception $e) {
+            YooKassaLogger::warning(sprintf('Не удалось задать параметры подписки для заказа %1$s', $order_id) . ' ' . strip_tags($e->getMessage()));
+            return array('result' => 'failure', 'redirect' => '');
+        }
+
         $result     = $this->createPayment($order);
         $receiptUrl = $order->get_checkout_payment_url(true);
 
         if ($result) {
+            if (is_wp_error($result)) {
+                YooKassaNotice::front_notice_error(__('Платеж не прошел. Попробуйте еще или выберите другой способ оплаты', 'yookassa'));
+                return array('result' => 'failure', 'redirect' => $order->get_view_order_url());
+            }
             $order->set_transaction_id($result->id);
             $this->savePaymentData($result, $order);
+            $this->updateSubscriptionData($order, $result);
 
-            if ($result->status == PaymentStatus::PENDING) {
+            if ($result->status === PaymentStatus::PENDING) {
                 $order->update_status('wc-pending');
-                if (get_option('yookassa_force_clear_cart') == '1') {
+                if (get_option('yookassa_force_clear_cart') == '1' && !empty($woocommerce->cart)) {
                     $woocommerce->cart->empty_cart();
                 }
                 return array(
                     'result' => 'success',
                     'redirect' => $receiptUrl,
                 );
-            } elseif ($result->status == PaymentStatus::WAITING_FOR_CAPTURE) {
+            } elseif ($result->status === PaymentStatus::WAITING_FOR_CAPTURE) {
                 return array(
                     'result' => 'success',
                     'redirect' => $this->get_success_fail_url("yookassa_success", $order)
                 );
-            } elseif ($result->status == PaymentStatus::SUCCEEDED) {
+            } elseif ($result->status === PaymentStatus::SUCCEEDED) {
                 return array(
                     'result' => 'success',
                     'redirect' => $this->get_success_fail_url('yookassa_success', $order),
@@ -313,7 +325,7 @@ JS;
     {
         if ($this->enabled === 'yes') {
             clearstatcache();
-            if ($this->isVerifyApplePayFileExist()) {
+            if ($this->isVerifyApplePayFileExist() || !get_option('yookassa_apple_pay_enabled')) {
                 return;
             }
             echo '<div class="notice notice-warning is-dismissible"><p>' . __('Чтобы покупатели могли заплатить вам через Apple Pay, <a href="https://yookassa.ru/docs/merchant.ru.yandex.kassa">скачайте файл apple-developer-merchantid-domain-association</a> и добавьте его в папку ./well-known на вашем сайте. Если не знаете, как это сделать, обратитесь к администратору сайта или в поддержку хостинга. Не забудьте также подключить оплату через Apple Pay <a href="https://yookassa.ru/my/payment-methods/settings#applePay">в личном кабинете ЮKassa</a>. <a href="https://yookassa.ru/developers/payment-forms/widget#apple-pay-configuration">Почитать о подключении Apple Pay в документации ЮKassa</a>', 'yookassa') . '</p></div>';
@@ -323,9 +335,12 @@ JS;
     private function init_apple_pay()
     {
         clearstatcache();
+        if (!get_option('yookassa_apple_pay_enabled')) {
+            return false;
+        }
         $rootDir = $_SERVER['DOCUMENT_ROOT'];
         $domainAssociationPath = $rootDir . '/.well-known/apple-developer-merchantid-domain-association';
-        $pluginAssociationPath = YooKassa::$pluginUrl . 'apple-developer-merchantid-domain-association';
+        $pluginAssociationPath = YooKassa::$pluginPath . 'apple-developer-merchantid-domain-association';
         if ($this->isVerifyApplePayFileExist()) {
             return false;
         }
@@ -371,16 +386,32 @@ JS;
         $amount = YooKassaOrderHelper::getTotal($order);
         $metadata = $this->createMetadata();
         $metadata['cms_name'] = self::CMS_NAME_OLD;
+        if ($this->subscribe && $amount <= 0) {
+            $enableHold = true;
+            $amount = self::MINIMUM_SUBSCRIBE_AMOUNT;
+            $metadata['subscribe_trial'] = true;
+        }
+        YooKassaLogger::info('Subscription data: ' . json_encode(array(
+            'enableHold' => $enableHold,
+            'metadata' => $metadata,
+            'savePaymentMethod' => $this->savePaymentMethod,
+            'recurrentPaymentMethodId' => $this->recurrentPaymentMethodId,
+        )));
         $builder = CreatePaymentRequest::builder()
             ->setAmount(YooKassaOrderHelper::getAmountByCurrency($amount))
             ->setDescription($this->createDescription($order))
+            ->setSavePaymentMethod($this->savePaymentMethod)
             ->setCapture(!$enableHold)
-            ->setConfirmation(array(
-                'type' => ConfirmationType::EMBEDDED,
-                'locale' => $this->getLocaleFromBrowser(),
-            ))
             ->setMetadata($metadata);
 
+        if ($this->recurrentPaymentMethodId) {
+            $builder->setPaymentMethodId($this->recurrentPaymentMethodId);
+        } else {
+            $builder->setConfirmation(array(
+                'type' => ConfirmationType::EMBEDDED,
+                'locale' => $this->getLocaleFromBrowser(),
+            ));
+        }
         YooKassaLogger::info('Return url: ' . $order->get_checkout_payment_url(true));
         YooKassaHandler::setReceiptIfNeeded($builder, $order);
         if (

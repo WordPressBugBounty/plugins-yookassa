@@ -89,7 +89,7 @@ class YooKassaGateway extends WC_Payment_Gateway
 
     protected $enableRecurrentPayment;
 
-    private $recurentPaymentMethodId;
+    protected $recurrentPaymentMethodId;
 
     private $cache;
 
@@ -161,6 +161,13 @@ class YooKassaGateway extends WC_Payment_Gateway
 
         $this->addReceiptAttribute('yookassa_payment_subject', __('Признак предмета расчета', 'yookassa'), $paymentSubjectEnum);
         $this->addReceiptAttribute('yookassa_payment_mode', __('Признак способа расчёта', 'yookassa'), $paymentModeEnum);
+
+        $isSelfEmployed = (bool)get_option('yookassa_self_employed', '0');
+
+        if ($isSelfEmployed) {
+            update_option('yookassa_self_employed', '0');
+            update_option('yookassa_enable_receipt', '0');
+        }
     }
 
     public function init_form_fields()
@@ -338,10 +345,10 @@ class YooKassaGateway extends WC_Payment_Gateway
      */
     public function scheduled_subscription_payment($amount, $order)
     {
-        $this->recurentPaymentMethodId = $order->get_meta('_yookassa_saved_payment_id');
+        $this->recurrentPaymentMethodId = $order->get_meta('_yookassa_saved_payment_id');
         $this->amount = $amount;
         YooKassaLogger::info(
-            sprintf('Start subscription payment, recurentId = %s and amount = %s', $this->recurentPaymentMethodId, $amount)
+            sprintf('Start subscription payment, recurentId = %s and amount = %s', $this->recurrentPaymentMethodId, $amount)
         );
         $this->process_payment($order->get_id());
     }
@@ -362,32 +369,13 @@ class YooKassaGateway extends WC_Payment_Gateway
 
         $order = new WC_Order($order_id);
 
-        if (YooKassaHandler::isReceiptEnabled() && YooKassaHandler::isSelfEmployed()) {
-            try {
-                YooKassaHandler::checkConditionForSelfEmployed($order);
-            } catch (Exception $e) {
-                YooKassaLogger::warning(sprintf(__('Не удалось создать платеж. Для заказа %1$s', 'yookassa'), $order_id) . ' ' . strip_tags($e->getMessage()));
-                YooKassaNotice::front_notice_error($e->getMessage());
-                return array('result' => 'failure', 'redirect' => '');
-            }
+        try {
+            $this->prepareSubscription();
+        } catch (Exception $e) {
+            YooKassaLogger::warning(sprintf('Не удалось задать параметры подписки для заказа %1$s', $order_id) . ' ' . strip_tags($e->getMessage()));
+            return array('result' => 'failure', 'redirect' => '');
         }
 
-        if (class_exists('WC_Subscriptions_Cart')
-            && WC_Subscriptions_Cart::cart_contains_subscription()) {
-            $this->subscribe = true;
-        }
-
-        $this->savePaymentMethod = $this->saveNewPaymentMethod() || $this->subscribe;
-        if (isset($_POST["wc-{$this->id}-payment-token"]) && 'new' !== $_POST["wc-{$this->id}-payment-token"]) {
-            $token_id = wc_clean($_POST["wc-{$this->id}-payment-token"]);
-            $token    = WC_Payment_Tokens::get($token_id);
-            if ($token->get_user_id() !== get_current_user_id()) {
-                //@TODO Optionally display a notice with `wc_add_notice`
-                return;
-            }
-
-            $this->recurentPaymentMethodId = $token->get_token();
-        }
         $result = $this->createPayment($order);
         if ($result) {
             if (is_wp_error($result)) {
@@ -397,33 +385,23 @@ class YooKassaGateway extends WC_Payment_Gateway
             } else {
                 $order->set_transaction_id($result->getId());
                 $this->savePaymentData($result, $order);
+                $this->updateSubscriptionData($order, $result);
 
-                if ($this->subscribe) {
-                    $subscriptions = wcs_get_subscriptions_for_order($order);
-                    foreach ($subscriptions as $subscription) {
-                        $subscription->update_meta_data('_yookassa_saved_payment_id', $result->getId());
-                        $subscription->save();
-                        YooKassaLogger::info(
-                            'Subscription id = '. $subscription->get_id() . 'succeeded created. Token = '. $result->getId()
-                        );
-                    }
-                }
-
-                if ($result->status == PaymentStatus::PENDING) {
+                if ($result->status === PaymentStatus::PENDING) {
                     $order->update_status('wc-pending');
                     if (get_option('yookassa_force_clear_cart') == '1' && !empty($woocommerce->cart)) {
                         $woocommerce->cart->empty_cart();
                     }
-                    if ($result->confirmation->type == ConfirmationType::EXTERNAL) {
+                    if ($result->confirmation->type === ConfirmationType::EXTERNAL) {
                         return array('result' => 'success', 'redirect' => $order->get_checkout_order_received_url());
-                    } elseif ($result->confirmation->type == ConfirmationType::REDIRECT) {
+                    } elseif ($result->confirmation->type === ConfirmationType::REDIRECT) {
                         YooKassaLogger::sendHeka(array('payment.redirect.init'));
                         return array('result' => 'success', 'redirect' => $result->confirmation->confirmationUrl);
                     }
-                } elseif ($result->status == PaymentStatus::WAITING_FOR_CAPTURE) {
+                } elseif ($result->status === PaymentStatus::WAITING_FOR_CAPTURE) {
                     return array('result' => 'success', 'redirect' => $order->get_checkout_order_received_url());
-                } elseif ($result->status == PaymentStatus::SUCCEEDED) {
-                    if ($this->recurentPaymentMethodId) {
+                } elseif ($result->status === PaymentStatus::SUCCEEDED) {
+                    if ($this->recurrentPaymentMethodId) {
                         $order->update_status('wc-success');
                     }
 
@@ -552,8 +530,8 @@ class YooKassaGateway extends WC_Payment_Gateway
                    ->setSavePaymentMethod($this->savePaymentMethod)
                    ->setMetadata($metadata);
 
-        if ($this->recurentPaymentMethodId) {
-            $builder->setPaymentMethodId($this->recurentPaymentMethodId);
+        if ($this->recurrentPaymentMethodId) {
+            $builder->setPaymentMethodId($this->recurrentPaymentMethodId);
         } else {
             $builder->setPaymentMethodData($this->paymentMethod)
                     ->setConfirmation(
@@ -677,7 +655,7 @@ class YooKassaGateway extends WC_Payment_Gateway
     /**
      * @return bool
      */
-    private function saveNewPaymentMethod()
+    protected function saveNewPaymentMethod()
     {
         $savePaymentMethod = is_checkout() && !empty($_POST["wc-{$this->id}-new-payment-method"]);
 
@@ -841,6 +819,49 @@ class YooKassaGateway extends WC_Payment_Gateway
             YooKassaLogger::sendHeka(array('card.binding.success'));
         } else {
             YooKassaLogger::sendHeka(array('card.binding.fail'));
+        }
+    }
+
+    /**
+     * @return void
+     * @throws RuntimeException
+     */
+    protected function prepareSubscription()
+    {
+        if (class_exists('WC_Subscriptions_Cart')
+            && WC_Subscriptions_Cart::cart_contains_subscription()) {
+            $this->subscribe = true;
+        }
+
+        $this->savePaymentMethod = $this->saveNewPaymentMethod() || $this->subscribe;
+
+        if (isset($_POST["wc-{$this->id}-payment-token"]) && 'new' !== $_POST["wc-{$this->id}-payment-token"]) {
+            $token_id = wc_clean($_POST["wc-{$this->id}-payment-token"]);
+            $token = WC_Payment_Tokens::get($token_id);
+            if (!$token || $token->get_user_id() !== get_current_user_id()) {
+                throw new RuntimeException('WC_Payment_Token пустой или невалидный!');
+            }
+
+            $this->recurrentPaymentMethodId = $token->get_token();
+        }
+    }
+
+    /**
+     * @param WC_Order $order
+     * @param CreatePaymentResponse $payment
+     * @return void
+     */
+    protected function updateSubscriptionData(WC_Order $order, CreatePaymentResponse $payment)
+    {
+        if ($this->subscribe) {
+            $subscriptions = wcs_get_subscriptions_for_order($order);
+            foreach ($subscriptions as $subscription) {
+                $subscription->update_meta_data('_yookassa_saved_payment_id', $payment->getId());
+                $subscription->save();
+                YooKassaLogger::info(
+                    'Subscription id = ' . $subscription->get_id() . 'succeeded created. Token = ' . $payment->getId()
+                );
+            }
         }
     }
 }

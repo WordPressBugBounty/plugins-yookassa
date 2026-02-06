@@ -210,8 +210,8 @@ class YooKassaAdmin
         register_setting('woocommerce-yookassa', 'yookassa_kassa_currency_convert');
         register_setting('woocommerce-yookassa', 'yookassa_access_token');
         register_setting('woocommerce-yookassa', 'yookassa_save_card');
-        register_setting('woocommerce-yookassa', 'yookassa_self_employed');
         register_setting('woocommerce-yookassa', 'yookassa_marking_enabled');
+        register_setting('woocommerce-yookassa', 'yookassa_apple_pay_enabled');
 
         update_option(
             'yookassa_sbbol_tax_rates_enum',
@@ -220,8 +220,7 @@ class YooKassaAdmin
                 VatDataRate::RATE_5  => '5%',
                 VatDataRate::RATE_7  => '7%',
                 VatDataRate::RATE_10 => '10%',
-                VatDataRate::RATE_18 => '18%',
-                VatDataRate::RATE_20 => '20%',
+                VatDataRate::RATE_22 => '22%',
             )
         );
 
@@ -233,11 +232,11 @@ class YooKassaAdmin
                 7 => '5%',
                 8 => '7%',
                 3 => '10%',
-                4 => '20%',
+               11 => '22%',
                 9 => __('Расчетная ставка 5/105', 'yookassa'),
                10 => __('Расчетная ставка 7/107', 'yookassa'),
                 5 => __('Расчетная ставка 10/110', 'yookassa'),
-                6 => __('Расчетная ставка 20/120', 'yookassa'),
+               12 => __('Расчетная ставка 22/122', 'yookassa'),
             )
         );
 
@@ -256,6 +255,7 @@ class YooKassaAdmin
 
     private function get_all_settings()
     {
+        YooKassaHandler::replaceOldTaxRates();
         $shopInfo               = self::getShopInfo();
         $wcTaxes                = $this->getAllTaxes();
         $wcCalcTaxes            = get_option('woocommerce_calc_taxes');
@@ -280,7 +280,7 @@ class YooKassaAdmin
         $password               = get_option('yookassa_shop_password');
         $npsVoteTime            = get_option('yookassa_nps_vote_time');
         $sbbolTemplate          = get_option('yookassa_sbbol_purpose', __('Оплата заказа №%order_number%', 'yookassa'));
-        $payMode                = get_option('yookassa_pay_mode');
+        $payMode                = get_option('yookassa_pay_mode', '1');
 
         $kassaCurrency          = get_option('yookassa_kassa_currency');
         $kassaCurrencyConvert   = get_option('yookassa_kassa_currency_convert');
@@ -299,15 +299,14 @@ class YooKassaAdmin
         if ($shopInfo) {
             $isTestShop = isset($shopInfo['test']) && $shopInfo['test'];
             $isFiscalizationEnabled = isset($shopInfo['fiscalization_enabled']) && $shopInfo['fiscalization_enabled'];
-            $isSberLoanAvailable = isset($shopInfo['payment_methods']) && in_array(PaymentMethodType::SBER_LOAN, $shopInfo['payment_methods']);
+            $isSberLoanAvailable = isset($shopInfo['payment_methods']) && in_array(PaymentMethodType::SBER_LOAN, $shopInfo['payment_methods'], true);
             $validCredentials = true;
         }
 
         $isSaveCard             = (bool)get_option('yookassa_save_card', '1');
-        $isSelfEmployed         = (bool)get_option('yookassa_self_employed', '0');
 
         $isNeededShowNps = time() > (int)$npsVoteTime + $this->npsRetryAfterDays * 86400
-            && substr($password, 0, 5) === 'live_'
+            && !$isTestShop
             && get_locale() === 'ru_RU';
 
         $paymentSubjectEnum = array(
@@ -387,7 +386,6 @@ class YooKassaAdmin
             'isFiscalizationEnabled' => $isFiscalizationEnabled,
             'yookassaNonce'          => wp_create_nonce('yookassa-nonce'),
             'isSaveCard'             => $isSaveCard,
-            'isSelfEmployed'         => $isSelfEmployed,
             'isSberLoanAvailable'    => $isSberLoanAvailable,
             'defaultTaxSystemCode'   => $defaultTaxSystemCode,
             'defaultTaxRate'         => $defaultTaxRate,
@@ -636,25 +634,35 @@ class YooKassaAdmin
     }
 
     /**
-     * @return array|void|null
+     * @param bool $reset
+     * @return array|false|mixed|null
      */
-    public static function getShopInfo()
+    public static function getShopInfo($reset=false)
     {
-        YooKassaLogger::sendHeka(array('oauth.get-shop.init'));
-        try {
-            $apiClient = YooKassaClientFactory::getYooKassaClient();
-            $shopInfo = $apiClient->me();
-            YooKassaLogger::info('Shop Info ' . json_encode($shopInfo));
-            YooKassaLogger::sendHeka(array('oauth.get-shop.success'));
-            return $shopInfo;
-        } catch (Exception $e) {
-            YooKassaLogger::error('Failed get /me information. Error: ' . $e->getMessage());
-            YooKassaLogger::sendAlertLog('Failed get /me information', array(
-                'methodid' => 'GET/getShopInfo',
-                'exception' => $e,
-            ), array('oauth.get-shop.fail'));
-            return;
+        $cache = new YooKassaFileCache(60*60);
+        if ($reset) {
+            $cache->delete('shop_info');
         }
+        $shopInfo = $cache->get('shop_info');
+        if ($reset || !$shopInfo) {
+            YooKassaLogger::sendHeka(array('oauth.get-shop.init'));
+            try {
+                $apiClient = YooKassaClientFactory::getYooKassaClient();
+                $shopInfo = $apiClient->me();
+                $cache->set('shop_info', $shopInfo);
+                update_option('yookassa_apple_pay_enabled', (int)in_array('apple_pay', $shopInfo['payment_methods'], true));
+                YooKassaLogger::info('Shop Info ' . json_encode($shopInfo));
+                YooKassaLogger::sendHeka(array('oauth.get-shop.success'));
+            } catch (Exception $e) {
+                YooKassaLogger::error('Failed get /me information. Error: ' . $e->getMessage());
+                YooKassaLogger::sendAlertLog('Failed get /me information', array(
+                    'methodid' => 'GET/getShopInfo',
+                    'exception' => $e,
+                ), array('oauth.get-shop.fail'));
+                return null;
+            }
+        }
+        return $shopInfo;
     }
 
     /**
@@ -665,7 +673,7 @@ class YooKassaAdmin
      */
     private function saveShopIdByOauth()
     {
-        $shopInfo = self::getShopInfo();
+        $shopInfo = self::getShopInfo(true);
 
         if (!isset($shopInfo['account_id'])) {
             throw new \Exception('Failed to save shop id');
@@ -823,7 +831,7 @@ class YooKassaAdmin
         );
 
         try {
-            $result->setShopInfo($apiClient->me());
+            $result->setShopInfo(self::getShopInfo());
         } catch (Exception $e) {
             YooKassaLogger::error('Failed get /me information. Error: ' . $e->getMessage());
             YooKassaLogger::sendAlertLog('Failed get /me information', array(

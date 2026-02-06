@@ -15,7 +15,7 @@
  * Plugin Name:       ЮKassa для WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/yookassa/
  * Description:       Платежный модуль для работы с сервисом ЮKassa через плагин WooCommerce
- * Version:           2.12.4
+ * Version:           2.14.1
  * Author:            YooMoney
  * Author URI:        http://yookassa.ru
  * License URI:       https://yoomoney.ru/doc.xml?id=527132
@@ -24,9 +24,9 @@
  *
  * Requires Plugins: woocommerce
  * Requires at least: 5.2
- * Tested up to: 6.8
+ * Tested up to: 6.9
  * WC requires at least: 3.7
- * WC tested up to: 10.2
+ * WC tested up to: 10.3
  */
 // If this file is called directly, abort.
 
@@ -85,6 +85,20 @@ if (yookassa_check_woocommerce_plugin_status()) {
     define('YOOKASSA_VERSION', $plugin->getVersion());
 
     $plugin->run();
+}
+
+add_action( 'upgrader_process_complete', 'yookassa_upgrade_function', 10, 2);
+function yookassa_upgrade_function( $upgrader_object, $options ) {
+    $current_plugin_path_name = plugin_basename( __FILE__ );
+    if ($options['action'] === 'update' && $options['type'] === 'plugin' && !empty($options['plugins'])) {
+        foreach($options['plugins'] as $each_plugin) {
+            if ($each_plugin === $current_plugin_path_name) {
+                YooKassaLogger::info("Upgrade plugin $current_plugin_path_name start");
+                YooKassaHandler::replaceOldTaxRates();
+                YooKassaLogger::info("Upgrade plugin $current_plugin_path_name end");
+            }
+        }
+    }
 }
 
 add_action( 'woocommerce_blocks_loaded', 'yookassa_gateway_block_support' );
