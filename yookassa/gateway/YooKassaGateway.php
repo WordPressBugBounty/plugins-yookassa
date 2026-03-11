@@ -713,7 +713,7 @@ class YooKassaGateway extends WC_Payment_Gateway
 
     public function getDescription()
     {
-        $description = $this->description ? $this->description : $this->defaultDescription;
+        $description = $this->description ?: $this->defaultDescription;
         return __($description, 'yookassa');
     }
 

@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.14.1';
+        $this->version     = '2.15.0';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 
@@ -67,6 +67,10 @@ class YooKassa
         if (get_option('yookassa_marking_enabled') && get_option('yookassa_enable_second_receipt')) {
             $this->defineMarkingProductHooks();
             $this->defineMarkingOrderHooks();
+        }
+
+        if (get_option('yookassa_electronic_certificate_enabled')) {
+            $this->defineECProductHooks();
         }
     }
 
@@ -111,6 +115,7 @@ class YooKassa
         require_once self::$pluginPath . 'admin/YooKassaPaymentChargeDispatcher.php';
         require_once self::$pluginPath . 'admin/YooKassaMarkingProduct.php';
         require_once self::$pluginPath . 'admin/YooKassaMarkingOrder.php';
+        require_once self::$pluginPath . 'admin/YooKassaElectronicCertificate.php';
 
         /**
          * The class responsible for defining all actions that occur in the payment-facing
@@ -178,6 +183,15 @@ class YooKassa
         $this->loader->addAction('woocommerce_product_data_tabs', $plugin_admin, 'addMarkingProductTab');
         $this->loader->addAction('woocommerce_product_data_panels', $plugin_admin, 'markingProductTabContent');
         $this->loader->addAction('woocommerce_process_product_meta', $plugin_admin, 'saveMarkingProductFields');
+    }
+
+    private function defineECProductHooks()
+    {
+        $plugin_admin = new YooKassaElectronicCertificate($this->getPluginName(), $this->getVersion());
+
+        $this->loader->addAction('woocommerce_product_data_tabs', $plugin_admin, 'addECTab');
+        $this->loader->addAction('woocommerce_product_data_panels', $plugin_admin, 'ecTabContent');
+        $this->loader->addAction('woocommerce_process_product_meta', $plugin_admin, 'saveTruCodeField');
     }
 
     private function defineMarkingOrderHooks()

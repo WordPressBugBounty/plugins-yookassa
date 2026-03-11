@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2025 "YooMoney", NBСO LLC
+ * Copyright (c) 2026 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ use YooKassa\Model\PaymentData\AbstractPaymentData;
 use YooKassa\Model\PaymentData\PaymentDataAlfabank;
 use YooKassa\Model\PaymentData\PaymentDataB2bSberbank;
 use YooKassa\Model\PaymentData\PaymentDataBankCard;
+use YooKassa\Model\PaymentData\PaymentDataElectronicCertificate;
 use YooKassa\Model\PaymentData\PaymentDataGooglePay;
 use YooKassa\Model\PaymentData\PaymentDataSberbank;
 use YooKassa\Model\PaymentData\PaymentDataYooMoney;
@@ -60,22 +61,23 @@ class CreatePaymentRequestSerializer
     );
 
     private static $paymentDataSerializerMap = array(
-        PaymentMethodType::BANK_CARD      => 'serializePaymentDataBankCard',
-        PaymentMethodType::YOO_MONEY      => 'serializePaymentDataYooMoney',
-        PaymentMethodType::APPLE_PAY      => 'serializePaymentDataMobile',
-        PaymentMethodType::GOOGLE_PAY     => 'serializePaymentDataGooglePay',
-        PaymentMethodType::SBERBANK       => 'serializePaymentDataSberbank',
-        PaymentMethodType::ALFABANK       => 'serializePaymentDataAlfabank',
-        PaymentMethodType::WEBMONEY       => 'serializePaymentData',
-        PaymentMethodType::QIWI           => 'serializePaymentDataMobilePhone',
-        PaymentMethodType::CASH           => 'serializePaymentDataMobilePhone',
-        PaymentMethodType::MOBILE_BALANCE => 'serializePaymentDataMobilePhone',
-        PaymentMethodType::INSTALLMENTS   => 'serializePaymentData',
-        PaymentMethodType::B2B_SBERBANK   => 'serializePaymentDataB2BSberbank',
-        PaymentMethodType::TINKOFF_BANK   => 'serializePaymentData',
-        PaymentMethodType::WECHAT         => 'serializePaymentData',
-        PaymentMethodType::SBP            => 'serializePaymentData',
-        PaymentMethodType::SBER_LOAN      => 'serializePaymentData',
+        PaymentMethodType::BANK_CARD              => 'serializePaymentDataBankCard',
+        PaymentMethodType::YOO_MONEY              => 'serializePaymentDataYooMoney',
+        PaymentMethodType::APPLE_PAY              => 'serializePaymentDataMobile',
+        PaymentMethodType::GOOGLE_PAY             => 'serializePaymentDataGooglePay',
+        PaymentMethodType::SBERBANK               => 'serializePaymentDataSberbank',
+        PaymentMethodType::ALFABANK               => 'serializePaymentDataAlfabank',
+        PaymentMethodType::WEBMONEY               => 'serializePaymentData',
+        PaymentMethodType::QIWI                   => 'serializePaymentDataMobilePhone',
+        PaymentMethodType::CASH                   => 'serializePaymentDataMobilePhone',
+        PaymentMethodType::MOBILE_BALANCE         => 'serializePaymentDataMobilePhone',
+        PaymentMethodType::INSTALLMENTS           => 'serializePaymentData',
+        PaymentMethodType::B2B_SBERBANK           => 'serializePaymentDataB2BSberbank',
+        PaymentMethodType::TINKOFF_BANK           => 'serializePaymentData',
+        PaymentMethodType::WECHAT                 => 'serializePaymentData',
+        PaymentMethodType::SBP                    => 'serializePaymentData',
+        PaymentMethodType::SBER_LOAN              => 'serializePaymentData',
+        PaymentMethodType::ELECTRONIC_CERTIFICATE => 'serializePaymentDataElectronicCertificate',
     );
 
     /**
@@ -323,6 +325,62 @@ class CreatePaymentRequestSerializer
                 $item['metadata'] = $transfer->getMetadata()->toArray();
             }
             $result[] = $item;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param PaymentDataElectronicCertificate $paymentData
+     *
+     * @return array
+     */
+    private function serializePaymentDataElectronicCertificate(PaymentDataElectronicCertificate $paymentData)
+    {
+        $result = array(
+            'type' => $paymentData->getType(),
+        );
+
+        if ($paymentData->getCard() !== null) {
+            $result['card'] = array(
+                'cardholder'   => $paymentData->getCard()->getCardholder(),
+                'expiry_year'  => $paymentData->getCard()->getExpiryYear(),
+                'expiry_month' => $paymentData->getCard()->getExpiryMonth(),
+                'number'       => $paymentData->getCard()->getNumber(),
+                'csc'          => $paymentData->getCard()->getCsc(),
+            );
+        }
+
+        if ($paymentData->getElectronicCertificate() !== null) {
+            $electronicCertificate = $paymentData->getElectronicCertificate();
+            $result['electronic_certificate'] = array(
+                'amount' => $this->serializeAmount($electronicCertificate->getAmount()),
+                'basket_id' => $electronicCertificate->getBasketId(),
+            );
+        }
+
+        if ($paymentData->getArticles() !== null) {
+            $articles = array();
+            foreach ($paymentData->getArticles() as $article) {
+                $articleData = array(
+                    'article_number' => $article->getArticleNumber(),
+                    'tru_code' => $article->getTruCode(),
+                    'article_name' => $article->getArticleName(),
+                    'quantity' => $article->getQuantity(),
+                    'price' => $this->serializeAmount($article->getPrice()),
+                );
+
+                if ($article->getArticleCode() !== null) {
+                    $articleData['article_code'] = $article->getArticleCode();
+                }
+
+                if ($article->getMetadata() !== null) {
+                    $articleData['metadata'] = $article->getMetadata()->toArray();
+                }
+
+                $articles[] = $articleData;
+            }
+            $result['articles'] = $articles;
         }
 
         return $result;

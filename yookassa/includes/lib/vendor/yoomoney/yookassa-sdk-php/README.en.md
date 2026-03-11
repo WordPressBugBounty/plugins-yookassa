@@ -10,15 +10,6 @@
 This product is used for managing payments under [The YooKassa API](https://yookassa.ru/en/developers/api)
 For usage by those who implemented YooKassa using the API method.
 
-> ⚠️
-> **Update the YooMoney SDK before January 1**
->
-> Starting from January 1, 2026, the standard VAT rate in Russia will be increased from 20% to 22%.
->
-> If you work with the standard rate, update the YooMoney SDK so that receipts are generated correctly.
->
-> If you don't update, the receipts will be sent with the 20% rate which may result in questions and fines from the Federal Tax Service, as well as manual correction of transactions.
-
 ## Requirements
 PHP 5.3.2 (or later version) with the libcurl library
 

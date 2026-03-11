@@ -8,6 +8,7 @@
 /* @var string $wcCalcTaxes */
 /* @var array $wcTaxes */
 /* @var string $yookassaNonce */
+/* @var int $isECEnabled */
 ?>
 <form id="yoomoney-form-2" class="yoomoney-form">
     <div class="col-md-12">
@@ -69,7 +70,29 @@
             </div>
             <div class="row padding-bottom">
                 <div class="col-md-6 qa-text-info">
-                    <p><small class="text-muted"><?= __('Если опция включена, платежи с карт проходят в 2 этапа: у клиента сумма замораживается, и вам вручную нужно подтвердить её списание – через панель администратора', 'yookassa') ?></small></p>
+                    <p><small class="text-muted"><?= __('Если включить, платежи будут проходить в 2 этапа: сначала сумма замораживается у покупателя, затем вы вручную подтверждаете её списание — через панель администратора. Не сработает с b2b-платежами, а также при оплате по СБП и электронными сертификатами.', 'yookassa') ?></small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="qa-electronic-certificate">
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <div class="custom-control custom-switch qa-checkbox">
+                        <input type="hidden" name="yookassa_electronic_certificate_enabled" value="0">
+                        <input <?=($isECEnabled)?' checked':'' ?> type="checkbox" class="custom-control-input" id="yookassa_electronic_certificate_enabled" name="yookassa_electronic_certificate_enabled" value="1">
+                        <label class="custom-control-label" for="yookassa_electronic_certificate_enabled">
+                            <?= __('Оплата электронным сертификатом', 'yookassa') ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row padding-bottom">
+                <div class="col-md-6 qa-text-info">
+                    <p><small class="text-muted">
+                            <?= __("Включите, если <a data-qa-link='https://yookassa.ru/developers/payment-acceptance/integration-scenarios/manual-integration/other/electronic-certificate/basics#payment-method-overview-activation' target='_blank' href='https://yookassa.ru/developers/payment-acceptance/integration-scenarios/manual-integration/other/electronic-certificate/basics#payment-method-overview-activation'>настроили</a> приём платежей с помощью электронных сертификатов.", 'yookassa') ?>
+                            <br><?= __('Чтобы всё заработало, нужно будет указать код ТРУ в настройках товара.', 'yookassa') ?>
+                        </small></p>
                 </div>
             </div>
         </div>

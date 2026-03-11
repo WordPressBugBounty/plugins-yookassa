@@ -39,4 +39,5 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     delete_option('yookassa_force_clear_cart');
     delete_option('yookassa_tax_rate');
     delete_option('yookassa_nps_vote_time');
+    delete_option('yookassa_electronic_certificate_enabled');
 }

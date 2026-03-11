@@ -24,7 +24,7 @@ class YooKassaGatewayEPL extends YooKassaGateway
         $this->method_description     = __('Из вашего магазина покупатель перейдёт на страницу ЮKassa и заплатит любым из способов, которые вы подключили.', 'yookassa');
 
         $this->defaultTitle           = __('Онлайн-оплата', 'yookassa');
-        $this->defaultDescription     = __('Банковской картой или другими способами', 'yookassa');
+        $this->defaultDescription     = __('Банковской картой или другим способом', 'yookassa');
 
         $this->title                  = $this->getTitle();
         $this->description            = $this->getDescription();

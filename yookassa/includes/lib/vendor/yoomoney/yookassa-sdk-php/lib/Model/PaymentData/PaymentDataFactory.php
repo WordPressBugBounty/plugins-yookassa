@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2025 "YooMoney", NBСO LLC
+ * Copyright (c) 2026 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,18 +37,19 @@ use YooKassa\Model\PaymentMethodType;
 class PaymentDataFactory
 {
     private $typeClassMap = array(
-        PaymentMethodType::YOO_MONEY      => 'PaymentDataYooMoney',
-        PaymentMethodType::BANK_CARD      => 'PaymentDataBankCard',
-        PaymentMethodType::SBERBANK       => 'PaymentDataSberbank',
-        PaymentMethodType::CASH           => 'PaymentDataCash',
-        PaymentMethodType::MOBILE_BALANCE => 'PaymentDataMobileBalance',
-        PaymentMethodType::APPLE_PAY      => 'PaymentDataApplePay',
-        PaymentMethodType::GOOGLE_PAY     => 'PaymentDataGooglePay',
-        PaymentMethodType::B2B_SBERBANK   => 'PaymentDataB2bSberbank',
-        PaymentMethodType::TINKOFF_BANK   => 'PaymentDataTinkoffBank',
-        PaymentMethodType::SBP            => 'PaymentDataSbp',
-        PaymentMethodType::SBER_LOAN      => 'PaymentDataSberLoan',
-        PaymentMethodType::SBER_BNPL      => 'PaymentDataSberBnpl',
+        PaymentMethodType::YOO_MONEY              => 'PaymentDataYooMoney',
+        PaymentMethodType::BANK_CARD              => 'PaymentDataBankCard',
+        PaymentMethodType::SBERBANK               => 'PaymentDataSberbank',
+        PaymentMethodType::CASH                   => 'PaymentDataCash',
+        PaymentMethodType::MOBILE_BALANCE         => 'PaymentDataMobileBalance',
+        PaymentMethodType::APPLE_PAY              => 'PaymentDataApplePay',
+        PaymentMethodType::GOOGLE_PAY             => 'PaymentDataGooglePay',
+        PaymentMethodType::B2B_SBERBANK           => 'PaymentDataB2bSberbank',
+        PaymentMethodType::TINKOFF_BANK           => 'PaymentDataTinkoffBank',
+        PaymentMethodType::SBP                    => 'PaymentDataSbp',
+        PaymentMethodType::SBER_LOAN              => 'PaymentDataSberLoan',
+        PaymentMethodType::SBER_BNPL              => 'PaymentDataSberBnpl',
+        PaymentMethodType::ELECTRONIC_CERTIFICATE => 'PaymentDataElectronicCertificate',
     );
 
     /**

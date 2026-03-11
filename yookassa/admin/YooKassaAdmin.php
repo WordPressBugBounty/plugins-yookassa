@@ -212,6 +212,7 @@ class YooKassaAdmin
         register_setting('woocommerce-yookassa', 'yookassa_save_card');
         register_setting('woocommerce-yookassa', 'yookassa_marking_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_apple_pay_enabled');
+        register_setting('woocommerce-yookassa', 'yookassa_electronic_certificate_enabled');
 
         update_option(
             'yookassa_sbbol_tax_rates_enum',
@@ -291,6 +292,7 @@ class YooKassaAdmin
 
         $sbbolDefaultTaxRate    = get_option('yookassa_sbbol_default_tax_rate');
         $sbbolTaxRates          = get_option('yookassa_sbbol_tax_rate');
+        $isECEnabled            = get_option('yookassa_electronic_certificate_enabled');
 
         $isTestShop = false;
         $isFiscalizationEnabled = false;
@@ -391,6 +393,7 @@ class YooKassaAdmin
             'defaultTaxRate'         => $defaultTaxRate,
             'sbbolDefaultTaxRate'    => $sbbolDefaultTaxRate,
             'sbbolTaxRates'          => $sbbolTaxRates,
+            'isECEnabled'            => $isECEnabled,
         );
     }
 

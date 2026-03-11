@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2025 "YooMoney", NBСO LLC
+ * Copyright (c) 2026 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,26 +40,27 @@ class PaymentMethodFactory
     const YANDEX_MONEY = 'yandex_money';
 
     private $typeClassMap = array(
-        self::YANDEX_MONEY                => 'PaymentMethodYooMoney',
-        PaymentMethodType::YOO_MONEY      => 'PaymentMethodYooMoney',
-        PaymentMethodType::BANK_CARD      => 'PaymentMethodBankCard',
-        PaymentMethodType::SBERBANK       => 'PaymentMethodSberbank',
-        PaymentMethodType::CASH           => 'PaymentMethodCash',
-        PaymentMethodType::MOBILE_BALANCE => 'PaymentMethodMobileBalance',
-        PaymentMethodType::APPLE_PAY      => 'PaymentMethodApplePay',
-        PaymentMethodType::GOOGLE_PAY     => 'PaymentMethodGooglePay',
-        PaymentMethodType::QIWI           => 'PaymentMethodQiwi',
-        PaymentMethodType::WEBMONEY       => 'PaymentMethodWebmoney',
-        PaymentMethodType::ALFABANK       => 'PaymentMethodAlfaBank',
-        PaymentMethodType::INSTALLMENTS   => 'PaymentMethodInstallments',
-        PaymentMethodType::B2B_SBERBANK   => 'PaymentMethodB2bSberbank',
-        PaymentMethodType::TINKOFF_BANK   => 'PaymentMethodTinkoffBank',
-        PaymentMethodType::PSB            => 'PaymentMethodPsb',
-        PaymentMethodType::WECHAT         => 'PaymentMethodWechat',
-        PaymentMethodType::SBP            => 'PaymentMethodSbp',
-        PaymentMethodType::SBER_LOAN      => 'PaymentMethodSberLoan',
-        PaymentMethodType::SBER_BNPL      => 'PaymentMethodSberBnpl',
-        PaymentMethodType::UNKNOWN        => 'PaymentMethodUnknown',
+        self::YANDEX_MONEY                        => 'PaymentMethodYooMoney',
+        PaymentMethodType::YOO_MONEY              => 'PaymentMethodYooMoney',
+        PaymentMethodType::BANK_CARD              => 'PaymentMethodBankCard',
+        PaymentMethodType::SBERBANK               => 'PaymentMethodSberbank',
+        PaymentMethodType::CASH                   => 'PaymentMethodCash',
+        PaymentMethodType::MOBILE_BALANCE         => 'PaymentMethodMobileBalance',
+        PaymentMethodType::APPLE_PAY              => 'PaymentMethodApplePay',
+        PaymentMethodType::GOOGLE_PAY             => 'PaymentMethodGooglePay',
+        PaymentMethodType::QIWI                   => 'PaymentMethodQiwi',
+        PaymentMethodType::WEBMONEY               => 'PaymentMethodWebmoney',
+        PaymentMethodType::ALFABANK               => 'PaymentMethodAlfaBank',
+        PaymentMethodType::INSTALLMENTS           => 'PaymentMethodInstallments',
+        PaymentMethodType::B2B_SBERBANK           => 'PaymentMethodB2bSberbank',
+        PaymentMethodType::TINKOFF_BANK           => 'PaymentMethodTinkoffBank',
+        PaymentMethodType::PSB                    => 'PaymentMethodPsb',
+        PaymentMethodType::WECHAT                 => 'PaymentMethodWechat',
+        PaymentMethodType::SBP                    => 'PaymentMethodSbp',
+        PaymentMethodType::SBER_LOAN              => 'PaymentMethodSberLoan',
+        PaymentMethodType::SBER_BNPL              => 'PaymentMethodSberBnpl',
+        PaymentMethodType::ELECTRONIC_CERTIFICATE => 'PaymentMethodElectronicCertificate',
+        PaymentMethodType::UNKNOWN                => 'PaymentMethodUnknown',
     );
 
     /**

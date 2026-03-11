@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2025 "YooMoney", NBСO LLC
+ * Copyright (c) 2026 "YooMoney", NBСO LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -105,6 +105,8 @@ class PaymentMethodType extends AbstractEnum
     const SBER_LOAN = 'sber_loan';
     /** Оплата через сервис «Плати частями» */
     const SBER_BNPL = 'sber_bnpl';
+    /** Прием платежей по электронному сертификату, привязанному к карте «Мир» */
+    const ELECTRONIC_CERTIFICATE = 'electronic_certificate';
 
     /**
      * Для неизвестных методов оплаты
@@ -113,24 +115,25 @@ class PaymentMethodType extends AbstractEnum
     const UNKNOWN = 'unknown';
 
     protected static $validValues = array(
-        self::YOO_MONEY      => true,
-        self::BANK_CARD      => true,
-        self::SBERBANK       => true,
-        self::CASH           => true,
-        self::MOBILE_BALANCE => true,
-        self::APPLE_PAY      => false,
-        self::GOOGLE_PAY     => false,
-        self::QIWI           => false,
-        self::WEBMONEY       => false,
-        self::ALFABANK       => false,
-        self::TINKOFF_BANK   => true,
-        self::INSTALLMENTS   => false,
-        self::B2B_SBERBANK   => true,
-        self::PSB            => false,
-        self::WECHAT         => false,
-        self::SBP            => true,
-        self::SBER_LOAN      => true,
-        self::SBER_BNPL      => true,
-        self::UNKNOWN        => false,
+        self::YOO_MONEY              => true,
+        self::BANK_CARD              => true,
+        self::SBERBANK               => true,
+        self::CASH                   => true,
+        self::MOBILE_BALANCE         => true,
+        self::APPLE_PAY              => false,
+        self::GOOGLE_PAY             => false,
+        self::QIWI                   => false,
+        self::WEBMONEY               => false,
+        self::ALFABANK               => false,
+        self::TINKOFF_BANK           => true,
+        self::INSTALLMENTS           => false,
+        self::B2B_SBERBANK           => true,
+        self::PSB                    => false,
+        self::WECHAT                 => false,
+        self::SBP                    => true,
+        self::SBER_LOAN              => true,
+        self::SBER_BNPL              => true,
+        self::ELECTRONIC_CERTIFICATE => true,
+        self::UNKNOWN                => false,
     );
 }
