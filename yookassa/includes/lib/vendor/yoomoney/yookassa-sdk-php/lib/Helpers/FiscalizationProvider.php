@@ -33,8 +33,7 @@ use YooKassa\Common\AbstractEnum;
  *
  * Решение ЮKassa, которое магазин использует для отправки чеков.
  * Возможные значения:
- * - [Чеки для самозанятых](https://yookassa.ru/developers/payment-acceptance/receipts/self-employed/basics) — `fns`
- * - [54-ФЗ: Чеки от ЮKassa](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — `avanpost`
+ * - [54-ФЗ: Чеки от ЮKassa](/developers/payment-acceptance/receipts/54fz/yoomoney/basics) — ~`avanpost` (ООО «Аванпост»), ~`yoo_receipt` (ООО «АйтиГрупп»).
  * - [54-ФЗ: сторонняя онлайн-касса](https://yookassa.ru/developers/payment-acceptance/receipts/54fz/other-services/basics) (наименование онлайн-кассы) — ~`a_qsi` (aQsi online), ~`atol` (АТОЛ Онлайн), ~`business_ru` (Бизнес.ру), ~`digital_kassa` (digitalkassa), ~`evotor` (Эвотор), ~`first_ofd` (Первый ОФД), ~`kit_invest` (Кит Инвест), ~`komtet` (КОМТЕТ Касса), ~`life_pay` (LIFE PAY), ~`mertrade` (Mertrade), ~`modul_kassa` (МодульКасса), ~`rocket` (RocketR), ~`shtrih_m` (Orange Data).
  *
  * @category Class
@@ -58,9 +57,7 @@ class FiscalizationProvider extends AbstractEnum
     const KIT_INVEST = 'kit_invest';
     /** aQsi online */
     const A_QSI = 'a_qsi';
-    /** Чеки для самозанятых */
-    const FNS = 'fns';
-    /** 54-ФЗ: Чеки от ЮKassa */
+    /** 54-ФЗ: Чеки от ЮKassa (ООО «Аванпост») */
     const AVANPOST = 'avanpost';
     /** Mertrade */
     const MERTRADE = 'mertrade';
@@ -74,6 +71,8 @@ class FiscalizationProvider extends AbstractEnum
     const DIGITAL_KASSA = 'digital_kassa';
     /** КОМТЕТ Касса */
     const KOMTET = 'komtet';
+    /** 54-ФЗ: Чеки от ЮKassa (ООО «АйтиГрупп») */
+    const YOO_RECEIPT = 'yoo_receipt';
 
     /**
      * Возвращает список доступных значений
@@ -87,7 +86,6 @@ class FiscalizationProvider extends AbstractEnum
         self::EVOTOR => true,
         self::KIT_INVEST => true,
         self::A_QSI => true,
-        self::FNS => true,
         self::AVANPOST => true,
         self::MERTRADE => true,
         self::FIRST_OFD => true,
@@ -95,5 +93,6 @@ class FiscalizationProvider extends AbstractEnum
         self::ROCKET => true,
         self::DIGITAL_KASSA => true,
         self::KOMTET => true,
+        self::YOO_RECEIPT => true,
     );
 }

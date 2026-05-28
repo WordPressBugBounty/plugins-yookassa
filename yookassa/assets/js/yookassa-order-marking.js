@@ -362,6 +362,30 @@
 
         saveCurrentFields(itemId, state.markingData[itemId] || metaData, true);
         updateButtonsState(true);
+        focusFirstEmptyField();
+    }
+
+    /**
+     * Находит первое пустое поле в форме и устанавливает на него фокус.
+     */
+    function focusFirstEmptyField() {
+        const inputs = elements.form.find('input.marking-input');
+        let targetInput = null;
+
+        // Ищем первое пустое поле
+        inputs.each(function() {
+            const input = $(this);
+            if (!input.val() || input.val().trim() === '') {
+                targetInput = input;
+                return false;
+            }
+        });
+
+        if (targetInput && targetInput.length) {
+            setTimeout(() => {
+                targetInput.focus().select();
+            }, 50);
+        }
     }
 
     function escapeHTML(str) {

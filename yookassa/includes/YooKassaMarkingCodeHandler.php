@@ -39,7 +39,6 @@ class YooKassaMarkingCodeHandler
         FiscalizationProvider::MODUL_KASSA,   // МодульКасса
         FiscalizationProvider::MERTRADE,      // Mertrade
         FiscalizationProvider::FIRST_OFD,     // Первый ОФД
-        FiscalizationProvider::A_QSI,         // aQsi online
         FiscalizationProvider::ROCKET,        // RocketR
         FiscalizationProvider::KOMTET,        // КОМТЕТ Касса
     ];
@@ -49,8 +48,8 @@ class YooKassaMarkingCodeHandler
      */
     const NO_ENCODED_PROVIDER = [
         FiscalizationProvider::LIFE_PAY,      // LIFE PAY
-        FiscalizationProvider::KIT_INVEST,    // Кит Инвест
-        FiscalizationProvider::AVANPOST,      // ЮЧеки
+        FiscalizationProvider::AVANPOST,      // ЮЧеки (ООО «Аванпост»)
+        FiscalizationProvider::YOO_RECEIPT,   // ЮЧеки (ООО «АйтиГрупп»)
         FiscalizationProvider::DIGITAL_KASSA, // digitalkassa
     ];
 
@@ -58,7 +57,9 @@ class YooKassaMarkingCodeHandler
      * Онлайн кассы, требующие передачи данных в mark_code_raw без кодировки
      */
     const RAW_CODE_PROVIDER = [
-        FiscalizationProvider::SHTRIH_M,      // Orange Data
+        FiscalizationProvider::SHTRIH_M,      // Orange Data,
+        FiscalizationProvider::KIT_INVEST,    // Кит Инвест
+        FiscalizationProvider::A_QSI,         // aQsi online
     ];
 
     /**

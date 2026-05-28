@@ -42,7 +42,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 ### Manually
 
-1. Download [the YooKassa API PHP Client Library archive](https://git.yoomoney.ru/rest/api/latest/projects/SDK/repos/yookassa-sdk-php/archive?format=zip), extract it and copy the lib catalog to the required place of your project.
+1. Download [the YooKassa API PHP Client Library archive](https://git.yoomoney.ru/rest/api/latest/projects/SDK/repos/yookassa-sdk-php/archive?at=refs%2Fheads%2Fmaster-2x&format=zip), extract it and copy the lib catalog to the required place of your project.
 2. Adjust your project's code to activate automated uploading of files for our product:
 ```php
 require __DIR__ . '/lib/autoload.php'; 

@@ -44,7 +44,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 ### Вручную
 
-1. Скачайте [архив YooKassa API PHP Client Library](https://git.yoomoney.ru/rest/api/latest/projects/SDK/repos/yookassa-sdk-php/archive?format=zip), распакуйте его и скопируйте каталог lib в нужное место в вашем проекте.
+1. Скачайте [архив YooKassa API PHP Client Library](https://git.yoomoney.ru/rest/api/latest/projects/SDK/repos/yookassa-sdk-php/archive?at=refs%2Fheads%2Fmaster-2x&format=zip), распакуйте его и скопируйте каталог lib в нужное место в вашем проекте.
 2. В коде вашего проекта подключите автозагрузку файлов нашего клиента:
 ```php
 require __DIR__ . '/lib/autoload.php'; 

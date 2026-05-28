@@ -40,6 +40,10 @@ class YooKassaMarkingProduct
     const SPORTPIT = 'sportpit';
     const PHARM_SUBSTANCES = 'pharm_substances';
     const SWEETS = 'sweets';
+    const BRDRINKS = 'brdrinks';
+    const GROCERIES = 'groceries';
+    const MEAT = 'meat';
+    const RADIOELECTRONICS = 'radioelectronics';
 
     /** @var string Категория маркировки */
     const CATEGORY_KEY = '_yookassa_marking_category';
@@ -341,7 +345,7 @@ class YooKassaMarkingProduct
             self::TOBACCO => __('Табак', 'yookassa'),
             self::LIGHT_INDUSTRY => __('Товары легкой промышленности', 'yookassa'),
             self::FOOTWEAR => __('Обувь', 'yookassa'),
-            self::FUR => __('Шубы', 'yookassa'),
+            self::FUR => __('Меховые изделия', 'yookassa'),
             self::NONALCOHOLIC_BEER => __('Безалкогольное пиво', 'yookassa'),
             self::OIL => __('Растительные масла', 'yookassa'),
             self::CANNED_FOOD => __('Консервированные продукты', 'yookassa'),
@@ -357,14 +361,18 @@ class YooKassaMarkingProduct
             self::CAVIAR => __('Морепродукты (икра)', 'yookassa'),
             self::BICYCLES => __('Велосипеды', 'yookassa'),
             self::PET_FOOD => __('Корма для животных', 'yookassa'),
-            self::VETERINARY_PRODUCTS => __('Лекарственные препараты для ветеринарного применения', 'yookassa'),
+            self::VETERINARY_PRODUCTS => __('Ветеринарные препараты', 'yookassa'),
             self::TECHNICAL_REHABILITATION => __('Технические средства реабилитации', 'yookassa'),
-            self::COSMETICS => __('Косметика и бытовая химия', 'yookassa'),
+            self::COSMETICS => __('Косметика, бытовая химия и товары личной гигиены', 'yookassa'),
             self::CHILDREN => __('Детские игрушки', 'yookassa'),
             self::CEMENT => __('Строительные материалы', 'yookassa'),
             self::SPORTPIT => __('Спортивное питание', 'yookassa'),
             self::PHARM_SUBSTANCES => __('Фармацевтическое сырье, лекарственные средства', 'yookassa'),
-            self::SWEETS => __('Сладости и кондитерские изделия', 'yookassa'),
+            self::SWEETS => __('Сладости', 'yookassa'),
+            self::BRDRINKS => __('Растворимые напитки', 'yookassa'),
+            self::GROCERIES => __('Макароны, крупы, мёд', 'yookassa'),
+            self::MEAT => __('Мясные изделия', 'yookassa'),
+            self::RADIOELECTRONICS => __('Радиоэлектроника', 'yookassa'),
         );
     }
 
