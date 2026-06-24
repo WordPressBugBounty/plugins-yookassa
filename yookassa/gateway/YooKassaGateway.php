@@ -11,8 +11,6 @@ use YooKassa\Model\Payment;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
 use YooKassa\Model\Receipt;
-use YooKassa\Model\Receipt\PaymentMode;
-use YooKassa\Model\Receipt\PaymentSubject;
 use YooKassa\Request\Payments\CreatePaymentRequest;
 use YooKassa\Request\Payments\CreatePaymentRequestBuilder;
 use YooKassa\Request\Payments\CreatePaymentRequestSerializer;
@@ -133,34 +131,11 @@ class YooKassaGateway extends WC_Payment_Gateway
     {
         parent::init_settings();
 
-        $paymentSubjectEnum = array(
-            PaymentSubject::COMMODITY             => 'Товар ('.PaymentSubject::COMMODITY.')',
-            PaymentSubject::EXCISE                => 'Подакцизный товар ('.PaymentSubject::EXCISE.')',
-            PaymentSubject::JOB                   => 'Работа ('.PaymentSubject::JOB.')',
-            PaymentSubject::SERVICE               => 'Услуга ('.PaymentSubject::SERVICE.')',
-            PaymentSubject::GAMBLING_BET          => 'Ставка в азартной игре ('.PaymentSubject::GAMBLING_BET.')',
-            PaymentSubject::GAMBLING_PRIZE        => 'Выигрыш в азартной игре ('.PaymentSubject::GAMBLING_PRIZE.')',
-            PaymentSubject::LOTTERY               => 'Лотерейный билет ('.PaymentSubject::LOTTERY.')',
-            PaymentSubject::LOTTERY_PRIZE         => 'Выигрыш в лотерею ('.PaymentSubject::LOTTERY_PRIZE.')',
-            PaymentSubject::INTELLECTUAL_ACTIVITY => 'Результаты интеллектуальной деятельности ('.PaymentSubject::INTELLECTUAL_ACTIVITY.')',
-            PaymentSubject::PAYMENT               => 'Платеж ('.PaymentSubject::PAYMENT.')',
-            PaymentSubject::AGENT_COMMISSION      => 'Агентское вознаграждение ('.PaymentSubject::AGENT_COMMISSION.')',
-            PaymentSubject::COMPOSITE             => 'Несколько вариантов ('.PaymentSubject::COMPOSITE.')',
-            PaymentSubject::ANOTHER               => 'Другое ('.PaymentSubject::ANOTHER.')',
-        );
+        $paymentSubjectEnum = YooKassaHandler::getPaymentSubjectEnum();
+        $paymentModeEnum = YooKassaHandler::getPaymentModeEnum();
 
-        $paymentModeEnum = array(
-            PaymentMode::FULL_PREPAYMENT    => 'Полная предоплата ('.PaymentMode::FULL_PREPAYMENT.')',
-            PaymentMode::PARTIAL_PREPAYMENT => 'Частичная предоплата ('.PaymentMode::PARTIAL_PREPAYMENT.')',
-            PaymentMode::ADVANCE            => 'Аванс ('.PaymentMode::ADVANCE.')',
-            PaymentMode::FULL_PAYMENT       => 'Полный расчет ('.PaymentMode::FULL_PAYMENT.')',
-            PaymentMode::PARTIAL_PAYMENT    => 'Частичный расчет и кредит ('.PaymentMode::PARTIAL_PAYMENT.')',
-            PaymentMode::CREDIT             => 'Кредит ('.PaymentMode::CREDIT.')',
-            PaymentMode::CREDIT_PAYMENT     => 'Выплата по кредиту ('.PaymentMode::CREDIT_PAYMENT.')',
-        );
-
-        $this->addReceiptAttribute('yookassa_payment_subject', __('Признак предмета расчета', 'yookassa'), $paymentSubjectEnum);
-        $this->addReceiptAttribute('yookassa_payment_mode', __('Признак способа расчёта', 'yookassa'), $paymentModeEnum);
+        $this->syncReceiptAttribute('yookassa_payment_subject', __('Признак предмета расчета', 'yookassa'), $paymentSubjectEnum);
+        $this->syncReceiptAttribute('yookassa_payment_mode', __('Признак способа расчёта', 'yookassa'), $paymentModeEnum);
 
         $isSelfEmployed = (bool)get_option('yookassa_self_employed', '0');
 
@@ -617,18 +592,17 @@ class YooKassaGateway extends WC_Payment_Gateway
      * @param string $rawName
      * @param array $terms
      */
-    public function addReceiptAttribute($attributeName, $rawName, $terms)
+    public function syncReceiptAttribute($attributeName, $rawName, $terms)
     {
-        $isAttributeCreated = wc_attribute_taxonomy_id_by_name($attributeName);
-        if (!$isAttributeCreated) {
+        $attribute_id  = wc_attribute_taxonomy_id_by_name($attributeName);
+        $taxonomy_name = wc_attribute_taxonomy_name($attributeName);
 
-            $args = array(
+        if (!$attribute_id) {
+            wc_create_attribute(array(
                 'name' => $rawName,
                 'slug' => $attributeName,
-            );
-            wc_create_attribute($args);
+            ));
 
-            $taxonomy_name = wc_attribute_taxonomy_name($attributeName);
             register_taxonomy(
                 $taxonomy_name,
                 apply_filters('woocommerce_taxonomy_objects_'.$taxonomy_name, array('product')),
@@ -642,12 +616,44 @@ class YooKassaGateway extends WC_Payment_Gateway
                     'rewrite'      => false,
                 ))
             );
-            foreach ($terms as $term => $description) {
-                $insert_result = wp_insert_term($term, $taxonomy_name, array(
+        } else {
+            $attribute = wc_get_attribute($attribute_id);
+            if ($attribute && $attribute->name !== $rawName) {
+                wc_update_attribute($attribute_id, array(
+                    'name' => $rawName,
+                    'slug' => $attributeName,
+                ));
+            }
+        }
+
+        foreach ($terms as $term => $description) {
+            $existing = term_exists($term, $taxonomy_name);
+            if (!$existing) {
+                wp_insert_term($term, $taxonomy_name, array(
                     'description' => $description,
                     'parent'      => 0,
                     'slug'        => $term,
                 ));
+            } else {
+                $current = get_term($existing['term_id'], $taxonomy_name);
+                if ($current && $current->description !== $description) {
+                    wp_update_term($existing['term_id'], $taxonomy_name, array(
+                        'description' => $description,
+                    ));
+                }
+            }
+        }
+
+        $existing_terms = get_terms(array(
+            'taxonomy'   => $taxonomy_name,
+            'hide_empty' => false,
+            'fields'     => 'id=>slug',
+        ));
+        if (!is_wp_error($existing_terms)) {
+            foreach ($existing_terms as $term_id => $term_slug) {
+                if (!isset($terms[$term_slug])) {
+                    wp_delete_term($term_id, $taxonomy_name);
+                }
             }
         }
     }

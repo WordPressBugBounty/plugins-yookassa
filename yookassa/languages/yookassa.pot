@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the ЮKassa для WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: yookassa 2.16.0\n"
+"Project-Id-Version: yookassa 2.16.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yookassa\n"
-"POT-Creation-Date: 2026-05-28 16:13+0300\n"
+"POT-Creation-Date: 2026-06-19 15:56+0300\n"
 "PO-Revision-Date: 2026-05-07 13:27+0300\n"
 "Last-Translator: yoomoney <cms@yoomoney.ru>\n"
 "Language-Team: RU <cms@yoomoney.ru>\n"
@@ -576,7 +576,7 @@ msgid "Товар"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:316
-msgid "Подакцизный товар"
+msgid "Подакцизный товар, который не нужно маркировать"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:317
@@ -588,66 +588,138 @@ msgid "Услуга"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:319
-msgid "Ставка в азартной игре"
-msgstr ""
-
-#: admin/YooKassaAdmin.php:320
-msgid "Выигрыш в азартной игре"
-msgstr ""
-
-#: admin/YooKassaAdmin.php:321
-msgid "Лотерейный билет"
-msgstr ""
-
-#: admin/YooKassaAdmin.php:322
-msgid "Выигрыш в лотерею"
-msgstr ""
-
-#: admin/YooKassaAdmin.php:323
-msgid "Результаты интеллектуальной деятельности"
-msgstr ""
-
-#: admin/YooKassaAdmin.php:324
 msgid "Платеж"
 msgstr ""
 
+#: admin/YooKassaAdmin.php:320
+msgid "Платеж казино"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:321
+msgid "Ставка в азартной игре"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:322
+msgid "Выигрыш азартной игры"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:323
+msgid "Лотерейный билет"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:324
+msgid "Выигрыш в лотерею"
+msgstr ""
+
 #: admin/YooKassaAdmin.php:325
-msgid "Агентское вознаграждение"
+msgid "Результаты интеллектуальной деятельности"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:326
-msgid "Несколько вариантов"
+msgid "Агентское вознаграждение"
 msgstr ""
 
-#: admin/YooKassaAdmin.php:327 admin/YooKassaMarkingProduct.php:424
-msgid "Другое"
+#: admin/YooKassaAdmin.php:327
+msgid "Имущественное право"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:328
+msgid "Внереализационный доход"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:329
+msgid "Торговый сбор"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:330
+msgid "Курортный сбор"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:331
-msgid "Полная предоплата"
+msgid "Товар, подлежащий маркировке средством идентификации, имеющим код маркировки, за исключением подакцизного товара (в чеке — ТМ)"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:332
-msgid "Частичная предоплата"
+msgid "Товар, подлежащий маркировке средством идентификации, не имеющим кода маркировки, за исключением подакцизного товара (в чеке — ТНМ)"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:333
-msgid "Аванс"
+msgid "Подакцизный товар, подлежащий маркировке средством идентификации, имеющим код маркировки (в чеке — АТМ)"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:334
-msgid "Полный расчет"
+msgid "Подакцизный товар, подлежащий маркировке средством идентификации, не имеющим кода маркировки (в чеке — АТНМ)"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:335
-msgid "Частичный расчет и кредит"
+msgid "Пени, штраф, вознаграждение, бонус и другой аналогичный предмет расчета"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:336
-msgid "Кредит"
+msgid "Страховые взносы"
 msgstr ""
 
 #: admin/YooKassaAdmin.php:337
+msgid "Залог"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:338
+msgid "Расход"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:339
+msgid "Выдача денежных средств"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:340
+msgid "Взносы на обязательное пенсионное страхование теми ИП, которые не делают выплаты и другие вознаграждения физлицам"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:341
+msgid "Взносы на обязательное пенсионное страхование теми организациями и ИП, которые делают выплаты и другие вознаграждения физлицам"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:342
+msgid "Взносы на обязательное медицинское страхование теми ИП, которые не делают выплаты и другие вознаграждения физлицам"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:343
+msgid "Взносы на обязательное медицинское страхование теми организациями и ИП, которые делают выплаты и другие вознаграждения физлицам"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:344
+msgid "Взносы на обязательное социальное страхование"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:345 admin/YooKassaMarkingProduct.php:410
+msgid "Другое"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:349
+msgid "Полная предоплата"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:350
+msgid "Частичная предоплата"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:351
+msgid "Аванс"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:352
+msgid "Полный расчет"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:353
+msgid "Частичный расчет и кредит"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:354
+msgid "Кредит"
+msgstr ""
+
+#: admin/YooKassaAdmin.php:355
 msgid "Выплата по кредиту"
 msgstr ""
 
@@ -706,239 +778,239 @@ msgstr ""
 msgid "Заполните пустые поля в карточке маркировки: за продажу товара без маркировки можно получить штраф"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:354
+#: admin/YooKassaMarkingProduct.php:340
 msgid "Пиво и слабоалкогольные напитки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:355
+#: admin/YooKassaMarkingProduct.php:341
 msgid "Молочная продукция"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:356
+#: admin/YooKassaMarkingProduct.php:342
 msgid "Безалкогольные напитки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:357
+#: admin/YooKassaMarkingProduct.php:343
 msgid "Упакованная вода"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:358
+#: admin/YooKassaMarkingProduct.php:344
 msgid "Лекарства"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:359
+#: admin/YooKassaMarkingProduct.php:345
 msgid "Табак"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:360
+#: admin/YooKassaMarkingProduct.php:346
 msgid "Товары легкой промышленности"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:361
+#: admin/YooKassaMarkingProduct.php:347
 msgid "Обувь"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:362
+#: admin/YooKassaMarkingProduct.php:348
 msgid "Меховые изделия"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:363
+#: admin/YooKassaMarkingProduct.php:349
 msgid "Безалкогольное пиво"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:364
+#: admin/YooKassaMarkingProduct.php:350
 msgid "Растительные масла"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:365
+#: admin/YooKassaMarkingProduct.php:351
 msgid "Консервированные продукты"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:366
+#: admin/YooKassaMarkingProduct.php:352
 msgid "Бакалея"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:367
+#: admin/YooKassaMarkingProduct.php:353
 msgid "Моторные масла"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:368
+#: admin/YooKassaMarkingProduct.php:354
 msgid "Медицинские изделия"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:369
+#: admin/YooKassaMarkingProduct.php:355
 msgid "Духи и туалетная вода"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:370
+#: admin/YooKassaMarkingProduct.php:356
 msgid "Шины и покрышки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:371
+#: admin/YooKassaMarkingProduct.php:357
 msgid "Фотоаппараты и лампы-вспышки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:372
+#: admin/YooKassaMarkingProduct.php:358
 msgid "Биологически активные добавки к пище"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:373
+#: admin/YooKassaMarkingProduct.php:359
 msgid "Антисептики и дезинфицирующие средства"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:374
+#: admin/YooKassaMarkingProduct.php:360
 msgid "Кресла-коляски"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:375
+#: admin/YooKassaMarkingProduct.php:361
 msgid "Морепродукты (икра)"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:376
+#: admin/YooKassaMarkingProduct.php:362
 msgid "Велосипеды"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:377
+#: admin/YooKassaMarkingProduct.php:363
 msgid "Корма для животных"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:378
+#: admin/YooKassaMarkingProduct.php:364
 msgid "Ветеринарные препараты"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:379
+#: admin/YooKassaMarkingProduct.php:365
 msgid "Технические средства реабилитации"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:380
+#: admin/YooKassaMarkingProduct.php:366
 msgid "Косметика, бытовая химия и товары личной гигиены"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:381
+#: admin/YooKassaMarkingProduct.php:367
 msgid "Детские игрушки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:382
+#: admin/YooKassaMarkingProduct.php:368
 msgid "Строительные материалы"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:383
+#: admin/YooKassaMarkingProduct.php:369
 msgid "Спортивное питание"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:384
+#: admin/YooKassaMarkingProduct.php:370
 msgid "Фармацевтическое сырье, лекарственные средства"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:385
+#: admin/YooKassaMarkingProduct.php:371
 msgid "Сладости"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:386
+#: admin/YooKassaMarkingProduct.php:372
 msgid "Растворимые напитки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:387
+#: admin/YooKassaMarkingProduct.php:373
 msgid "Макароны, крупы, мёд"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:388
+#: admin/YooKassaMarkingProduct.php:374
 msgid "Мясные изделия"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:389
+#: admin/YooKassaMarkingProduct.php:375
 msgid "Радиоэлектроника"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:401
+#: admin/YooKassaMarkingProduct.php:387
 msgid "Штука, единица товара"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:402
+#: admin/YooKassaMarkingProduct.php:388
 msgid "Грамм"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:403
+#: admin/YooKassaMarkingProduct.php:389
 msgid "Килограмм"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:404
+#: admin/YooKassaMarkingProduct.php:390
 msgid "Тонна"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:405
+#: admin/YooKassaMarkingProduct.php:391
 msgid "Сантиметр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:406
+#: admin/YooKassaMarkingProduct.php:392
 msgid "Дециметр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:407
+#: admin/YooKassaMarkingProduct.php:393
 msgid "Метр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:408
+#: admin/YooKassaMarkingProduct.php:394
 msgid "Квадратный сантиметр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:409
+#: admin/YooKassaMarkingProduct.php:395
 msgid "Квадратный дециметр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:410
+#: admin/YooKassaMarkingProduct.php:396
 msgid "Квадратный метр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:411
+#: admin/YooKassaMarkingProduct.php:397
 msgid "Миллилитр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:412
+#: admin/YooKassaMarkingProduct.php:398
 msgid "Литр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:413
+#: admin/YooKassaMarkingProduct.php:399
 msgid "Кубический метр"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:414
+#: admin/YooKassaMarkingProduct.php:400
 msgid "Килловат-час"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:415
+#: admin/YooKassaMarkingProduct.php:401
 msgid "Гигакалория"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:416
+#: admin/YooKassaMarkingProduct.php:402
 msgid "Сутки"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:417
+#: admin/YooKassaMarkingProduct.php:403
 msgid "Час"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:418
+#: admin/YooKassaMarkingProduct.php:404
 msgid "Минута"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:419
+#: admin/YooKassaMarkingProduct.php:405
 msgid "Секунда"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:420
+#: admin/YooKassaMarkingProduct.php:406
 msgid "Килобайт"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:421
+#: admin/YooKassaMarkingProduct.php:407
 msgid "Мегабайт"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:422
+#: admin/YooKassaMarkingProduct.php:408
 msgid "Гигабайт"
 msgstr ""
 
-#: admin/YooKassaMarkingProduct.php:423
+#: admin/YooKassaMarkingProduct.php:409
 msgid "Терабайт"
 msgstr ""
 

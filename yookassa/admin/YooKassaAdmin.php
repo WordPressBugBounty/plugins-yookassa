@@ -12,8 +12,6 @@ use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataRate;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataType;
 use YooKassa\Model\PaymentMethodType;
-use YooKassa\Model\Receipt\PaymentMode;
-use YooKassa\Model\Receipt\PaymentSubject;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -311,31 +309,8 @@ class YooKassaAdmin
             && !$isTestShop
             && get_locale() === 'ru_RU';
 
-        $paymentSubjectEnum = array(
-            PaymentSubject::COMMODITY             => __('Товар', 'yookassa') . ' ('.PaymentSubject::COMMODITY.')',
-            PaymentSubject::EXCISE                => __('Подакцизный товар', 'yookassa') . ' ('.PaymentSubject::EXCISE.')',
-            PaymentSubject::JOB                   => __('Работа', 'yookassa') . ' ('.PaymentSubject::JOB.')',
-            PaymentSubject::SERVICE               => __('Услуга', 'yookassa') . ' ('.PaymentSubject::SERVICE.')',
-            PaymentSubject::GAMBLING_BET          => __('Ставка в азартной игре', 'yookassa') . ' ('.PaymentSubject::GAMBLING_BET.')',
-            PaymentSubject::GAMBLING_PRIZE        => __('Выигрыш в азартной игре', 'yookassa') . ' ('.PaymentSubject::GAMBLING_PRIZE.')',
-            PaymentSubject::LOTTERY               => __('Лотерейный билет', 'yookassa') . ' ('.PaymentSubject::LOTTERY.')',
-            PaymentSubject::LOTTERY_PRIZE         => __('Выигрыш в лотерею', 'yookassa') . ' ('.PaymentSubject::LOTTERY_PRIZE.')',
-            PaymentSubject::INTELLECTUAL_ACTIVITY => __('Результаты интеллектуальной деятельности', 'yookassa') . ' ('.PaymentSubject::INTELLECTUAL_ACTIVITY.')',
-            PaymentSubject::PAYMENT               => __('Платеж', 'yookassa') . ' ('.PaymentSubject::PAYMENT.')',
-            PaymentSubject::AGENT_COMMISSION      => __('Агентское вознаграждение', 'yookassa') . ' ('.PaymentSubject::AGENT_COMMISSION.')',
-            PaymentSubject::COMPOSITE             => __('Несколько вариантов', 'yookassa') . ' ('.PaymentSubject::COMPOSITE.')',
-            PaymentSubject::ANOTHER               => __('Другое', 'yookassa') . ' ('.PaymentSubject::ANOTHER.')',
-        );
-
-        $paymentModeEnum = array(
-            PaymentMode::FULL_PREPAYMENT    => __('Полная предоплата', 'yookassa') . ' ('.PaymentMode::FULL_PREPAYMENT.')',
-            PaymentMode::PARTIAL_PREPAYMENT => __('Частичная предоплата', 'yookassa') . ' ('.PaymentMode::PARTIAL_PREPAYMENT.')',
-            PaymentMode::ADVANCE            => __('Аванс', 'yookassa') . ' ('.PaymentMode::ADVANCE.')',
-            PaymentMode::FULL_PAYMENT       => __('Полный расчет', 'yookassa') . ' ('.PaymentMode::FULL_PAYMENT.')',
-            PaymentMode::PARTIAL_PAYMENT    => __('Частичный расчет и кредит', 'yookassa') . ' ('.PaymentMode::PARTIAL_PAYMENT.')',
-            PaymentMode::CREDIT             => __('Кредит', 'yookassa') . ' ('.PaymentMode::CREDIT.')',
-            PaymentMode::CREDIT_PAYMENT     => __('Выплата по кредиту', 'yookassa') . ' ('.PaymentMode::CREDIT_PAYMENT.')',
-        );
+        $paymentSubjectEnum = YooKassaHandler::getPaymentSubjectEnum();
+        $paymentModeEnum = YooKassaHandler::getPaymentModeEnum();
 
         $defaultPaymentSubject = get_option('yookassa_payment_subject_default');
         $defaultPaymentMode = get_option('yookassa_payment_mode_default');

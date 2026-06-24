@@ -6,6 +6,8 @@ use YooKassa\Model\PaymentInterface;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
 use YooKassa\Model\Receipt;
+use YooKassa\Model\Receipt\PaymentMode;
+use YooKassa\Model\Receipt\PaymentSubject;
 use YooKassa\Request\Payments\CreatePaymentRequestBuilder;
 use YooKassa\Request\Payments\Payment\CreateCaptureRequest;
 use YooKassa\Request\Payments\Payment\CreateCaptureRequestBuilder;
@@ -413,10 +415,63 @@ class YooKassaHandler
     }
 
     /**
-     * @param WC_Order_Item_Product $item
-     * @return mixed
-     * @throws Exception
+     * @return array<string, string>
      */
+    public static function getPaymentSubjectEnum()
+    {
+        return array(
+            PaymentSubject::COMMODITY                         => __('Товар', 'yookassa') . ' (' . PaymentSubject::COMMODITY . ')',
+            PaymentSubject::EXCISE                            => __('Подакцизный товар', 'yookassa') . ' (' . PaymentSubject::EXCISE . ')',
+            PaymentSubject::JOB                               => __('Работа', 'yookassa') . ' (' . PaymentSubject::JOB . ')',
+            PaymentSubject::SERVICE                           => __('Услуга', 'yookassa') . ' (' . PaymentSubject::SERVICE . ')',
+            PaymentSubject::PAYMENT                           => __('Платеж', 'yookassa') . ' (' . PaymentSubject::PAYMENT . ')',
+            PaymentSubject::CASINO                            => __('Платеж казино', 'yookassa') . ' (' . PaymentSubject::CASINO . ')',
+            PaymentSubject::GAMBLING_BET                      => __('Ставка в азартной игре', 'yookassa') . ' (' . PaymentSubject::GAMBLING_BET . ')',
+            PaymentSubject::GAMBLING_PRIZE                    => __('Выигрыш в азартной игре', 'yookassa') . ' (' . PaymentSubject::GAMBLING_PRIZE . ')',
+            PaymentSubject::LOTTERY                           => __('Лотерейный билет', 'yookassa') . ' (' . PaymentSubject::LOTTERY . ')',
+            PaymentSubject::LOTTERY_PRIZE                     => __('Выигрыш в лотерею', 'yookassa') . ' (' . PaymentSubject::LOTTERY_PRIZE . ')',
+            PaymentSubject::INTELLECTUAL_ACTIVITY             => __('Результаты интеллектуальной деятельности', 'yookassa') . ' (' . PaymentSubject::INTELLECTUAL_ACTIVITY . ')',
+            PaymentSubject::AGENT_COMMISSION                  => __('Агентское вознаграждение', 'yookassa') . ' (' . PaymentSubject::AGENT_COMMISSION . ')',
+            PaymentSubject::PROPERTY_RIGHT                    => __('Имущественное право', 'yookassa') . ' (' . PaymentSubject::PROPERTY_RIGHT . ')',
+            PaymentSubject::NON_OPERATING_GAIN                => __('Внереализационный доход', 'yookassa') . ' (' . PaymentSubject::NON_OPERATING_GAIN . ')',
+            PaymentSubject::INSURANCE_PREMIUM                 => __('Страховой сбор', 'yookassa') . ' (' . PaymentSubject::INSURANCE_PREMIUM . ')',
+            PaymentSubject::SALES_TAX                         => __('Торговый сбор', 'yookassa') . ' (' . PaymentSubject::SALES_TAX . ')',
+            PaymentSubject::RESORT_FEE                        => __('Курортный сбор', 'yookassa') . ' (' . PaymentSubject::RESORT_FEE . ')',
+            PaymentSubject::MARKED                            => __('Товар, подлежащий маркировке с кодом (в чеке — ТМ)', 'yookassa') . ' (' . PaymentSubject::MARKED . ')',
+            PaymentSubject::NON_MARKED                        => __('Товар, подлежащий маркировке без кода (в чеке — ТНМ)', 'yookassa') . ' (' . PaymentSubject::NON_MARKED . ')',
+            PaymentSubject::MARKED_EXCISE                     => __('Подакцизный товар, подлежащий маркировке с кодом (в чеке — АТМ)', 'yookassa') . ' (' . PaymentSubject::MARKED_EXCISE . ')',
+            PaymentSubject::NON_MARKED_EXCISE                 => __('Подакцизный товар, подлежащий маркировке без кода (в чеке — АТНМ)', 'yookassa') . ' (' . PaymentSubject::NON_MARKED_EXCISE . ')',
+            PaymentSubject::FINE                              => __('Выплата', 'yookassa') . ' (' . PaymentSubject::FINE . ')',
+            PaymentSubject::TAX                               => __('Страховые взносы', 'yookassa') . ' (' . PaymentSubject::TAX . ')',
+            PaymentSubject::LIEN                              => __('Залог', 'yookassa') . ' (' . PaymentSubject::LIEN . ')',
+            PaymentSubject::COST                              => __('Расход', 'yookassa') . ' (' . PaymentSubject::COST . ')',
+            PaymentSubject::AGENT_WITHDRAWALS                 => __('Выдача денежных средств', 'yookassa') . ' (' . PaymentSubject::AGENT_WITHDRAWALS . ')',
+            PaymentSubject::PENSION_INSURANCE_WITHOUT_PAYOUTS => __('Взносы на обязательное пенсионное страхование ИП без выплат физлицам', 'yookassa') . ' (' . PaymentSubject::PENSION_INSURANCE_WITHOUT_PAYOUTS . ')',
+            PaymentSubject::PENSION_INSURANCE_WITH_PAYOUTS    => __('Взносы на обязательное пенсионное страхование с выплатами физлицам', 'yookassa') . ' (' . PaymentSubject::PENSION_INSURANCE_WITH_PAYOUTS . ')',
+            PaymentSubject::HEALTH_INSURANCE_WITHOUT_PAYOUTS  => __('Взносы на обязательное медицинское страхование ИП без выплат физлицам', 'yookassa') . ' (' . PaymentSubject::HEALTH_INSURANCE_WITHOUT_PAYOUTS . ')',
+            PaymentSubject::HEALTH_INSURANCE_WITH_PAYOUTS     => __('Взносы на обязательное медицинское страхование с выплатами физлицам', 'yookassa') . ' (' . PaymentSubject::HEALTH_INSURANCE_WITH_PAYOUTS . ')',
+            PaymentSubject::HEALTH_INSURANCE                  => __('Взносы на обязательное социальное страхование', 'yookassa') . ' (' . PaymentSubject::HEALTH_INSURANCE . ')',
+            PaymentSubject::COMPOSITE                         => __('Несколько вариантов', 'yookassa') . ' (' . PaymentSubject::COMPOSITE . ')',
+            PaymentSubject::ANOTHER                           => __('Другое', 'yookassa') . ' (' . PaymentSubject::ANOTHER . ')',
+        );
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getPaymentModeEnum()
+    {
+        return array(
+            PaymentMode::FULL_PREPAYMENT    => __('Полная предоплата', 'yookassa') . ' (' . PaymentMode::FULL_PREPAYMENT . ')',
+            PaymentMode::PARTIAL_PREPAYMENT => __('Частичная предоплата', 'yookassa') . ' (' . PaymentMode::PARTIAL_PREPAYMENT . ')',
+            PaymentMode::ADVANCE            => __('Аванс', 'yookassa') . ' (' . PaymentMode::ADVANCE . ')',
+            PaymentMode::FULL_PAYMENT       => __('Полный расчет', 'yookassa') . ' (' . PaymentMode::FULL_PAYMENT . ')',
+            PaymentMode::PARTIAL_PAYMENT    => __('Частичный расчет и кредит', 'yookassa') . ' (' . PaymentMode::PARTIAL_PAYMENT . ')',
+            PaymentMode::CREDIT             => __('Кредит', 'yookassa') . ' (' . PaymentMode::CREDIT . ')',
+            PaymentMode::CREDIT_PAYMENT     => __('Выплата по кредиту', 'yookassa') . ' (' . PaymentMode::CREDIT_PAYMENT . ')',
+        );
+    }
+
     private static function getPaymentSubject($item)
     {
         if ($product = $item->get_product()) {

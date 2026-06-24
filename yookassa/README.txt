@@ -3,8 +3,8 @@ Contributors: yoomoney
 Tags: woocommerce, payment, gateway, yookassa, юkassa
 Requires PHP: 5.6.20
 Requires at least: 5.2
-Tested up to: 6.9
-Stable tag: 2.16.0
+Tested up to: 7.0
+Stable tag: 2.16.1
 License: GPLv3
 License URI: https://yoomoney.ru/doc.xml?id=527132
 
@@ -62,6 +62,9 @@ License URI: https://yoomoney.ru/doc.xml?id=527132
 15. Оформление заказа - Выбор способа оплаты
 
 == Changelog ==
+= 2.16.1 =
+* Обновлен список payment_subject
+
 = 2.16.0 =
 * Актуализирован список категорий маркировки товаров
 * Скорректирована работа с разными провайдерами при передаче маркировки
