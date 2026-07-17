@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use StdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AuthorizationDetails;
 use YooKassa\Model\ThreeDSecure;
@@ -121,11 +123,8 @@ class AuthorizationDetailsTest extends TestCase
     public function testSetInvalidRrn($value, $exceptionClassName)
     {
         $instance = self::getInstance();
-        try {
-            $instance->setRrn($value);
-        } catch (\Exception $e) {
-            self::assertInstanceOf($exceptionClassName, $e);
-        }
+        $this->expectException($exceptionClassName);
+        $instance->setRrn($value);
     }
 
     /**
@@ -136,38 +135,32 @@ class AuthorizationDetailsTest extends TestCase
     public function testSetterInvalidAuthCode($value, $exceptionClassName)
     {
         $instance = self::getInstance();
-        try {
-            $instance->setAuthCode($value);
-        } catch (\Exception $e) {
-            self::assertInstanceOf($exceptionClassName, $e);
-        }
+        $this->expectException($exceptionClassName);
+        $instance->setAuthCode($value);
     }
 
     /**
-     * @dataProvider invalidValueDataProvider
+     * @dataProvider invalidThreeDSecureDataProvider
      * @param mixed $value
      * @param string $exceptionClassName
      */
     public function testSetterInvalidThreeDSecure($value, $exceptionClassName)
     {
         $instance = self::getInstance();
-        try {
-            $instance->setThreeDSecure($value);
-        } catch (\Exception $e) {
-            self::assertInstanceOf($exceptionClassName, $e);
-        }
+        $this->expectException($exceptionClassName);
+        $instance->setThreeDSecure($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
         return array(
             array(
                 'authorizationDetails' => array(
-                    'rrn'      => null,
+                    'rrn' => null,
                     'auth_code' => null,
                     'three_d_secure' => array(
                         'applied' => false
@@ -176,7 +169,7 @@ class AuthorizationDetailsTest extends TestCase
             ),
             array(
                 'authorizationDetails' => array(
-                    'rrn'      => '',
+                    'rrn' => '',
                     'auth_code' => '',
                     'three_d_secure' => array(
                         'applied' => false
@@ -185,22 +178,22 @@ class AuthorizationDetailsTest extends TestCase
             ),
             array(
                 'authorizationDetails' => array(
-                    'rrn'      => Random::str(32),
+                    'rrn' => Random::str(32),
                     'auth_code' => Random::str(32),
                     'three_d_secure' => array(
                         'applied' => true
                     )
                 )
             ),
-           array(
-               'authorizationDetails' => array(
-                   'rrn'      => Random::str(32),
-                   'auth_code' => Random::str(32),
-                   'three_d_secure' => new ThreeDSecure(array(
-                       'applied' => true
-                   ))
-               )
-           )
+            array(
+                'authorizationDetails' => array(
+                    'rrn' => Random::str(32),
+                    'auth_code' => Random::str(32),
+                    'three_d_secure' => new ThreeDSecure(array(
+                        'applied' => true
+                    ))
+                )
+            )
         );
     }
 
@@ -215,7 +208,21 @@ class AuthorizationDetailsTest extends TestCase
             array(0.0, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(true, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(false, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(new \StdClass(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(new StdClass(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+        );
+    }
+
+    public function invalidThreeDSecureDataProvider()
+    {
+        $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
+        return array(
+            array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(-1, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(-0.01, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(0.0, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(new StdClass(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -229,7 +236,7 @@ class AuthorizationDetailsTest extends TestCase
         $instance = new AuthorizationDetails($authorizationDetails);
 
         $expected = array(
-            'rrn'       => $authorizationDetails['rrn'],
+            'rrn' => $authorizationDetails['rrn'],
             'auth_code' => $authorizationDetails['auth_code'],
             'three_d_secure' =>
                 is_object($authorizationDetails['three_d_secure'])

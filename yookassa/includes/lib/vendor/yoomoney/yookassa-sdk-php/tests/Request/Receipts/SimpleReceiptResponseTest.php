@@ -27,7 +27,7 @@ namespace Tests\YooKassa\Request\Receipts;
 
 use YooKassa\Request\Receipts\SimpleReceiptResponse;
 
-class SimpleReceiptResponseTest extends AbstractReceiptResponseTest
+class SimpleReceiptResponseTest extends AbstractReceiptResponseTestCase
 {
     protected $type = 'simple';
 

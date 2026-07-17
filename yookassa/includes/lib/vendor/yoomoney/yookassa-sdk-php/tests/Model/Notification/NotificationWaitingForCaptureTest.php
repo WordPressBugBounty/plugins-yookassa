@@ -36,7 +36,7 @@ use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\ReceiptRegistrationStatus;
 use YooKassa\Model\PaymentStatus;
 
-class NotificationWaitingForCaptureTest extends AbstractNotificationTest
+class NotificationWaitingForCaptureTest extends AbstractNotificationTestCase
 {
     /**
      * @param array $source

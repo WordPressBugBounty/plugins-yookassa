@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\PersonalData;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Metadata;
 use YooKassa\Model\PersonalData\PersonalData;
@@ -60,22 +61,22 @@ class PersonalDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->setId($value['id']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->id = $value['id'];
     }
@@ -103,22 +104,22 @@ class PersonalDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->setStatus($value['status']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->status = $value['status'];
     }
@@ -147,10 +148,10 @@ class PersonalDataTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->setType($value['type']);
     }
@@ -158,10 +159,10 @@ class PersonalDataTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetterInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->type = $value['type'];
     }
@@ -198,33 +199,33 @@ class PersonalDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->setCreatedAt($value['created_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->createdAt = $value['created_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreated_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->created_at = $value['created_at'];
     }
@@ -267,33 +268,33 @@ class PersonalDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidExpiresAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->setExpiresAt($value['expires_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidExpiresAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->expiresAt = $value['expires_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidExpires_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->expires_at = $value['expires_at'];
     }
@@ -330,11 +331,11 @@ class PersonalDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCancellationDetails($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->cancellation_details = $value['cancellation_details'];
     }
@@ -373,11 +374,11 @@ class PersonalDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidMetadata($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PersonalData();
         $instance->metadata = $value['metadata'];
     }
@@ -456,15 +457,15 @@ class PersonalDataTest extends TestCase
                     'status' => '',
                     'created_at' => array(),
                     'expires_at' => array(),
-                    'cancellation_details' => new \stdClass(),
-                    'metadata' => new \stdClass(),
+                    'cancellation_details' => new stdClass(),
+                    'metadata' => new stdClass(),
                 ),
             ),
         );
         for ($i = 0; $i < 10; $i++) {
             $personalData = array(
                 'id' => Random::str($i < 5 ? mt_rand(1, 35) : mt_rand(51, 64)),
-                'type' => $i % 2 ? Random::str(10) : new \stdClass(),
+                'type' => $i % 2 ? Random::str(10) : new stdClass(),
                 'status' => Random::str(1, 35),
                 'created_at' => $i === 0 ? '23423-234-32' : -Random::int(),
                 'expires_at' => $i === 0 ? '23423-234-32' : -Random::int(),

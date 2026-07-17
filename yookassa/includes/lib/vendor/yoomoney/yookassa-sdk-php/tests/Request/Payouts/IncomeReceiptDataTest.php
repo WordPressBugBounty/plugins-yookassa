@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\Payouts;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\MonetaryAmount;
 use YooKassa\Model\Payout\IncomeReceipt;
@@ -69,11 +70,11 @@ class IncomeReceiptDataTest extends TestCase
 
     /**
      * @dataProvider invalidServiceNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidServiceName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new IncomeReceiptData();
         $instance->setServiceName($value);
     }
@@ -92,11 +93,11 @@ class IncomeReceiptDataTest extends TestCase
 
     /**
      * @dataProvider invalidAmountDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidAmountToken($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new IncomeReceiptData();
         $instance->setAmount($value);
     }
@@ -108,7 +109,7 @@ class IncomeReceiptDataTest extends TestCase
             array(''),
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

@@ -25,10 +25,11 @@
 
 namespace Tests\YooKassa\Model\SelfEmployed;
 
+use stdClass;
 use YooKassa\Model\SelfEmployed\SelfEmployedConfirmationRedirect;
 use YooKassa\Model\SelfEmployed\SelfEmployedConfirmationType;
 
-class ConfirmationRedirectTest extends AbstractConfirmationTest
+class ConfirmationRedirectTest extends AbstractConfirmationTestCase
 {
     /**
      * @return SelfEmployedConfirmationRedirect
@@ -99,33 +100,33 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidConfirmationUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setConfirmationUrl($value);
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmationUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->confirmationUrl = $value;
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmation_url($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->confirmation_url = $value;
     }
@@ -158,7 +159,7 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

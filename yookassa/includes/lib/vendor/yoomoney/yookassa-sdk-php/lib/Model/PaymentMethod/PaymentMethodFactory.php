@@ -60,6 +60,7 @@ class PaymentMethodFactory
         PaymentMethodType::SBER_LOAN              => 'PaymentMethodSberLoan',
         PaymentMethodType::SBER_BNPL              => 'PaymentMethodSberBnpl',
         PaymentMethodType::ELECTRONIC_CERTIFICATE => 'PaymentMethodElectronicCertificate',
+        PaymentMethodType::ALFA_PAY               => 'PaymentMethodAlfaPay',
         PaymentMethodType::UNKNOWN                => 'PaymentMethodUnknown',
     );
 

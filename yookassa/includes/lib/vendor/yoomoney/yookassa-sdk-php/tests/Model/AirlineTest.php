@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model;
 
+use stdClass;
 use YooKassa\Model\Airline;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Model\Leg;
@@ -100,7 +101,7 @@ class AirlineTest extends TestCase
     {
         $airline = new Airline();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $airline->setPassengers($data['value']);
     }
@@ -112,7 +113,7 @@ class AirlineTest extends TestCase
     {
         $airline = new Airline();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $airline->setLegs($data['value']);
     }
@@ -124,7 +125,7 @@ class AirlineTest extends TestCase
     {
         $airline = new Airline();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $airline->setBookingReference($data['value']);
     }
@@ -136,7 +137,7 @@ class AirlineTest extends TestCase
     {
         $airline = new Airline();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $airline->setTicketNumber($data['value']);
     }
@@ -156,18 +157,18 @@ class AirlineTest extends TestCase
             array(
                 array(
                     "booking_reference" => "IIIKRV",
-                    "ticket_number"     => '12342123413',
-                    "passengers"        => array(
+                    "ticket_number" => '12342123413',
+                    "passengers" => array(
                         array(
                             "first_name" => "SERGEI",
-                            "last_name"  => "IVANOV",
+                            "last_name" => "IVANOV",
                         ),
                     ),
-                    "legs"              => array(
+                    "legs" => array(
                         array(
-                            "departure_airport"   => "LED",
+                            "departure_airport" => "LED",
                             "destination_airport" => "AMS",
-                            "departure_date"      => "2018-06-20",
+                            "departure_date" => "2018-06-20",
                         ),
                     ),
                 ),
@@ -175,11 +176,11 @@ class AirlineTest extends TestCase
             array(
                 array(
                     "booking_reference" => "",
-                    "ticket_number"     => '',
-                    "passengers"        => array(
+                    "ticket_number" => '',
+                    "passengers" => array(
                         $passenger,
                     ),
-                    "legs"              => array(
+                    "legs" => array(
                         $leg,
                     ),
                 ),
@@ -193,25 +194,25 @@ class AirlineTest extends TestCase
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\EmptyPropertyValueException',
-                    "value"     => '',
+                    "value" => '',
                 ),
             ),
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\EmptyPropertyValueException',
-                    "value"     => null,
+                    "value" => null,
                 ),
             ),
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\InvalidPropertyValueTypeException',
-                    "value"     => new \stdClass(),
+                    "value" => new stdClass(),
                 ),
             ),
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\InvalidPropertyValueTypeException',
-                    "value"     => array(1, 2, 3),
+                    "value" => array(1, 2, 3),
                 ),
             ),
         );
@@ -223,13 +224,13 @@ class AirlineTest extends TestCase
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\InvalidPropertyValueTypeException',
-                    "value"     => array(),
+                    "value" => array(),
                 ),
             ),
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\InvalidPropertyValueException',
-                    "value"     => 'stringThatGreaterThanNeededCharsLongAndActuallyNotValidAtAll123',
+                    "value" => 'stringThatGreaterThanNeededCharsLongAndActuallyNotValidAtAll123',
                 ),
             ),
         );

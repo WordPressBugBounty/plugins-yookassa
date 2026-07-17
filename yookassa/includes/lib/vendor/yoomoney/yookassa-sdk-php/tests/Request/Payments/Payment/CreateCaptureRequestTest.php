@@ -193,18 +193,18 @@ class CreateCaptureRequestTest extends TestCase
                 ) : null,
                 'airline' => Random::bool() ? array(
                     'booking_reference' => Random::str(3, 10),
-                    'ticket_number'     => Random::str(10, '0123456789'),
-                    'passengers'        => array(
+                    'ticket_number' => Random::str(10, '0123456789'),
+                    'passengers' => array(
                         array(
                             'first_name' => Random::str(3, 10),
-                            'last_name'  => Random::str(3, 10),
+                            'last_name' => Random::str(3, 10),
                         ),
                     ),
-                    'legs'              => array(
+                    'legs' => array(
                         array(
-                            'departure_airport'   => Random::str(3, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+                            'departure_airport' => Random::str(3, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
                             'destination_airport' => Random::str(3, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-                            'departure_date'      => date('Y-m-d', Random::int(11111111, time())),
+                            'departure_date' => date('Y-m-d', Random::int(11111111, time())),
                         ),
                     ),
                 ) : null

@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\Payout;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -87,11 +88,11 @@ class IncomeReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidAmountProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new IncomeReceipt();
         $instance->setAmount($value);
     }
@@ -139,11 +140,11 @@ class IncomeReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidServiceNameProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidServiceName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new IncomeReceipt();
         $instance->setServiceName($value);
     }
@@ -191,11 +192,11 @@ class IncomeReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidStringProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidNpdReceiptId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new IncomeReceipt();
         $instance->setNpdReceiptId($value);
     }
@@ -234,11 +235,11 @@ class IncomeReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidStringProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new IncomeReceipt();
         $instance->setUrl($value);
     }
@@ -248,34 +249,34 @@ class IncomeReceiptTest extends TestCase
         $result = array(
             array(
                 array(
-                    'service_name'    => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
-                    'npd_receipt_id'  => null,
-                    'url'             => null,
-                    'amount'          => null,
+                    'service_name' => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
+                    'npd_receipt_id' => null,
+                    'url' => null,
+                    'amount' => null,
                 ),
             ),
             array(
                 array(
-                    'service_name'    => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
-                    'npd_receipt_id'  => '',
-                    'url'             => Random::str(1, 50),
-                    'amount'          => array(),
+                    'service_name' => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
+                    'npd_receipt_id' => '',
+                    'url' => Random::str(1, 50),
+                    'amount' => array(),
                 ),
             ),
             array(
                 array(
-                    'service_name'    => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
-                    'npd_receipt_id'  => Random::str(1, 50),
-                    'url'             => '',
+                    'service_name' => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
+                    'npd_receipt_id' => Random::str(1, 50),
+                    'url' => '',
                     'amount' => new MonetaryAmount(Random::int(1, 1000000)),
                 ),
             ),
         );
         for ($i = 1; $i < 6; $i++) {
             $receipt = array(
-                'service_name'    => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
-                'npd_receipt_id'  => Random::str(1, 50),
-                'url'             => Random::str(1, 50),
+                'service_name' => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
+                'npd_receipt_id' => Random::str(1, 50),
+                'url' => Random::str(1, 50),
                 'amount' => array(
                     'value' => round(Random::float(0.1, 99.99), 2),
                     'currency' => Random::value(CurrencyCode::getValidValues())
@@ -291,7 +292,7 @@ class IncomeReceiptTest extends TestCase
         return array(
             array(null),
             array(''),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
             array(array()),
@@ -302,7 +303,7 @@ class IncomeReceiptTest extends TestCase
     public function invalidStringProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
             array(array()),
@@ -312,7 +313,7 @@ class IncomeReceiptTest extends TestCase
     public function invalidAmountProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
         );

@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\PaymentMethod;
 
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -81,10 +82,10 @@ class PaymentMethodB2bSberbankTest extends TestCase
     /**
      * @dataProvider invalidVatDataProvider
      * @param string $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetGetInvalidVatData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setVatData($value);
     }
@@ -104,10 +105,10 @@ class PaymentMethodB2bSberbankTest extends TestCase
     /**
      * @dataProvider invalidPayerBankDetailsDataProvider
      * @param string $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetGetInvalidPayerBankDetails($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setPayerBankDetails($value);
     }
@@ -124,8 +125,8 @@ class PaymentMethodB2bSberbankTest extends TestCase
         return array(
             array(
                 array(
-                    'type'   => Random::value(VatDataType::getValidValues()),
-                    'rate'   => Random::value(VatDataRate::getValidValues()),
+                    'type' => Random::value(VatDataType::getValidValues()),
+                    'rate' => Random::value(VatDataRate::getValidValues()),
                     'amount' => new MonetaryAmount(Random::int(1, 10000), CurrencyCode::EUR),
                 )
             ),
@@ -142,7 +143,7 @@ class PaymentMethodB2bSberbankTest extends TestCase
     public function invalidVatDataProvider()
     {
         return array(
-            array(new \stdClass())
+            array(new stdClass())
         );
     }
 
@@ -151,8 +152,8 @@ class PaymentMethodB2bSberbankTest extends TestCase
         return array(
             array(
                 array(
-                    'fullName'   => Random::str(1, 256),
-                    'shortName'   => Random::str(1, 100),
+                    'fullName' => Random::str(1, 256),
+                    'shortName' => Random::str(1, 100),
                     'address' => Random::str(1, 100),
                     'inn' => Random::str(12, 12, '1234567890'),
                     'kpp' => Random::str(12, 12, '1234567890'),
@@ -171,7 +172,7 @@ class PaymentMethodB2bSberbankTest extends TestCase
     public function invalidPayerBankDetailsDataProvider()
     {
         return array(
-            array(new \stdClass())
+            array(new stdClass())
         );
     }
 }

@@ -25,6 +25,8 @@
 
 namespace Tests\YooKassa\Model\PaymentData;
 
+use Exception;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -34,7 +36,7 @@ use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataType;
 use YooKassa\Model\PaymentData\PaymentDataB2bSberbank;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
+class PaymentDataB2bSberbankTest extends AbstractPaymentDataTestCase
 {
     /**
      * @return PaymentDataB2bSberbank
@@ -71,17 +73,17 @@ class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
 
     /**
      * @dataProvider invalidPaymentPurposeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidPaymentPurpose($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPaymentPurpose($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validPaymentPurposeDataProvider()
     {
@@ -92,14 +94,14 @@ class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidPaymentPurposeDataProvider()
     {
         return array(
             array(''),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(211)),
         );
     }
@@ -145,17 +147,17 @@ class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
 
     /**
      * @dataProvider invalidVatDataDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidVatData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setVatData($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validVatDataDataProvider()
     {
@@ -170,37 +172,37 @@ class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
             ),
             array(
                 array(
-                    'type'   => VatDataType::CALCULATED,
-                    'rate'   => VatDataRate::RATE_5,
+                    'type' => VatDataType::CALCULATED,
+                    'rate' => VatDataRate::RATE_5,
                     'amount' => new MonetaryAmount(Random::int(1, 10000), CurrencyCode::EUR),
                 )
             ),
             array(
                 array(
-                    'type'   => VatDataType::CALCULATED,
-                    'rate'   => VatDataRate::RATE_7,
+                    'type' => VatDataType::CALCULATED,
+                    'rate' => VatDataRate::RATE_7,
                     'amount' => new MonetaryAmount(Random::int(1, 10000), CurrencyCode::EUR),
                 )
             ),
             array(
                 array(
-                    'type'   => VatDataType::CALCULATED,
-                    'rate'   => VatDataRate::RATE_10,
+                    'type' => VatDataType::CALCULATED,
+                    'rate' => VatDataRate::RATE_10,
                     'amount' => new MonetaryAmount(Random::int(1, 10000), CurrencyCode::EUR),
                 )
             ),
             array(
                 array(
-                    'type'   => VatDataType::MIXED,
+                    'type' => VatDataType::MIXED,
                     'amount' => new MonetaryAmount(Random::int(1, 10000), CurrencyCode::EUR),
                 )
             ),
             array(
                 array(
-                    'type'   => VatDataType::CALCULATED,
-                    'rate'   => VatDataRate::RATE_20,
+                    'type' => VatDataType::CALCULATED,
+                    'rate' => VatDataRate::RATE_20,
                     'amount' => array(
-                        'value'    => Random::int(1, 10000),
+                        'value' => Random::int(1, 10000),
                         'currency' => CurrencyCode::USD,
                     ),
                 )
@@ -210,7 +212,7 @@ class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidVatDataDataProvider()
     {
@@ -220,11 +222,11 @@ class PaymentDataB2bSberbankTest extends AbstractPaymentDataTest
             array(-1),
             array(''),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(
                 array(
-                    'type'   => VatDataType::CALCULATED,
-                    'rate'   => VatDataRate::RATE_10,
+                    'type' => VatDataType::CALCULATED,
+                    'rate' => VatDataRate::RATE_10,
                     'amount' => Random::str(10),
                 )
             ),

@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\ProductCode;
 use YooKassa\Helpers\Random;
 use YooKassa\Helpers\StringObject;
@@ -71,7 +73,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterDescription($value)
     {
-        $instance              = $this->getTestInstance();
+        $instance = $this->getTestInstance();
         $instance->description = $value;
         self::assertEquals((string)$value, $instance->getDescription());
         self::assertEquals((string)$value, $instance->description);
@@ -91,23 +93,23 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidDescriptionDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidDescription($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setDescription($value);
     }
 
     /**
      * @dataProvider invalidDescriptionDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidDescription($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->description = $value;
     }
 
@@ -119,7 +121,7 @@ class ReceiptItemTest extends TestCase
             array(new StringObject('')),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
         );
     }
@@ -169,23 +171,23 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidQuantityDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidQuantity($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setQuantity($value);
     }
 
     /**
      * @dataProvider invalidQuantityDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidQuantity($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->quantity = $value;
     }
 
@@ -197,7 +199,7 @@ class ReceiptItemTest extends TestCase
             array(0.0),
             array(Random::float(-100, -0.001)),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -277,7 +279,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidAgentType($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setAgentType($value);
     }
 
@@ -289,7 +291,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidAgentType($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->agent_type = $value;
     }
 
@@ -299,7 +301,7 @@ class ReceiptItemTest extends TestCase
             array(1, 'InvalidPropertyValueTypeException'),
             array(Random::str(10), 'InvalidPropertyValueException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -327,7 +329,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidSupplier($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setSupplier($value);
     }
 
@@ -339,7 +341,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidSupplier($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->supplier = $value;
     }
 
@@ -349,13 +351,13 @@ class ReceiptItemTest extends TestCase
             array(1, 'InvalidPropertyValueTypeException'),
             array(Random::str(10), 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
         );
     }
 
     /**
      * @return array[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataSupplier()
     {
@@ -383,6 +385,7 @@ class ReceiptItemTest extends TestCase
         }
         return $validData;
     }
+
     /**
      * @dataProvider validVatCodeDataProvider
      *
@@ -544,34 +547,34 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidPaymentModeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidPaymentMode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPaymentMode($value);
     }
 
     /**
      * @dataProvider invalidPaymentModeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidPaymentMode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->paymentMode = $value;
     }
 
     /**
      * @dataProvider invalidPaymentModeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidPayment_mode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->payment_mode = $value;
     }
 
@@ -581,40 +584,40 @@ class ReceiptItemTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
     /**
      * @dataProvider invalidPaymentSubjectDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidPaymentSubject($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPaymentSubject($value);
     }
 
     /**
      * @dataProvider invalidPaymentSubjectDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidPaymentSubject($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->paymentSubject = $value;
     }
 
     /**
      * @dataProvider invalidPaymentSubjectDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidPayment_subject($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->payment_subject = $value;
     }
 
@@ -624,40 +627,40 @@ class ReceiptItemTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
     /**
      * @dataProvider invalidVatCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidVatCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setVatCode($value);
     }
 
     /**
      * @dataProvider invalidVatCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidVatCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->vatCode = $value;
     }
 
     /**
      * @dataProvider invalidVatCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidVat_code($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->vat_code = $value;
     }
 
@@ -667,7 +670,7 @@ class ReceiptItemTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
             array(15),
             array(Random::int(-100, -1)),
@@ -703,7 +706,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterPrice($value)
     {
-        $instance        = $this->getTestInstance();
+        $instance = $this->getTestInstance();
         $instance->price = $value;
         if (is_array($value)) {
             self::assertSame($value, $instance->getPrice()->toArray());
@@ -748,7 +751,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidPrice($value)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\InvalidPropertyValueTypeException');
+        self::expectException('YooKassa\\Common\\Exceptions\\InvalidPropertyValueTypeException');
         $this->getTestInstance()->setPrice($value);
     }
 
@@ -759,7 +762,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidPrice($value)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\InvalidPropertyValueTypeException');
+        self::expectException('YooKassa\\Common\\Exceptions\\InvalidPropertyValueTypeException');
         $this->getTestInstance()->price = $value;
     }
 
@@ -772,7 +775,7 @@ class ReceiptItemTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -828,24 +831,24 @@ class ReceiptItemTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      * @dataProvider invalidIsShippingDataProvider
      *
      * @param mixed $value
      */
     public function testInvalidSetIsShipping($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setIsShipping($value);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      * @dataProvider invalidIsShippingDataProvider
      *
      * @param mixed $value
      */
     public function testInvalidSetterIsShipping($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->isShipping = $value;
     }
 
@@ -855,7 +858,7 @@ class ReceiptItemTest extends TestCase
             array(array()),
             array('true'),
             array('false'),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -890,15 +893,15 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidApplyDiscountCoefficientDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param mixed $coefficient
      */
     public function testInvalidApplyDiscountCoefficient($coefficient)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
 
-        $instance->setPrice(new ReceiptItemAmount(Random::int(100)));
+        $instance->setPrice(new ReceiptItemAmount(Random::int(1, 100)));
         $instance->applyDiscountCoefficient($coefficient);
     }
 
@@ -909,7 +912,7 @@ class ReceiptItemTest extends TestCase
             array(''),
             array('test'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(-1.4),
             array(-0.01),
             array(-0.0001),
@@ -968,13 +971,13 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidIncreasePriceDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param float $price
      * @param float $value
      */
     public function testInvalidIncreasePrice($price, $value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setPrice(new ReceiptItemAmount($price));
         $instance->increasePrice($value);
@@ -992,7 +995,7 @@ class ReceiptItemTest extends TestCase
             array(1.01, ''),
             array(1.01, 'test'),
             array(1.01, array()),
-            array(1.01, new \stdClass()),
+            array(1.01, new stdClass()),
         );
     }
 
@@ -1030,13 +1033,13 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidFetchItemDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $quantity
      * @param $fetch
      */
     public function testInvalidFetchItem($quantity, $fetch)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setPrice(new ReceiptItemAmount(Random::int(1, 100)));
         $instance->setQuantity($quantity);
@@ -1054,7 +1057,7 @@ class ReceiptItemTest extends TestCase
             array(1, 0.0),
             array(1, -12.3),
             array(1, array()),
-            array(1, new \stdClass()),
+            array(1, new stdClass()),
             array(1, 'test'),
         );
     }
@@ -1116,23 +1119,23 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidProductCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidProductCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setProductCode($value);
     }
 
     /**
      * @dataProvider invalidProductCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidProductCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->productCode = $value;
     }
 
@@ -1142,7 +1145,7 @@ class ReceiptItemTest extends TestCase
             array(new StringObject('')),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(Random::str(2, 96, 'GHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=`~?><:"\'')),
             array(Random::str(97, 100, '0123456789ABCDEF ')),
@@ -1205,23 +1208,23 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidCountryOfOriginCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidCountryOfOriginCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCountryOfOriginCode($value);
     }
 
     /**
      * @dataProvider invalidCountryOfOriginCodeDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidCountryOfOriginCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->countryOfOriginCode = $value;
     }
 
@@ -1231,7 +1234,7 @@ class ReceiptItemTest extends TestCase
             array(new StringObject('')),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(Random::int()),
             array(Random::str(1, 1)),
@@ -1298,23 +1301,23 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidCustomsDeclarationNumberDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidCustomsDeclarationNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCustomsDeclarationNumber($value);
     }
 
     /**
      * @dataProvider invalidCustomsDeclarationNumberDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidCustomsDeclarationNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->customsDeclarationNumber = $value;
     }
 
@@ -1323,7 +1326,7 @@ class ReceiptItemTest extends TestCase
         return array(
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(Random::str(33, 64)),
         );
@@ -1376,23 +1379,23 @@ class ReceiptItemTest extends TestCase
 
     /**
      * @dataProvider invalidExciseDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidExcise($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setExcise($value);
     }
 
     /**
      * @dataProvider invalidExciseDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidExcise($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->excise = $value;
     }
 
@@ -1402,7 +1405,7 @@ class ReceiptItemTest extends TestCase
             array(0.0),
             array(Random::float(-100, -0.001)),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -1473,7 +1476,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidMarkCodeInfo($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setMarkCodeInfo($value);
     }
 
@@ -1485,7 +1488,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidMarkCodeInfo($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->mark_code_info = $value;
     }
 
@@ -1495,7 +1498,7 @@ class ReceiptItemTest extends TestCase
             array(1.0, 'InvalidPropertyValueTypeException'),
             array(1, 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -1572,7 +1575,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidMarkQuantity($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setMarkQuantity($value);
     }
 
@@ -1584,7 +1587,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidMarkQuantity($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->mark_quantity = $value;
     }
 
@@ -1594,7 +1597,7 @@ class ReceiptItemTest extends TestCase
             array(1.0, 'InvalidPropertyValueTypeException'),
             array(1, 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -1673,7 +1676,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidPaymentSubjectIndustryDetails($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setPaymentSubjectIndustryDetails($value);
     }
 
@@ -1685,7 +1688,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidPaymentSubjectIndustryDetails($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->payment_subject_industry_details = $value;
     }
 
@@ -1695,8 +1698,8 @@ class ReceiptItemTest extends TestCase
             array(1.0, 'InvalidPropertyValueTypeException'),
             array(1, 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
-            array(array(new \stdClass()), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
+            array(array(new stdClass()), 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -1752,7 +1755,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidMeasure($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setMeasure($value);
     }
 
@@ -1764,7 +1767,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidMeasure($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->measure = $value;
     }
 
@@ -1773,7 +1776,7 @@ class ReceiptItemTest extends TestCase
         return array(
             array(array(), 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
             array(Random::str(10), 'InvalidPropertyValueException'),
         );
     }
@@ -1827,7 +1830,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidMarkMode($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setMarkMode($value);
     }
 
@@ -1839,7 +1842,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidMarkMode($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->mark_mode = $value;
     }
 
@@ -1848,7 +1851,7 @@ class ReceiptItemTest extends TestCase
         return array(
             array(array(), 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -1902,7 +1905,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetInvalidAdditionalPaymentSubjectProps($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->setAdditionalPaymentSubjectProps($value);
     }
 
@@ -1914,7 +1917,7 @@ class ReceiptItemTest extends TestCase
      */
     public function testSetterInvalidAdditionalPaymentSubjectProps($value, $exception)
     {
-        self::setExpectedException('YooKassa\\Common\\Exceptions\\' . $exception);
+        self::expectException('YooKassa\\Common\\Exceptions\\' . $exception);
         $this->getTestInstance()->additionalPaymentSubjectProps = $value;
     }
 
@@ -1923,7 +1926,7 @@ class ReceiptItemTest extends TestCase
         return array(
             array(array(), 'InvalidPropertyValueTypeException'),
             array(true, 'InvalidPropertyValueTypeException'),
-            array(new \stdClass(), 'InvalidPropertyValueTypeException'),
+            array(new stdClass(), 'InvalidPropertyValueTypeException'),
         );
     }
 }

@@ -50,6 +50,7 @@ class PaymentDataFactory
         PaymentMethodType::SBER_LOAN              => 'PaymentDataSberLoan',
         PaymentMethodType::SBER_BNPL              => 'PaymentDataSberBnpl',
         PaymentMethodType::ELECTRONIC_CERTIFICATE => 'PaymentDataElectronicCertificate',
+        PaymentMethodType::ALFA_PAY               => 'PaymentDataAlfaPay',
     );
 
     /**

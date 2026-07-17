@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Receipts;
 
+use stdClass;
 use YooKassa\Model\Receipt\SettlementType;
 use YooKassa\Model\ReceiptType;
 use YooKassa\Request\Receipts\ReceiptResponseFactory;
@@ -35,10 +36,10 @@ class ReceiptResponseFactoryTest extends TestCase
     /**
      * @dataProvider invalidFactoryDataProvider
      * @param array $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidFactory($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseFactory();
         $instance->factory($value);
     }
@@ -48,7 +49,7 @@ class ReceiptResponseFactoryTest extends TestCase
         return array(
             array(array()),
             array(
-                array('type' => new \stdClass())),
+                array('type' => new stdClass())),
             array(
                 array('type' => SettlementType::POSTPAYMENT)),
             array(

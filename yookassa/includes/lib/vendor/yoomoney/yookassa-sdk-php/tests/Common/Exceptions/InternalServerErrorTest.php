@@ -27,7 +27,7 @@ namespace Tests\YooKassa\Common\Exceptions;
 
 use YooKassa\Common\Exceptions\InternalServerError;
 
-class InternalServerErrorTest extends AbstractApiRequestExceptionTest
+class InternalServerErrorTest extends AbstractApiRequestExceptionTestCase
 {
     public function getTestInstance($message = '', $code = 0, $responseHeaders = array(), $responseBody = null)
     {

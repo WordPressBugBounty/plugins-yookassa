@@ -104,7 +104,7 @@ class SelfEmployedRequestBuilder extends AbstractRequestBuilder
      *
      * @throws InvalidRequestException Выбрасывается если собрать объект запроса не удалось
      */
-    public function build(array $options = null)
+    public function build($options = null)
     {
         return parent::build($options);
     }

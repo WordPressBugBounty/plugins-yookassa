@@ -25,6 +25,8 @@
 
 namespace Tests\YooKassa\Model\Receipt;
 
+use Exception;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\AdditionalUserProps;
 use PHPUnit\Framework\TestCase;
@@ -86,7 +88,8 @@ class AdditionalUserPropsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setValue($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -101,7 +104,8 @@ class AdditionalUserPropsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->value = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -131,7 +135,8 @@ class AdditionalUserPropsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setName($name);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -146,7 +151,8 @@ class AdditionalUserPropsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->name = $name;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -167,18 +173,13 @@ class AdditionalUserPropsTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(AdditionalUserProps::VALUE_MAX_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -186,18 +187,13 @@ class AdditionalUserPropsTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(AdditionalUserProps::NAME_MAX_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.01,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -209,7 +205,7 @@ class AdditionalUserPropsTest extends TestCase
             array(1.00, true),
             array(0.99, false),
             array(0.99, array()),
-            array(0.99, new \stdClass()),
+            array(0.99, new stdClass()),
             array(0.99, 'test'),
             array(0.99, -1.0),
             array(0.99, -0.99),

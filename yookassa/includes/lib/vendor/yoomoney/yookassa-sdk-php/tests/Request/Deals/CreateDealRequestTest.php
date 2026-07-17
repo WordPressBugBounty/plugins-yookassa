@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\Deals;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Deal\DealType;
 use YooKassa\Model\Deal\FeeMoment;
@@ -178,33 +179,33 @@ class CreateDealRequestTest extends TestCase
 
     /**
      * @dataProvider invalidFeeMomentDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidFeeMoment($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateDealRequest();
         $instance->setFeeMoment($value);
     }
 
     /**
      * @dataProvider invalidMetadataDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidMetadata($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateDealRequest();
         $instance->setMetadata($value);
     }
 
     /**
      * @dataProvider invalidMetadataDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateDealRequest();
         $instance->setType($value);
     }
@@ -234,7 +235,7 @@ class CreateDealRequestTest extends TestCase
             array(true),
             array(1),
             array(Random::str(10)),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 

@@ -29,7 +29,7 @@ use YooKassa\Model\PaymentData\AbstractPaymentData;
 use YooKassa\Model\PaymentData\PaymentDataSberLoan;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentDataSberLoanTest extends AbstractPaymentDataTest
+class PaymentDataSberLoanTest extends AbstractPaymentDataTestCase
 {
     /**
      * @return AbstractPaymentData

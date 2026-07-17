@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\PaymentData;
 
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\PaymentData\ElectronicCertificate\ElectronicCertificateArticle;
@@ -33,7 +34,7 @@ use YooKassa\Model\PaymentData\PaymentDataElectronicCertificate;
 use YooKassa\Model\PaymentMethod\ElectronicCertificate\ElectronicCertificatePaymentData;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
+class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTestCase
 {
     /**
      * @return PaymentDataElectronicCertificate
@@ -62,21 +63,21 @@ class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCard($value);
     }
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->card = $value;
     }
 
@@ -91,31 +92,31 @@ class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
 
     /**
      * @dataProvider invalidElectronicCertificateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidElectronicCertificate($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setElectronicCertificate($value);
     }
 
     /**
      * @dataProvider invalidElectronicCertificateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidElectronicCertificate($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->electronicCertificate = $value;
     }
 
     /**
      * @dataProvider invalidElectronicCertificateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidElectronicCertificateSnakeCase($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->electronic_certificate = $value;
     }
 
@@ -130,21 +131,21 @@ class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
 
     /**
      * @dataProvider invalidArticlesDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidArticles($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setArticles($value);
     }
 
     /**
      * @dataProvider invalidArticlesDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidArticles($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->articles = $value;
     }
 
@@ -183,7 +184,7 @@ class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
             array(1),
             array(-1),
             array('5'),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(20)),
         );
     }
@@ -227,7 +228,7 @@ class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
             array(1),
             array(-1),
             array('string'),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(20)),
         );
     }
@@ -301,10 +302,10 @@ class PaymentDataElectronicCertificateTest extends AbstractPaymentDataTest
             array(1),
             array(-1),
             array('string'),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(20)),
             array(array('invalid_element')),
-            array(array(new \stdClass())),
+            array(array(new stdClass())),
         );
     }
 

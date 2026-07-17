@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Deals;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Deal\DealStatus;
@@ -77,7 +78,7 @@ class DealsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCreatedGt($options)
     {
@@ -98,7 +99,7 @@ class DealsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCreatedLte($options)
     {
@@ -159,7 +160,7 @@ class DealsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetExpiresGt($options)
     {
@@ -180,7 +181,7 @@ class DealsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetExpiresLte($options)
     {
@@ -281,55 +282,55 @@ class DealsRequestBuilderTest extends TestCase
 
     public function validDataProvider()
     {
-        $result   = array(
+        $result = array(
             array(
                 array(
-                    'createdAtGte'   => null,
-                    'createdAtGt'    => null,
-                    'createdAtLte'   => null,
-                    'createdAtLt'    => null,
-                    'expiresAtGte'   => null,
-                    'expiresAtGt'    => null,
-                    'expiresAtLte'   => null,
-                    'expiresAtLt'    => null,
+                    'createdAtGte' => null,
+                    'createdAtGt' => null,
+                    'createdAtLte' => null,
+                    'createdAtLt' => null,
+                    'expiresAtGte' => null,
+                    'expiresAtGt' => null,
+                    'expiresAtLte' => null,
+                    'expiresAtLt' => null,
                     'fullTextSearch' => null,
-                    'status'         => null,
-                    'limit'          => null,
-                    'cursor'         => null,
+                    'status' => null,
+                    'limit' => null,
+                    'cursor' => null,
                 ),
             ),
             array(
                 array(
-                    'createdAtGte'   => '',
-                    'createdAtGt'    => '',
-                    'createdAtLte'   => '',
-                    'createdAtLt'    => '',
-                    'expiresAtGte'   => '',
-                    'expiresAtGt'    => '',
-                    'expiresAtLte'   => '',
-                    'expiresAtLt'    => '',
+                    'createdAtGte' => '',
+                    'createdAtGt' => '',
+                    'createdAtLte' => '',
+                    'createdAtLt' => '',
+                    'expiresAtGte' => '',
+                    'expiresAtGt' => '',
+                    'expiresAtLte' => '',
+                    'expiresAtLt' => '',
                     'fullTextSearch' => '',
-                    'status'         => '',
-                    'limit'          => 0,
-                    'cursor'         => '',
+                    'status' => '',
+                    'limit' => 0,
+                    'cursor' => '',
                 ),
             ),
         );
         $statuses = DealStatus::getValidValues();
         for ($i = 0; $i < 10; $i++) {
-            $request  = array(
-                'createdAtGte'   => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtGt'    => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtLte'   => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtLt'    => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'expiresAtGte'   => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'expiresAtGt'    => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'expiresAtLte'   => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'expiresAtLt'    => date(YOOKASSA_DATE, mt_rand(1, time())),
+            $request = array(
+                'createdAtGte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtGt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtLte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtLt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'expiresAtGte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'expiresAtGt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'expiresAtLte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'expiresAtLt' => date(YOOKASSA_DATE, mt_rand(1, time())),
                 'fullTextSearch' => Random::str(DealsRequest::MIN_LENGTH_DESCRIPTION, SafeDeal::MAX_LENGTH_DESCRIPTION),
-                'status'         => $statuses[mt_rand(0, count($statuses) - 1)],
-                'limit'          => mt_rand(1, 100),
-                'cursor'         => $this->randomString(mt_rand(2, 30)),
+                'status' => $statuses[mt_rand(0, count($statuses) - 1)],
+                'limit' => mt_rand(1, 100),
+                'cursor' => $this->randomString(mt_rand(2, 30)),
             );
             $result[] = array($request);
         }
@@ -345,7 +346,7 @@ class DealsRequestBuilderTest extends TestCase
             if ($any) {
                 $char = chr(mt_rand(32, 126));
             } else {
-                $rnd  = mt_rand(0, strlen($chars) - 1);
+                $rnd = mt_rand(0, strlen($chars) - 1);
                 $char = substr($chars, $rnd, 1);
             }
             $result .= $char;

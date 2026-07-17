@@ -28,6 +28,7 @@ namespace Tests\YooKassa\Model\PaymentMethod\ElectronicCertificate;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -54,31 +55,31 @@ class ElectronicCertificateTest extends TestCase
 
     /**
      * @dataProvider invalidCertificateIdDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCertificateId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCertificateId($value);
     }
 
     /**
      * @dataProvider invalidCertificateIdDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCertificateId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->certificateId = $value;
     }
 
     /**
      * @dataProvider invalidCertificateIdDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCertificateIdSnakeCase($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->certificate_id = $value;
     }
 
@@ -93,31 +94,31 @@ class ElectronicCertificateTest extends TestCase
 
     /**
      * @dataProvider invalidTruQuantityDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidTruQuantity($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setTruQuantity($value);
     }
 
     /**
      * @dataProvider invalidTruQuantityDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidTruQuantity($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->truQuantity = $value;
     }
 
     /**
      * @dataProvider invalidTruQuantityDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidTruQuantitySnakeCase($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->tru_quantity = $value;
     }
 
@@ -164,21 +165,21 @@ class ElectronicCertificateTest extends TestCase
 
     /**
      * @dataProvider invalidAvailableCompensationDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidAvailableCompensation($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAvailableCompensation($value);
     }
 
     /**
      * @dataProvider invalidAvailableCompensationDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidAvailableCompensation($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->availableCompensation = $value;
     }
 
@@ -225,21 +226,21 @@ class ElectronicCertificateTest extends TestCase
 
     /**
      * @dataProvider invalidAppliedCompensationDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidAppliedCompensation($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAppliedCompensation($value);
     }
 
     /**
      * @dataProvider invalidAppliedCompensationDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidAppliedCompensation($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->appliedCompensation = $value;
     }
 
@@ -267,7 +268,7 @@ class ElectronicCertificateTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(19)),
             array(Random::str(31)),
         );
@@ -294,7 +295,7 @@ class ElectronicCertificateTest extends TestCase
             array(''),
             array(null),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -335,7 +336,7 @@ class ElectronicCertificateTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -376,7 +377,7 @@ class ElectronicCertificateTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 

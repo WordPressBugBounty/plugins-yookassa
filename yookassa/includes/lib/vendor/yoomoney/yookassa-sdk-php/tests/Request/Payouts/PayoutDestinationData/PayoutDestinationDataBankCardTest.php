@@ -25,12 +25,14 @@
 
 namespace Tests\YooKassa\Request\Payouts\PayoutDestinationData;
 
+use DateTime;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Request\Payouts\PayoutDestinationData\PayoutDestinationDataBankCard;
 use YooKassa\Request\Payouts\PayoutDestinationData\PayoutDestinationDataBankCardCard;
 
-class PayoutDestinationDataBankCardTest extends AbstractPayoutDestinationDataTest
+class PayoutDestinationDataBankCardTest extends AbstractPayoutDestinationDataTestCase
 {
     /**
      * @return PayoutDestinationDataBankCard
@@ -97,21 +99,21 @@ class PayoutDestinationDataBankCardTest extends AbstractPayoutDestinationDataTes
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCard($value);
     }
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->card = $value;
     }
 
@@ -136,11 +138,11 @@ class PayoutDestinationDataBankCardTest extends AbstractPayoutDestinationDataTes
             array(-1),
             array('5'),
             array(true),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
             array(array('number' => '')),
             array(array('number' => null)),
-            array(array('number' => new \DateTime())),
+            array(array('number' => new DateTime())),
             array(array('number' => Random::str(16))),
         );
     }

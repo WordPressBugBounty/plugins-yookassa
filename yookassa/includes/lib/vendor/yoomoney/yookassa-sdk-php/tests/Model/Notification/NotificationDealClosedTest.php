@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Notification;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\Deal\DealStatus;
@@ -35,12 +36,12 @@ use YooKassa\Model\NotificationEventType;
 use YooKassa\Model\NotificationType;
 use YooKassa\Model\DealInterface;
 
-class NotificationDealClosedTest extends AbstractNotificationTest
+class NotificationDealClosedTest extends AbstractNotificationTestCase
 {
     /**
      * @param array $source
      * @return NotificationDealClosed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getTestInstance(array $source)
     {
@@ -76,7 +77,7 @@ class NotificationDealClosedTest extends AbstractNotificationTest
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -121,7 +122,7 @@ class NotificationDealClosedTest extends AbstractNotificationTest
             array(
                 'type' => $this->getExpectedType(),
                 'event' => $this->getExpectedEvent(),
-                    'object' => array(
+                'object' => array(
                     'id' => Random::str(36),
                     'type' => Random::value($types),
                     'status' => Random::value($statuses),

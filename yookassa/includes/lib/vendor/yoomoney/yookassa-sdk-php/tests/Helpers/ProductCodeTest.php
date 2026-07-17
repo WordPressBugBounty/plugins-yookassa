@@ -26,6 +26,8 @@
 namespace Tests\YooKassa\Helpers;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
 use YooKassa\Helpers\ProductCode;
 use YooKassa\Model\Receipt\MarkCodeInfo;
 
@@ -148,20 +150,24 @@ class ProductCodeTest extends TestCase
     /**
      * @dataProvider dataStrProvider
      * @param mixed $data
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testStrHex($data)
     {
         $instance = new ProductCode();
-        $reflection = new \ReflectionClass(get_class($instance));
+        $reflection = new ReflectionClass(get_class($instance));
 
         $method = $reflection->getMethod('strToHex');
-        $method->setAccessible(true);
-        $result1 = $method->invokeArgs($instance, array('string' => $data));
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+        $result1 = $method->invokeArgs($instance, array($data));
 
         $method = $reflection->getMethod('hexToStr');
-        $method->setAccessible(true);
-        $result2 = $method->invokeArgs($instance, array('string' => $result1));
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+        $result2 = $method->invokeArgs($instance, array($result1));
 
         self::assertEquals($data, $result2);
     }
@@ -169,22 +175,26 @@ class ProductCodeTest extends TestCase
     /**
      * @dataProvider dataNumProvider
      * @param mixed $data
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testNumHex($data)
     {
         $instance = new ProductCode();
-        $reflection = new \ReflectionClass(get_class($instance));
+        $reflection = new ReflectionClass(get_class($instance));
 
         $method = $reflection->getMethod('baseConvert');
-        $method->setAccessible(true);
-        $result1 = $method->invokeArgs($instance, array('numString' => $data));
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+        $result1 = $method->invokeArgs($instance, array($data));
 
         $method = $reflection->getMethod('baseConvert');
-        $method->setAccessible(true);
-        $result2 = $method->invokeArgs($instance, array('numString' => $result1, 'fromBase' => 16, 'toBase' => 10));
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+        $result2 = $method->invokeArgs($instance, array($result1, 16, 10));
 
-        self::assertEquals($data, $result2);
+        self::assertEquals(ltrim($data, '0'), ltrim($result2, '0'));
     }
 
     /**

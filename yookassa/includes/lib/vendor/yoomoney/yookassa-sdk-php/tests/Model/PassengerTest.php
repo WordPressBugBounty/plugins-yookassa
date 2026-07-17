@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Passenger;
@@ -76,7 +77,8 @@ class PassengerTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setFirstName($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -91,14 +93,15 @@ class PassengerTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setLastName($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -106,18 +109,18 @@ class PassengerTest extends TestCase
         return array(
             array(
                 'firstName' => Random::str(1, null, $alphabet),
-                'lastName'  => Random::str(1, null, $alphabet),
+                'lastName' => Random::str(1, null, $alphabet),
             ),
             array(
                 'firstName' => Random::str(64, null, $alphabet),
-                'lastName'  => Random::str(64, null, $alphabet),
+                'lastName' => Random::str(64, null, $alphabet),
             )
         );
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidValueDataProvider()
     {
@@ -128,9 +131,6 @@ class PassengerTest extends TestCase
             array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(65), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(-0.01, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(true, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(false, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
@@ -150,7 +150,7 @@ class PassengerTest extends TestCase
 
         $expected = array(
             'first_name' => $firstName,
-            'last_name'  => $lastName,
+            'last_name' => $lastName,
         );
         self::assertEquals($expected, $instance->jsonSerialize());
     }

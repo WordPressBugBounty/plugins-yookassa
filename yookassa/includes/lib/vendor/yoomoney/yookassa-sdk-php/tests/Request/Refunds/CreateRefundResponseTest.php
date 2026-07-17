@@ -27,7 +27,7 @@ namespace Tests\YooKassa\Request\Refunds;
 
 use YooKassa\Request\Refunds\CreateRefundResponse;
 
-class CreateRefundResponseTest extends AbstractRefundResponseTest
+class CreateRefundResponseTest extends AbstractRefundResponseTestCase
 {
     /**
      * @param array $options

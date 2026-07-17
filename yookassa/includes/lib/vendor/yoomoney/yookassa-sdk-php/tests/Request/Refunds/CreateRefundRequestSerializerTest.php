@@ -51,7 +51,7 @@ class CreateRefundRequestSerializerTest extends TestCase
         $expected = array(
             'payment_id' => $options['paymentId'],
             'amount' => array(
-                'value'    => $options['amount'],
+                'value' => $options['amount'],
                 'currency' => $options['currency'],
             ),
         );

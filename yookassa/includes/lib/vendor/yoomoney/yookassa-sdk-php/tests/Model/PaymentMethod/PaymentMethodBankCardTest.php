@@ -25,13 +25,14 @@
 
 namespace Tests\YooKassa\Model\PaymentMethod;
 
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethod\BankCardSource;
 use YooKassa\Model\PaymentMethod\PaymentMethodBankCard;
 use YooKassa\Model\PaymentMethod\PaymentMethodCardType;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentMethodBankCardTest extends AbstractPaymentMethodTest
+class PaymentMethodBankCardTest extends AbstractPaymentMethodTestCase
 {
     /**
      * @return PaymentMethodBankCard
@@ -60,11 +61,11 @@ class PaymentMethodBankCardTest extends AbstractPaymentMethodTest
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCard($value);
     }
 
@@ -223,7 +224,7 @@ class PaymentMethodBankCardTest extends AbstractPaymentMethodTest
             array(0),
             array(1),
             array(-1),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(3, '0123456789')),
             array(Random::str(5, '0123456789')),
         );

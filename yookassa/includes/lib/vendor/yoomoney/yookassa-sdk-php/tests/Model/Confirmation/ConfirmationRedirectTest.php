@@ -25,10 +25,11 @@
 
 namespace Tests\YooKassa\Model\Confirmation;
 
+use stdClass;
 use YooKassa\Model\Confirmation\ConfirmationRedirect;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationRedirectTest extends AbstractConfirmationTest
+class ConfirmationRedirectTest extends AbstractConfirmationTestCase
 {
     /**
      * @return ConfirmationRedirect
@@ -79,22 +80,22 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
 
     /**
      * @dataProvider invalidEnforceDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidEnforce($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setEnforce($value);
     }
 
     /**
      * @dataProvider invalidEnforceDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidEnforce($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->enforce = $value;
     }
@@ -152,33 +153,33 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidReturnUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setReturnUrl($value);
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReturnUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->returnUrl = $value;
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReturn_url($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->return_url = $value;
     }
@@ -236,33 +237,33 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidConfirmationUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setConfirmationUrl($value);
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmationUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->confirmationUrl = $value;
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmation_url($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->confirmation_url = $value;
     }
@@ -286,7 +287,7 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
             array('true'),
             array('false'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -305,7 +306,7 @@ class ConfirmationRedirectTest extends AbstractConfirmationTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

@@ -25,6 +25,8 @@
 
 namespace Tests\YooKassa\Common\Exceptions;
 
+use DateTime;
+use stdClass;
 use YooKassa\Common\Exceptions\InvalidPropertyValueException;
 
 class InvalidPropertyValueExceptionTest extends InvalidPropertyExceptionTest
@@ -55,8 +57,8 @@ class InvalidPropertyValueExceptionTest extends InvalidPropertyExceptionTest
             array(''),
             array('value'),
             array(array('test')),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
         );
     }
 }

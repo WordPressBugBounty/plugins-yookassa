@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Notification;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\ConfirmationType;
@@ -79,16 +80,16 @@ class NotificationCanceledTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param array $options
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidFromArray($options)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance($options);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {

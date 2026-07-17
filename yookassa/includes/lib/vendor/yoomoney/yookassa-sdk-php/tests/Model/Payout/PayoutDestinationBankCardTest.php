@@ -25,12 +25,13 @@
 
 namespace Tests\YooKassa\Model\Payout;
 
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Payout\PayoutDestinationBankCard;
 use YooKassa\Model\Payout\PayoutDestinationBankCardCard;
 use YooKassa\Model\PaymentMethodType;
 
-class PayoutDestinationBankCardTest extends AbstractPayoutDestinationTest
+class PayoutDestinationBankCardTest extends AbstractPayoutDestinationTestCase
 {
     /**
      * @return PayoutDestinationBankCard
@@ -97,21 +98,21 @@ class PayoutDestinationBankCardTest extends AbstractPayoutDestinationTest
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCard($value);
     }
 
     /**
      * @dataProvider invalidCardDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCard($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->card = $value;
     }
 
@@ -140,7 +141,7 @@ class PayoutDestinationBankCardTest extends AbstractPayoutDestinationTest
             array(-1),
             array('5'),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

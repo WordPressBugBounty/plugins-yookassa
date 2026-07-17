@@ -57,7 +57,7 @@ class ExtensionNotFoundExceptionTest extends TestCase
         return array(
             array("json", "json extension is not loaded!"),
             array("curl", "curl extension is not loaded!"),
-            array("gd",   "gd extension is not loaded!"),
+            array("gd", "gd extension is not loaded!"),
         );
     }
 }

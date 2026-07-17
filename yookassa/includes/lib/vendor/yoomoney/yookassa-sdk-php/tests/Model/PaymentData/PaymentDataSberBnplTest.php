@@ -28,7 +28,7 @@ namespace Tests\YooKassa\Model\PaymentData;
 use YooKassa\Model\PaymentData\PaymentDataSberBnpl;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentDataSberBnplTest extends AbstractPaymentDataPhoneTest
+class PaymentDataSberBnplTest extends AbstractPaymentDataPhoneTestCase
 {
     /**
      * @return PaymentDataSberBnpl

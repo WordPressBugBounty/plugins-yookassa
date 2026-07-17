@@ -25,12 +25,12 @@
 
 namespace Model\ConfirmationAttributes;
 
-use Tests\YooKassa\Model\ConfirmationAttributes\AbstractConfirmationAttributesTest;
+use Tests\YooKassa\Model\ConfirmationAttributes\AbstractConfirmationAttributesTestCase;
 use YooKassa\Model\ConfirmationAttributes\AbstractConfirmationAttributes;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesEmbedded;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationAttributesEmbeddedTest extends AbstractConfirmationAttributesTest
+class ConfirmationAttributesEmbeddedTest extends AbstractConfirmationAttributesTestCase
 {
     /**
      * @return AbstractConfirmationAttributes

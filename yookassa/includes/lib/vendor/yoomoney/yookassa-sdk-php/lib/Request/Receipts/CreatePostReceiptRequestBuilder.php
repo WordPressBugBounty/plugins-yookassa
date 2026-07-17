@@ -293,7 +293,7 @@ class CreatePostReceiptRequestBuilder extends AbstractRequestBuilder
      *
      * @throws InvalidRequestException Выбрасывается если собрать объект запроса не удалось
      */
-    public function build(array $options = null)
+    public function build($options = null)
     {
         if (!empty($options)) {
             $this->setOptions($options);

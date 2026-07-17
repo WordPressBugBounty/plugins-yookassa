@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Webhook;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\NotificationEventType;
@@ -36,7 +37,7 @@ class WebhookListResponseTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testGetType($options)
     {
@@ -48,7 +49,7 @@ class WebhookListResponseTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testGetItems($options)
     {

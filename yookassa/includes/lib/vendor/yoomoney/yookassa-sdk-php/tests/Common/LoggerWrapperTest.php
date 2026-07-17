@@ -27,6 +27,7 @@ namespace Tests\YooKassa\Common;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
+use stdClass;
 use YooKassa\Common\LoggerWrapper;
 use YooKassa\Helpers\Random;
 
@@ -43,11 +44,11 @@ class LoggerWrapperTest extends TestCase
 
     /**
      * @dataProvider invalidLoggerDataProvider
-     * @expectedException \Psr\Log\InvalidArgumentException
      * @param mixed $source
      */
     public function testInvalidConstruct($source)
     {
+        $this->expectException('Psr\Log\InvalidArgumentException');
         new LoggerWrapper($source);
     }
 
@@ -57,7 +58,7 @@ class LoggerWrapperTest extends TestCase
     public function invalidLoggerDataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
             array(array()),

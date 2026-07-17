@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Receipts;
 
+use DateTime;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\SettlementType;
 use YooKassa\Model\ReceiptRegistrationStatus;
@@ -190,10 +191,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidLimitDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidLimitData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setLimit($value);
     }
@@ -201,10 +202,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidCursorDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidCursorData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setCursor($value);
     }
@@ -212,10 +213,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidStatusDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidStatusData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setStatus($value);
     }
@@ -223,10 +224,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidDateDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidCreatedAtLtData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setCreatedAtLt($value);
     }
@@ -235,10 +236,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidDateDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidCreatedAtLteData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setCreatedAtLte($value);
     }
@@ -246,10 +247,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidDateDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidCreatedAtGtData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setCreatedAtGt($value);
     }
@@ -257,10 +258,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidDateDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidCreatedAtGteData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setCreatedAtGte($value);
     }
@@ -268,10 +269,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidIdDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidPaymentIdData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setPaymentId($value);
     }
@@ -279,10 +280,10 @@ class ReceiptsRequestTest extends TestCase
     /**
      * @dataProvider invalidIdDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidRefundIdData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptsRequest();
         $instance->setRefundId($value);
     }
@@ -340,7 +341,7 @@ class ReceiptsRequestTest extends TestCase
     {
         return array(
             array(SettlementType::POSTPAYMENT),
-            array(new \DateTime(''))
+            array(new DateTime(''))
         );
     }
 

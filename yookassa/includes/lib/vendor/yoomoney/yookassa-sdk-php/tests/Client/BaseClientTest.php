@@ -136,11 +136,11 @@ class BaseClientTest extends TestCase
     {
         return array(
             array(
-                'apiClient'  => null,
+                'apiClient' => null,
                 'configLoader' => null
             ),
             array(
-                'apiClient'  => new CurlClient(),
+                'apiClient' => new CurlClient(),
                 'configLoader' => new ConfigurationLoader()
             )
         );

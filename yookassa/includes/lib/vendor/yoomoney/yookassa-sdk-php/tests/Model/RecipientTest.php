@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Helpers\StringObject;
 use YooKassa\Model\Recipient;
@@ -64,33 +65,33 @@ class RecipientTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidAccountId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Recipient();
         $instance->setAccountId($value);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidAccountId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Recipient();
         $instance->accountId = $value;
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidAccount_id($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Recipient();
         $instance->account_id = $value;
     }
@@ -127,33 +128,33 @@ class RecipientTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidGatewayId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Recipient();
         $instance->setGatewayId($value);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidGatewayId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Recipient();
         $instance->gatewayId = $value;
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidGateway_id($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Recipient();
         $instance->gateway_id = $value;
     }
@@ -178,7 +179,7 @@ class RecipientTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

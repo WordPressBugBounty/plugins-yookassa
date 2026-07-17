@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\Refunds;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Helpers\StringObject;
 use YooKassa\Model\RefundStatus;
@@ -76,22 +77,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidPaymentIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidPaymentId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setPaymentId($value);
     }
 
     /**
      * @dataProvider invalidPaymentIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidPaymentId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->paymentId = $value;
     }
@@ -105,7 +106,7 @@ class RefundsRequestTest extends TestCase
             array(array()),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -151,22 +152,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedGte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setCreatedAtGte($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCreatedGte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->createdAtGte = $value;
     }
@@ -213,22 +214,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedGt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setCreatedAtGt($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCreatedGt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->createdAtGt = $value;
     }
@@ -275,22 +276,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedLte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setCreatedAtLte($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCreatedLte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->createdAtLte = $value;
     }
@@ -337,22 +338,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedLt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setCreatedAtLt($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCreatedLt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->createdAtLt = $value;
     }
@@ -399,22 +400,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidStatusDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setStatus($value);
     }
 
     /**
      * @dataProvider invalidStatusDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->status = $value;
         self::assertEquals($value, $instance->status);
@@ -433,11 +434,11 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidLimitDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidLimit($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setLimit($value);
     }
@@ -485,22 +486,22 @@ class RefundsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidNextCursorDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCursor($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->setCursor($value);
     }
 
     /**
      * @dataProvider invalidNextCursorDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCursor($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new RefundsRequest();
         $instance->cursor = $value;
     }
@@ -569,7 +570,7 @@ class RefundsRequestTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, 10)),
             array(new StringObject(Random::str(1, 10))),
         );
@@ -587,7 +588,7 @@ class RefundsRequestTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(-1),
             array(RefundsRequest::MAX_LIMIT_VALUE + 1),
         );
@@ -597,7 +598,7 @@ class RefundsRequestTest extends TestCase
     {
         $result = array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
             array(Random::bytes(10)),
             array(-1),
@@ -612,7 +613,7 @@ class RefundsRequestTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -622,7 +623,7 @@ class RefundsRequestTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(35)),
             array(Random::str(37)),
             array(new StringObject(Random::str(10))),
@@ -635,7 +636,7 @@ class RefundsRequestTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(35)),
             array(Random::str(37)),
             array(new StringObject(Random::str(10))),

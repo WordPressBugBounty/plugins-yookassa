@@ -28,7 +28,7 @@ namespace Tests\YooKassa\Model\Confirmation;
 use YooKassa\Model\Confirmation\ConfirmationExternal;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationExternalTest extends AbstractConfirmationTest
+class ConfirmationExternalTest extends AbstractConfirmationTestCase
 {
     /**
      * @return ConfirmationExternal

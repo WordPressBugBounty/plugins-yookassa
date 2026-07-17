@@ -25,11 +25,13 @@
 
 namespace Tests\YooKassa\Model\Payout;
 
+use DateTime;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\Payout\PayoutDestinationSbp;
 
-class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
+class PayoutDestinationSbpTest extends AbstractPayoutDestinationTestCase
 {
     /**
      * @return PayoutDestinationSbp
@@ -82,21 +84,21 @@ class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPhone($value);
     }
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->phone = $value;
     }
 
@@ -140,21 +142,21 @@ class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
 
     /**
      * @dataProvider invalidBankIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidBankId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setBankId($value);
     }
 
     /**
      * @dataProvider invalidBankIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidBankId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->bankId = $value;
     }
 
@@ -199,20 +201,20 @@ class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
     /**
      * @dataProvider invalidRecipientCheckedDataProvider
      * @param mixed $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidRecipientChecked($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->recipientChecked = $value;
     }
 
     /**
      * @dataProvider invalidRecipientCheckedDataProvider
      * @param mixed $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSettterInvalidRecipientChecked($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setRecipientChecked($value);
     }
 
@@ -231,8 +233,8 @@ class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
             array(null),
             array(''),
             array(true),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
         );
     }
 
@@ -251,8 +253,8 @@ class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
             array(null),
             array(''),
             array(true),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
             array(Random::str(13)),
         );
     }
@@ -271,8 +273,8 @@ class PayoutDestinationSbpTest extends AbstractPayoutDestinationTest
             array(array()),
             array(null),
             array(''),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
         );
     }
 

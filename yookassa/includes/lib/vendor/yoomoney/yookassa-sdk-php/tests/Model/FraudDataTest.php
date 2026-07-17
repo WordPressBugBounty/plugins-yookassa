@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\FraudData;
 
@@ -54,10 +55,10 @@ class FraudDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidToppedUpPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new FraudData();
         $instance->setToppedUpPhone($value);
     }
@@ -79,7 +80,7 @@ class FraudDataTest extends TestCase
     public function invalidDataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
             array(array(123)),

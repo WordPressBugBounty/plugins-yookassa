@@ -28,7 +28,7 @@ namespace Tests\YooKassa\Model\ConfirmationAttributes;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesCodeVerification;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationAttributesCodeVerificationTest extends AbstractConfirmationAttributesTest
+class ConfirmationAttributesCodeVerificationTest extends AbstractConfirmationAttributesTestCase
 {
     /**
      * @return ConfirmationAttributesCodeVerification

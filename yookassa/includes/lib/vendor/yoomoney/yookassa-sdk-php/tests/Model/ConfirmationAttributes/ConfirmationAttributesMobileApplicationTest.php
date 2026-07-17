@@ -25,10 +25,11 @@
 
 namespace Tests\YooKassa\Model\ConfirmationAttributes;
 
+use stdClass;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesMobileApplication;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationAttributesMobileApplicationTest extends AbstractConfirmationAttributesTest
+class ConfirmationAttributesMobileApplicationTest extends AbstractConfirmationAttributesTestCase
 {
     /**
      * @return ConfirmationAttributesMobileApplication
@@ -104,33 +105,33 @@ class ConfirmationAttributesMobileApplicationTest extends AbstractConfirmationAt
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidReturnUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setReturnUrl($value);
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReturnUrl($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->returnUrl = $value;
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReturn_url($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->return_url = $value;
     }
@@ -154,7 +155,7 @@ class ConfirmationAttributesMobileApplicationTest extends AbstractConfirmationAt
             array('true'),
             array('false'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -173,7 +174,7 @@ class ConfirmationAttributesMobileApplicationTest extends AbstractConfirmationAt
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

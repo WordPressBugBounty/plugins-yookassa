@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Common;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Common\AbstractObject;
 
 class AbstractObjectTest extends TestCase
@@ -172,7 +174,7 @@ class AbstractObjectTest extends TestCase
         );
         self::assertEquals($expected, $data);
 
-        $date = new \DateTime();
+        $date = new DateTime();
         $instance->getPropertyCamelCase()->setPropertyCamelCase($date);
         $data = $instance->jsonSerialize();
         $expected = array(
@@ -211,14 +213,14 @@ class AbstractObjectTest extends TestCase
         $expected['unknown_date'] = $date->format(YOOKASSA_DATE);
         self::assertEquals($expected, $data);
 
-        $obj = new \stdClass();
+        $obj = new stdClass();
         $obj->test = 'test1';
         $instance->unknown_obj = $obj;
         $data = $instance->jsonSerialize();
         $expected['unknown_obj'] = $obj;
         self::assertEquals($expected, $data);
 
-        $obj = new \stdClass();
+        $obj = new stdClass();
         $obj->test = 'test2';
         $instance->property_camel_case = $obj;
         $data = $instance->jsonSerialize();

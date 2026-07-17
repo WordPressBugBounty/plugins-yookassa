@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Payouts;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
@@ -50,8 +51,8 @@ class CreatePayoutRequestSerializerTest extends TestCase
     public function testSerialize($options)
     {
         $serializer = new CreatePayoutRequestSerializer();
-        $instance   = CreatePayoutRequest::builder()->build($options);
-        $data       = $serializer->serialize($instance);
+        $instance = CreatePayoutRequest::builder()->build($options);
+        $data = $serializer->serialize($instance);
 
         $request = new CreatePayoutRequest($options);
         $expected = $request->toArray();
@@ -61,7 +62,7 @@ class CreatePayoutRequestSerializerTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -109,7 +110,7 @@ class CreatePayoutRequestSerializerTest extends TestCase
                 'deal' => $even ? new PayoutDealInfo(array('id' => Random::str(36, 50))) : array('id' => Random::str(36, 50)),
                 'payment_method_id' => Random::str(5, 128),
                 'self_employed' => $even ? new PayoutSelfEmployedInfo(array('id' => Random::str(36, 50))) : array('id' => Random::str(36, 50)),
-                'receipt_data' => $even ? new IncomeReceiptData(array('service_name' => Random::str(36, 50), 'amount' => new MonetaryAmount(Random::int(1, 1000000)))) : array('service_name' => Random::str(36, 50), 'amount' => array('value' => Random::int(1, 1000000).'.00', 'currency' => CurrencyCode::RUB)),
+                'receipt_data' => $even ? new IncomeReceiptData(array('service_name' => Random::str(36, 50), 'amount' => new MonetaryAmount(Random::int(1, 1000000)))) : array('service_name' => Random::str(36, 50), 'amount' => array('value' => Random::int(1, 1000000) . '.00', 'currency' => CurrencyCode::RUB)),
                 'personal_data' => array($even ? new PayoutPersonalData(array('id' => Random::str(36, 50))) : array('id' => Random::str(36, 50))),
             );
             $result[] = array($request);

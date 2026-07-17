@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\PaymentMethod;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethod\BankCard;
 use YooKassa\Model\PaymentMethod\BankCardSource;
@@ -51,21 +52,21 @@ class BankCardTest extends TestCase
 
     /**
      * @dataProvider invalidLast4DataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setLast4($value);
     }
 
     /**
      * @dataProvider invalidLast4DataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->last4 = $value;
     }
 
@@ -80,21 +81,21 @@ class BankCardTest extends TestCase
 
     /**
      * @dataProvider invalidFirst6DataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetFirst6InvalidNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setFirst6($value);
     }
 
     /**
      * @dataProvider invalidFirst6DataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterFirst6InvalidNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->first6 = $value;
     }
 
@@ -109,51 +110,51 @@ class BankCardTest extends TestCase
 
     /**
      * @dataProvider invalidYearDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidYear($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setExpiryYear($value);
     }
 
     /**
      * @dataProvider invalidYearDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidYear($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiryYear = $value;
     }
 
     /**
      * @dataProvider invalidYearDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalid_year($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiry_year = $value;
     }
 
     /**
      * @dataProvider invalidMonthDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidMonth($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiryMonth = $value;
     }
 
     /**
      * @dataProvider invalidMonthDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalid_month($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiry_month = $value;
     }
 
@@ -168,11 +169,11 @@ class BankCardTest extends TestCase
 
     /**
      * @dataProvider invalidMonthDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidMonth($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setExpiryMonth($value);
     }
 
@@ -214,111 +215,111 @@ class BankCardTest extends TestCase
 
     /**
      * @dataProvider invalidCardTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCardType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCardType($value);
     }
 
     /**
      * @dataProvider invalidCardTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCardType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->cardType = $value;
     }
 
     /**
      * @dataProvider invalidCardTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCard_type($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->card_type = $value;
     }
 
     /**
      * @dataProvider invalidIssuerCountryDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidIssuerCountry($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setIssuerCountry($value);
     }
 
     /**
      * @dataProvider invalidIssuerCountryDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidIssuerCountry($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->issuerCountry = $value;
     }
 
     /**
      * @dataProvider invalidIssuerCountryDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidIssuer_country($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->issuer_country = $value;
     }
 
     /**
      * @dataProvider invalidIssuerNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidIssuerName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setIssuerName($value);
     }
 
     /**
      * @dataProvider invalidIssuerNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidIssuerName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->issuerName = $value;
     }
 
     /**
      * @dataProvider invalidIssuerNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidIssuer_name($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->issuer_name = $value;
     }
 
     /**
      * @dataProvider invalidSourceDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidSource($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setSource($value);
     }
 
     /**
      * @dataProvider invalidSourceDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidSource($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->source = $value;
     }
 
@@ -434,7 +435,7 @@ class BankCardTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(3, '0123456789')),
             array(Random::str(5, '0123456789')),
         );
@@ -449,7 +450,7 @@ class BankCardTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(3, '0123456789')),
             array(Random::str(5, '0123456789')),
         );
@@ -465,7 +466,7 @@ class BankCardTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, '0123456789')),
             array(Random::str(2, '0123456789')),
             array(Random::str(3, '0123456789')),
@@ -482,7 +483,7 @@ class BankCardTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, '0123456789')),
             array(Random::str(3, '0123456789')),
             array('13'),
@@ -498,7 +499,7 @@ class BankCardTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -509,7 +510,7 @@ class BankCardTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -519,7 +520,7 @@ class BankCardTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -531,7 +532,7 @@ class BankCardTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 

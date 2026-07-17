@@ -53,7 +53,7 @@ class CreatePersonalDataRequestSerializer
             $result['first_name'] = $request->getFirstName();
         }
         if ($request->hasMiddleName()) {
-            $result['first_name'] = $request->getMiddleName();
+            $result['middle_name'] = $request->getMiddleName();
         }
         if ($request->hasMetadata()) {
             $result['metadata'] = $request->getMetadata()->toArray();

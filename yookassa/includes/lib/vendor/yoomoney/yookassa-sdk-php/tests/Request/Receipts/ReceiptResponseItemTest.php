@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Receipts;
 
+use stdClass;
 use YooKassa\Common\Exceptions\EmptyPropertyValueException;
 use YooKassa\Helpers\ProductCode;
 use YooKassa\Helpers\Random;
@@ -313,11 +314,10 @@ class ReceiptResponseItemTest extends TestCase
      * @dataProvider invalidCountryOfOriginCodeDataProvider
      * @param array $options
      *
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetCountryOfOriginCodeInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setCountryOfOriginCode($options);
     }
@@ -410,11 +410,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidDescriptionDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetDescriptionInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setDescription($options);
     }
@@ -422,11 +421,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidQuantityDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetQuantityInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setQuantity($options);
     }
@@ -434,11 +432,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidMeasureDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetMeasureInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setMeasure($options);
     }
@@ -446,11 +443,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidVatCodeDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetVatCodeInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setVatCode($options);
     }
@@ -458,10 +454,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidExciseDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
      */
     public function testSetExciseInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setExcise($options);
     }
@@ -469,10 +465,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidProductCodeDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
      */
     public function testSetProductCodeInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setProductCode($options);
     }
@@ -480,11 +476,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidPaymentDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetPaymentSubjectInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setPaymentSubject($options);
     }
@@ -492,11 +487,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidPaymentDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetPaymentModeInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setPaymentMode($options);
     }
@@ -504,11 +498,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidSupplierDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetSupplierInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setSupplier($options);
     }
@@ -516,11 +509,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidAgentTypeDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetAgentTypeInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setAgentType($options);
     }
@@ -528,11 +520,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidMarkCodeInfoDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetMarkCodeInfoInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setMarkCodeInfo($options);
     }
@@ -540,11 +531,10 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidMarkModeDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetMarkModeInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setMarkMode($options);
     }
@@ -552,35 +542,34 @@ class ReceiptResponseItemTest extends TestCase
     /**
      * @dataProvider invalidMarkQuantityDataProvider
      * @param $options
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      */
     public function testSetMarkQuantityInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setMarkQuantity($options);
     }
 
     /**
      * @dataProvider invalidCustomsDeclarationNumberDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidCustomsDeclarationNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->customsDeclarationNumber = $value;
     }
 
     /**
      * @dataProvider invalidCustomsDeclarationNumberDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidCustomsDeclarationNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptResponseItem();
         $instance->setCustomsDeclarationNumber($value);
     }
@@ -634,11 +623,11 @@ class ReceiptResponseItemTest extends TestCase
                     )),
                     'country_of_origin_code' => Random::value(array('RU', 'US', 'CN')),
                     'customs_declaration_number' => Random::value(array(
-                            null,
-                            '',
-                            Random::str(1),
-                            Random::str(2, 31),
-                            Random::str(32),
+                        null,
+                        '',
+                        Random::str(1),
+                        Random::str(2, 31),
+                        Random::str(32),
                     )),
                     'mark_code_info' => array(
                         'mark_code_raw' => '010460406000590021N4N57RTCBUZTQ\u001d2403054002410161218\u001d1424010191ffd0\u001g92tIAF/YVpU4roQS3M/m4z78yFq0nc/WsSmLeX6QkF/YVWwy5IMYAeiQ91Xa2m/fFSJcOkb2N+uUUtfr4n0mOX0Q==',
@@ -694,7 +683,7 @@ class ReceiptResponseItemTest extends TestCase
         return array(
             array(array()),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
         );
     }
@@ -722,7 +711,7 @@ class ReceiptResponseItemTest extends TestCase
             array(new StringObject('')),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(Random::str(2, 96, 'GHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=`~?><:"\'')),
             array(Random::str(97, 100, '0123456789ABCDEF ')),
@@ -777,7 +766,7 @@ class ReceiptResponseItemTest extends TestCase
             array(1.0),
             array(1),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -787,7 +776,7 @@ class ReceiptResponseItemTest extends TestCase
             array(1.0),
             array(1),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, 10)),
         );
     }
@@ -797,7 +786,7 @@ class ReceiptResponseItemTest extends TestCase
         return array(
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(Random::str(33, 64)),
         );
@@ -809,8 +798,8 @@ class ReceiptResponseItemTest extends TestCase
             array(1.0),
             array(1),
             array(true),
-            array(new \stdClass()),
-            array(array(new \stdClass())),
+            array(new stdClass()),
+            array(array(new stdClass())),
         );
     }
 }

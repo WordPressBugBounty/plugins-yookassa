@@ -107,6 +107,8 @@ class PaymentMethodType extends AbstractEnum
     const SBER_BNPL = 'sber_bnpl';
     /** Прием платежей по электронному сертификату, привязанному к карте «Мир» */
     const ELECTRONIC_CERTIFICATE = 'electronic_certificate';
+    /** Прием платежей через Alfa Pay */
+    const ALFA_PAY = 'alfa_pay';
 
     /**
      * Для неизвестных методов оплаты
@@ -134,6 +136,7 @@ class PaymentMethodType extends AbstractEnum
         self::SBER_LOAN              => true,
         self::SBER_BNPL              => true,
         self::ELECTRONIC_CERTIFICATE => true,
+        self::ALFA_PAY               => true,
         self::UNKNOWN                => false,
     );
 }

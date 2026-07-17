@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Payout;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Model\Payout\PayoutCancellationDetailsPartyCode;
 use YooKassa\Model\Payout\PayoutCancellationDetailsReasonCode;
@@ -96,7 +97,8 @@ class PayoutCancellationDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setParty($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -111,7 +113,8 @@ class PayoutCancellationDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->reason = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -121,15 +124,15 @@ class PayoutCancellationDetailsTest extends TestCase
      */
     public function validDataProvider()
     {
-        $result                          = array();
-        $cancellationDetailsParties      = PayoutCancellationDetailsPartyCode::getValidValues();
+        $result = array();
+        $cancellationDetailsParties = PayoutCancellationDetailsPartyCode::getValidValues();
         $countCancellationDetailsParties = count($cancellationDetailsParties);
-        $cancellationDetailsReasons      = PayoutCancellationDetailsReasonCode::getValidValues();
+        $cancellationDetailsReasons = PayoutCancellationDetailsReasonCode::getValidValues();
         $countCancellationDetailsReasons = count($cancellationDetailsReasons);
         for ($i = 0; $i < 20; $i++) {
             $result[] = array(
                 array(
-                    'party'  => $cancellationDetailsParties[$i % $countCancellationDetailsParties],
+                    'party' => $cancellationDetailsParties[$i % $countCancellationDetailsParties],
                     'reason' => $cancellationDetailsReasons[$i % $countCancellationDetailsReasons]
                 )
             );
@@ -159,7 +162,7 @@ class PayoutCancellationDetailsTest extends TestCase
     {
         $instance = new PayoutCancellationDetails($value);
         $expected = array(
-            'party'  => $value['party'],
+            'party' => $value['party'],
             'reason' => $value['reason'],
         );
         self::assertEquals($expected, $instance->jsonSerialize());

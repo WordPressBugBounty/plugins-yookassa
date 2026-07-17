@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -74,11 +75,11 @@ class ReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidItemsProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidItems($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Receipt();
         $instance->setItems($value);
     }
@@ -139,11 +140,11 @@ class ReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidTaxSystemIdProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidTaxSystemCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Receipt();
         $instance->setTaxSystemCode($value);
     }
@@ -174,11 +175,11 @@ class ReceiptTest extends TestCase
 
     /**
      * @dataProvider invalidSettlementsDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testInvalidSetSettlements($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Receipt();
         $instance->setSettlements($value);
     }
@@ -188,11 +189,11 @@ class ReceiptTest extends TestCase
         $result = array(
             array(
                 array(
-                    'items'           => array(),
+                    'items' => array(),
                     'tax_system_code' => null,
-                    'customer'        => array(
-                        'phone'       => '',
-                        'email'       => '',
+                    'customer' => array(
+                        'phone' => '',
+                        'email' => '',
                     ),
                     'settlements' => array(
                         array(
@@ -207,11 +208,11 @@ class ReceiptTest extends TestCase
             ),
             array(
                 array(
-                    'items'           => array(),
+                    'items' => array(),
                     'tax_system_code' => '',
-                    'customer'        => array(
-                        'phone'       => '',
-                        'email'       => '',
+                    'customer' => array(
+                        'phone' => '',
+                        'email' => '',
                     ),
                     'settlements' => array(
                         array(
@@ -226,29 +227,10 @@ class ReceiptTest extends TestCase
             ),
             array(
                 array(
-                    'items'           => array(),
-                    'customer'        => array(
-                        'phone'       => '',
-                        'email'       => '',
-                    ),
-                    'tax_system_code' => '',
-                    'settlements' => array(
-                        array(
-                            'type' => Random::value(SettlementType::getValidValues()),
-                            'amount' => array(
-                                'value' => round(Random::float(0.1, 99.99), 2),
-                                'currency' => Random::value(CurrencyCode::getValidValues())
-                            )
-                        )
-                    )
-                ),
-            ),
-            array(
-                array(
-                    'items'           => array(),
-                    'customer'        => array(
-                        'phone'       => '',
-                        'email'       => '',
+                    'items' => array(),
+                    'customer' => array(
+                        'phone' => '',
+                        'email' => '',
                     ),
                     'tax_system_code' => '',
                     'settlements' => array(
@@ -264,10 +246,29 @@ class ReceiptTest extends TestCase
             ),
             array(
                 array(
-                    'items'           => array(),
-                    'customer'        => array(
-                        'phone'       => '',
-                        'email'       => '',
+                    'items' => array(),
+                    'customer' => array(
+                        'phone' => '',
+                        'email' => '',
+                    ),
+                    'tax_system_code' => '',
+                    'settlements' => array(
+                        array(
+                            'type' => Random::value(SettlementType::getValidValues()),
+                            'amount' => array(
+                                'value' => round(Random::float(0.1, 99.99), 2),
+                                'currency' => Random::value(CurrencyCode::getValidValues())
+                            )
+                        )
+                    )
+                ),
+            ),
+            array(
+                array(
+                    'items' => array(),
+                    'customer' => array(
+                        'phone' => '',
+                        'email' => '',
                     ),
                     'tax_system_code' => '',
                     'settlements' => array(
@@ -284,10 +285,10 @@ class ReceiptTest extends TestCase
         );
         for ($i = 1; $i < 6; $i++) {
             $receipt = array(
-                'items'           => array(),
+                'items' => array(),
                 'tax_system_code' => $i,
-                'phone'           => Random::str(10, 10, '1234567890'),
-                'email'           => uniqid() . '@' . uniqid(),
+                'phone' => Random::str(10, 10, '1234567890'),
+                'email' => uniqid() . '@' . uniqid(),
             );
             $result[] = array($receipt);
         }
@@ -307,8 +308,8 @@ class ReceiptTest extends TestCase
                         )
                     )
                 )
-            )
-        ));
+                )
+            ));
         for ($i = 1; $i < 9; $i++) {
             $receipt = array(
                 new Settlement(
@@ -336,7 +337,7 @@ class ReceiptTest extends TestCase
     {
         return array(
             array(null),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('invalid_value'),
             array(''),
             array(0),
@@ -358,7 +359,7 @@ class ReceiptTest extends TestCase
                 ),
             ),
             array(
-                array(new \stdClass()),
+                array(new stdClass()),
             ),
         );
     }
@@ -366,7 +367,7 @@ class ReceiptTest extends TestCase
     public function invalidTaxSystemIdProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array('invalid_value'),
             array(0),
             array(3234),
@@ -379,7 +380,7 @@ class ReceiptTest extends TestCase
     public function invalidPhoneProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(true),
             array(false),

@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\Deal;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Deal\RefundDealInfo;
 use YooKassa\Model\Deal\SettlementPayoutPayment;
@@ -103,7 +104,7 @@ class RefundDealInfoTest extends TestCase
         $invalidData = array(
             array(null),
             array(''),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('invalid_value'),
             array(0),
             array(3234),

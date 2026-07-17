@@ -28,7 +28,7 @@ namespace Tests\YooKassa\Model\PaymentMethod;
 use YooKassa\Model\PaymentMethod\PaymentMethodQiwi;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentMethodQiwiTest extends AbstractPaymentMethodTest
+class PaymentMethodQiwiTest extends AbstractPaymentMethodTestCase
 {
     /**
      * @return PaymentMethodQiwi

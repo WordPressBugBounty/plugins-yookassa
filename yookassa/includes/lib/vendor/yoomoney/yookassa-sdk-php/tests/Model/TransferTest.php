@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AmountInterface;
 use YooKassa\Model\CurrencyCode;
@@ -118,25 +120,25 @@ class TransferTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
         $result = array(
             array(
 
-                    'account_id' => '123',
-                    'amount' => array(
-                        'value' => '10.00',
-                        'currency' => 'RUB'
-                    ),
-                    'platform_fee_amount' => array(
-                        'value' => '10.00',
-                        'currency' => 'RUB'
-                    ),
-                    'status' => TransferStatus::PENDING,
-                    'description' => 'Заказ маркетплейса №1',
-                    'metadata' => null
+                'account_id' => '123',
+                'amount' => array(
+                    'value' => '10.00',
+                    'currency' => 'RUB'
+                ),
+                'platform_fee_amount' => array(
+                    'value' => '10.00',
+                    'currency' => 'RUB'
+                ),
+                'status' => TransferStatus::PENDING,
+                'description' => 'Заказ маркетплейса №1',
+                'metadata' => null
             )
         );
         for ($i = 0; $i < 10; $i++) {
@@ -163,36 +165,36 @@ class TransferTest extends TestCase
     /**
      * @dataProvider invalidAccountIdProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param mixed $value
      */
     public function testGetSetInvalidAccountId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAccountId($value);
     }
 
     /**
      * @dataProvider invalidAccountIdProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidAccountId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->accountId = $value;
     }
 
     /**
      * @dataProvider invalidMetadataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testInvalidMetadata($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setMetadata($value);
     }
@@ -206,7 +208,7 @@ class TransferTest extends TestCase
             array(null),
             array(''),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -269,8 +271,8 @@ class TransferTest extends TestCase
     }
 
     /**
-     * @return \YooKassa\Model\MonetaryAmount[][]
-     * @throws \Exception
+     * @return MonetaryAmount[][]
+     * @throws Exception
      */
     public function validAmountDataProvider()
     {
@@ -290,48 +292,48 @@ class TransferTest extends TestCase
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAmount($value);
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->amount = $value;
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidPlatformFeeAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPlatformFeeAmount($value);
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidPlatformFeeAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->platform_fee_amount = $value;
     }
 
@@ -347,7 +349,7 @@ class TransferTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -394,42 +396,42 @@ class TransferTest extends TestCase
     /**
      * @dataProvider invalidStatusProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param mixed $value
      */
     public function testGetSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setStatus($value);
     }
 
     /**
      * @dataProvider invalidStatusProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->status = $value;
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidTypeDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Transfer();
         $instance->setDescription(true);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetInvalidLengthDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Transfer();
         $description = Random::str(Transfer::MAX_LENGTH_DESCRIPTION + 1);
         $instance->setDescription($description);
@@ -437,7 +439,7 @@ class TransferTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidStatusProvider()
     {
@@ -445,18 +447,18 @@ class TransferTest extends TestCase
             array(null),
             array(''),
             array(Random::str(15, 100)),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidMetadataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

@@ -25,6 +25,7 @@
 
 namespace YooKassa\Request\Receipts;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Helpers\UUID;
@@ -36,7 +37,7 @@ class ReceiptsResponseTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testGetType($options)
     {
@@ -49,7 +50,7 @@ class ReceiptsResponseTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testGetItems($options)
     {

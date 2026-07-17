@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Receipt;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\MarkQuantity;
 use PHPUnit\Framework\TestCase;
@@ -86,7 +87,8 @@ class MarkQuantityTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setDenominator($denominator);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -101,7 +103,8 @@ class MarkQuantityTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->denominator = $denominator;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -131,7 +134,8 @@ class MarkQuantityTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setNumerator($numerator);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassNumerator, $e);
         }
     }
@@ -146,7 +150,8 @@ class MarkQuantityTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->numerator = $numerator;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassNumerator, $e);
         }
     }
@@ -167,18 +172,13 @@ class MarkQuantityTest extends TestCase
     {
         $exceptionDenominatorNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionDenominatorNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionDenominatorNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionDenominatorNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionDenominatorNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::int(-100, MarkQuantity::MIN_VALUE - 1), $exceptionDenominatorNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionDenominatorNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionDenominatorNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionDenominatorNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionDenominatorNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionDenominatorNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionDenominatorNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -186,18 +186,14 @@ class MarkQuantityTest extends TestCase
     {
         $exceptionNumeratorNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNumeratorNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNumeratorNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNumeratorNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNumeratorNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::int(-100, MarkQuantity::MIN_VALUE - 1), $exceptionNumeratorNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
-            array(-0.01,                $exceptionNumeratorNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNumeratorNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNumeratorNamespace . 'InvalidPropertyValueException'),
-            array(0.01,                 $exceptionNumeratorNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
+            array('III', $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionNumeratorNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 

@@ -33,7 +33,7 @@ use YooKassa\Model\PaymentMethod\AbstractPaymentMethod;
 use YooKassa\Model\PaymentMethod\PaymentMethodSberLoan;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentMethodSberLoanTest extends AbstractPaymentMethodTest
+class PaymentMethodSberLoanTest extends AbstractPaymentMethodTestCase
 {
     /**
      * @return AbstractPaymentMethod
@@ -73,22 +73,22 @@ class PaymentMethodSberLoanTest extends AbstractPaymentMethodTest
 
     /**
      * @dataProvider invalidLoanOptionDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidLoanOption($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setLoanOption($value);
     }
 
     /**
      * @dataProvider invalidLoanOptionDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidLoanOption($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->loan_option = $value;
     }
@@ -120,22 +120,22 @@ class PaymentMethodSberLoanTest extends AbstractPaymentMethodTest
 
     /**
      * @dataProvider invalidDiscountAmountDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidDiscountAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setDiscountAmount($value);
     }
 
     /**
      * @dataProvider invalidDiscountAmountDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidDiscountAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->discount_amount = $value;
     }

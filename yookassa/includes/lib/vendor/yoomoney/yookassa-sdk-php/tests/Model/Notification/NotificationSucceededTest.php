@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Notification;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\ConfirmationType;
 use YooKassa\Model\CurrencyCode;
@@ -36,7 +37,7 @@ use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
 use YooKassa\Model\ReceiptRegistrationStatus;
 
-class NotificationSucceededTest extends AbstractNotificationTest
+class NotificationSucceededTest extends AbstractNotificationTestCase
 {
     /**
      * @param array $source
@@ -76,7 +77,7 @@ class NotificationSucceededTest extends AbstractNotificationTest
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {

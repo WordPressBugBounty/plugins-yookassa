@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\PersonalData;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Metadata;
 use YooKassa\Model\PersonalData\PersonalDataType;
@@ -79,11 +80,11 @@ class CreatePersonalDataRequestTest extends TestCase
 
     /**
      * @dataProvider invalidLastNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidLastName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePersonalDataRequest();
         $instance->setLastName($value);
     }
@@ -133,11 +134,11 @@ class CreatePersonalDataRequestTest extends TestCase
 
     /**
      * @dataProvider invalidFirstNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidFirstName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePersonalDataRequest();
         $instance->setFirstName($value);
     }
@@ -186,11 +187,11 @@ class CreatePersonalDataRequestTest extends TestCase
 
     /**
      * @dataProvider invalidMiddleNameDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidMiddleName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePersonalDataRequest();
         $instance->setMiddleName($value);
     }
@@ -242,22 +243,22 @@ class CreatePersonalDataRequestTest extends TestCase
 
     /**
      * @dataProvider invalidMetadataDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidMetadata($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePersonalDataRequest();
         $instance->setMetadata($value);
     }
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePersonalDataRequest();
         $instance->setType($value);
     }
@@ -329,7 +330,7 @@ class CreatePersonalDataRequestTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
         );
     }
@@ -351,7 +352,7 @@ class CreatePersonalDataRequestTest extends TestCase
             array(''),
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(CreatePersonalDataRequest::MAX_LENGTH_LAST_NAME + 1)),
         );
     }
@@ -361,7 +362,7 @@ class CreatePersonalDataRequestTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(CreatePersonalDataRequest::MAX_LENGTH_LAST_NAME + 1)),
         );
     }
@@ -373,7 +374,7 @@ class CreatePersonalDataRequestTest extends TestCase
             array(''),
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(CreatePersonalDataRequest::MAX_LENGTH_FIRST_NAME + 1)),
         );
     }

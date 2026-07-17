@@ -29,7 +29,7 @@ use YooKassa\Model\PaymentMethod\AbstractPaymentMethod;
 use YooKassa\Model\PaymentMethod\PaymentMethodTinkoffBank;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentMethodTinkoffBankTest extends AbstractPaymentMethodTest
+class PaymentMethodTinkoffBankTest extends AbstractPaymentMethodTestCase
 {
     /**
      * @return AbstractPaymentMethod

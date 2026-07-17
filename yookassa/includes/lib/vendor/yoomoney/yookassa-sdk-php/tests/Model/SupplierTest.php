@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model;
 
+use stdClass;
 use YooKassa\Helpers\ProductCode;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Supplier;
@@ -48,10 +49,10 @@ class SupplierTest extends TestCase
     /**
      * @dataProvider invalidInnDataTest
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidInn($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Supplier();
         $instance->setInn($value);
     }
@@ -72,10 +73,10 @@ class SupplierTest extends TestCase
     /**
      * @dataProvider invalidDataTest
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Supplier();
         $instance->setName($value);
     }
@@ -96,10 +97,10 @@ class SupplierTest extends TestCase
     /**
      * @dataProvider invalidDataTest
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Supplier();
         $instance->setPhone($value);
     }
@@ -125,8 +126,8 @@ class SupplierTest extends TestCase
 
         for ($i = 0; $i < 7; $i++) {
             $test = array(
-                'name'  => Random::str(1, 150),
-                'inn'   => Random::str(12, 12, '1234567890'),
+                'name' => Random::str(1, 150),
+                'inn' => Random::str(12, 12, '1234567890'),
                 'phone' => Random::str(10, 10, '1234567890'),
             );
 
@@ -139,7 +140,7 @@ class SupplierTest extends TestCase
     public function invalidDataTest()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(false),
             array(true)
         );
@@ -149,7 +150,7 @@ class SupplierTest extends TestCase
     {
         return array(
             array('test'),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(false),
             array(true)
         );

@@ -217,7 +217,7 @@ class CreateCaptureRequestSerializerTest extends TestCase
                             'phone' => Random::str(12, '0123456789'),
                             'email' => Random::str(10),
                             'full_name' => Random::str(1, 256),
-                            'inn'    => Random::str(12, 12, '1234567890')
+                            'inn' => Random::str(12, 12, '1234567890')
                         ),
                         'tax_system_code' => Random::int(1, 6),
                     ),
@@ -230,7 +230,7 @@ class CreateCaptureRequestSerializerTest extends TestCase
         );
         for ($i = 0; $i < 10; $i++) {
             $request = array(
-                'amount'   => array(
+                'amount' => array(
                     'value' => (float)mt_rand(1, 1000000),
                     'currency' => $currencies[mt_rand(0, count($currencies) - 1)],
                 ),

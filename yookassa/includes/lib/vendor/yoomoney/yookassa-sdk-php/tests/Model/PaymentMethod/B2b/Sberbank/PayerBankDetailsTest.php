@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\PaymentData;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethod\B2b\Sberbank\PayerBankDetails;
@@ -122,7 +123,7 @@ class PayerBankDetailsTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validStringDataProvider()
     {

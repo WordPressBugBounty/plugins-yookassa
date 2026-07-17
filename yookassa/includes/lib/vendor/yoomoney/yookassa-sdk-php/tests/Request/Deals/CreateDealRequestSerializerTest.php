@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Deals;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Deal\DealType;
@@ -42,8 +43,8 @@ class CreateDealRequestSerializerTest extends TestCase
     public function testSerialize($options)
     {
         $serializer = new CreateDealRequestSerializer();
-        $instance   = CreateDealRequest::builder()->build($options);
-        $data       = $serializer->serialize($instance);
+        $instance = CreateDealRequest::builder()->build($options);
+        $data = $serializer->serialize($instance);
 
         $expected = array(
             'type' => $options['type'],
@@ -66,7 +67,7 @@ class CreateDealRequestSerializerTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {

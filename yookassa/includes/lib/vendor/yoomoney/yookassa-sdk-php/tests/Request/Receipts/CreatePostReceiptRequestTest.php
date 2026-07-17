@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Request\Receipts;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Common\Exceptions\EmptyPropertyValueException;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Airline;
@@ -85,11 +87,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidCustomerDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCustomer($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setCustomer($value);
     }
@@ -113,11 +115,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setType($value);
     }
@@ -153,10 +155,10 @@ class CreatePostReceiptRequestTest extends TestCase
         self::assertFalse($instance->validate());
 
         $instance->setSettlements(array(
-                new Settlement(array(
-                    'type' => SettlementType::PREPAYMENT,
-                    'amount' => new ReceiptItemAmount(10, 'RUB')))
-            ));
+            new Settlement(array(
+                'type' => SettlementType::PREPAYMENT,
+                'amount' => new ReceiptItemAmount(10, 'RUB')))
+        ));
         self::assertFalse($instance->validate());
 
         $instance->setItems(array());
@@ -222,7 +224,7 @@ class CreatePostReceiptRequestTest extends TestCase
     /**
      * @dataProvider fromArraySettlementDataProvider
      * @param array $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSettlementFromArray($options)
     {
@@ -242,12 +244,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidSetsDataProvider
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      * @param $value
      */
     public function testSetInvalidItems($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setItems($value);
     }
@@ -261,11 +262,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidTaxSystemCodeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidTaxSystemCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setTaxSystemCode($value);
     }
@@ -279,12 +280,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidSetsDataProvider
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      * @param $value
      */
     public function testSetInvalidSettlements($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setSettlements($value);
     }
@@ -309,12 +309,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidSetOnBehalfOfDataProvider
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      * @param $value
      */
     public function testSetInvalidOnBehalfOf($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setOnBehalfOf($value);
     }
@@ -345,11 +344,11 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @dataProvider invalidBooleanDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidSend($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreatePostReceiptRequest();
         $instance->setSend($value);
     }
@@ -404,7 +403,7 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @return \array[][][]
-     * @throws \Exception
+     * @throws Exception
      */
     public function fromArraySettlementDataProvider()
     {
@@ -419,7 +418,7 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function generateSettlements()
     {
@@ -436,7 +435,7 @@ class CreatePostReceiptRequestTest extends TestCase
     /**
      * @param $true
      * @return array|Settlement
-     * @throws \Exception
+     * @throws Exception
      */
     private function generateSettlement($true)
     {
@@ -543,7 +542,7 @@ class CreatePostReceiptRequestTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -643,7 +642,7 @@ class CreatePostReceiptRequestTest extends TestCase
             array(true),
             array(1),
             array(Random::str(10)),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -654,7 +653,7 @@ class CreatePostReceiptRequestTest extends TestCase
             array(true),
             array(1),
             array(Random::str(10)),
-            array(new \stdClass())
+            array(new stdClass())
         );
     }
 
@@ -683,7 +682,7 @@ class CreatePostReceiptRequestTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('test'),
         );
     }
@@ -692,7 +691,7 @@ class CreatePostReceiptRequestTest extends TestCase
     {
         return array(
             array(null),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

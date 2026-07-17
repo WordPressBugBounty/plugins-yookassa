@@ -241,7 +241,7 @@ class DealsRequestBuilder extends AbstractRequestBuilder
      * @param array|null $options Массив с настройками запроса
      * @return AbstractRequest|DealsRequest Инстанс объекта запроса к API для получения списка сделок магазина
      */
-    public function build(array $options = null)
+    public function build($options = null)
     {
         return parent::build($options);
     }

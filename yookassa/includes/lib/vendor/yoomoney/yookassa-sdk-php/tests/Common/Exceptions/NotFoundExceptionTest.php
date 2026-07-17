@@ -27,7 +27,7 @@ namespace Tests\YooKassa\Common\Exceptions;
 
 use YooKassa\Common\Exceptions\NotFoundException;
 
-class NotFoundExceptionTest extends AbstractApiRequestExceptionTest
+class NotFoundExceptionTest extends AbstractApiRequestExceptionTestCase
 {
     public function getTestInstance($message = '', $code = 0, $responseHeaders = array(), $responseBody = null)
     {

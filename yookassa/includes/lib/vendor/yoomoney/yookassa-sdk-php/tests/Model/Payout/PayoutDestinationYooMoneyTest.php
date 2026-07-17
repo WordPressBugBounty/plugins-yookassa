@@ -25,11 +25,13 @@
 
 namespace Tests\YooKassa\Model\Payout;
 
+use DateTime;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Payout\PayoutDestinationYooMoney;
 use YooKassa\Model\PaymentMethodType;
 
-class PayoutDestinationYooMoneyTest extends AbstractPayoutDestinationTest
+class PayoutDestinationYooMoneyTest extends AbstractPayoutDestinationTestCase
 {
     /**
      * @return PayoutDestinationYooMoney
@@ -87,21 +89,21 @@ class PayoutDestinationYooMoneyTest extends AbstractPayoutDestinationTest
 
     /**
      * @dataProvider invalidAccountNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidAccountNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAccountNumber($value);
     }
 
     /**
      * @dataProvider invalidAccountNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidAccountNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->account_number = $value;
     }
 
@@ -123,8 +125,8 @@ class PayoutDestinationYooMoneyTest extends AbstractPayoutDestinationTest
             array(null),
             array(Random::str(34, 50, '0123456789')),
             array(true),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
             array(Random::str(1, 10, '0123456789')),
         );
     }

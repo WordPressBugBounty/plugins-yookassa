@@ -26,8 +26,10 @@
 namespace Tests\YooKassa\Client;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use YooKassa\Client\CurlClient;
 use YooKassa\Common\HttpVerb;
+use YooKassa\Common\LoggerWrapper;
 
 class CurlClientTest extends TestCase
 {
@@ -54,14 +56,16 @@ class CurlClientTest extends TestCase
 
     /**
      * @dataProvider curlErrorCodeProvider
-     * @expectedException \YooKassa\Common\Exceptions\ApiConnectionException
      */
     public function testHandleCurlError($error, $errn)
     {
-        $client    = new CurlClient();
-        $reflector = new \ReflectionClass('\YooKassa\Client\CurlClient');
-        $method    = $reflector->getMethod('handleCurlError');
-        $method->setAccessible(true);
+        $this->expectException('YooKassa\Common\Exceptions\ApiConnectionException');
+        $client = new CurlClient();
+        $reflector = new ReflectionClass('\YooKassa\Client\CurlClient');
+        $method = $reflector->getMethod('handleCurlError');
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
         $method->invokeArgs($client, array($error, $errn));
     }
 
@@ -75,11 +79,11 @@ class CurlClientTest extends TestCase
 
     public function testCloseConnection()
     {
-        $wrapped        = new \Tests\YooKassa\Client\ArrayLogger();
-        $logger         = new \YooKassa\Common\LoggerWrapper($wrapped);
+        $wrapped = new ArrayLogger();
+        $logger = new LoggerWrapper($wrapped);
         $curlClientMock = $this->getMockBuilder('YooKassa\Client\CurlClient')
-                               ->setMethods(array('closeCurlConnection', 'sendRequest'))
-                               ->getMock();
+            ->setMethods(array('closeCurlConnection', 'sendRequest'))
+            ->getMock();
         $curlClientMock->setLogger($logger);
         $curlClientMock->setConfig(array('url' => 'test:url'));
         $curlClientMock->setKeepAlive(false);
@@ -102,7 +106,7 @@ class CurlClientTest extends TestCase
 
     public function testAuthorizeException()
     {
-        $this->setExpectedException('YooKassa\Common\Exceptions\AuthorizeException');
+        $this->expectException('YooKassa\Common\Exceptions\AuthorizeException');
         $client = new CurlClient();
         $client->call(
             '',

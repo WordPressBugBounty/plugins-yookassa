@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Request\Receipts;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -60,7 +62,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
         }
     }
 
-     /**
+    /**
      * @dataProvider validDataProvider
      *
      * @param $options
@@ -82,7 +84,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCustomer($options)
     {
@@ -103,12 +105,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidCustomerDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidCustomer($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setCustomer($value);
     }
@@ -160,12 +162,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidVatIdDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setType($value);
     }
@@ -191,12 +193,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidBooleanDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidSend($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setType($value);
     }
@@ -222,12 +224,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidVatIdDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidTaxSystemId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setTaxSystemCode($value);
     }
@@ -236,7 +238,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetAdditionalUserProps($options)
     {
@@ -257,12 +259,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidAdditionalUserPropsDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidAdditionalProps($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setAdditionalUserProps($value);
     }
@@ -271,7 +273,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceiptIndustryDetails($options)
     {
@@ -288,12 +290,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidReceiptIndustryDetailsDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidReceiptIndustryDetails($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setReceiptIndustryDetails($value);
     }
@@ -302,7 +304,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceiptOperationalDetails($options)
     {
@@ -323,12 +325,12 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidReceiptOperationalDetailsDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidReceiptOperationalDetails($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePostReceiptRequestBuilder();
         $builder->setReceiptOperationalDetails($value);
     }
@@ -522,7 +524,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
             array(-1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
         );
     }
@@ -542,7 +544,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
             array(array()),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
             array(7),
             array(Random::int(-100, -1)),
@@ -554,7 +556,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('test'),
         );
     }
@@ -562,7 +564,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
     public function invalidAdditionalUserPropsDataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array('test'),
             array(array(
                 'name' => null,
@@ -590,7 +592,7 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
     public function invalidReceiptOperationalDetailsDataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(Random::str(1, 100)),
         );
@@ -599,11 +601,11 @@ class CreatePostReceiptRequestBuilderTest extends TestCase
     public function invalidReceiptIndustryDetailsDataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(
                 array(
-                    new \stdClass(),
-                    new \stdClass(),
+                    new stdClass(),
+                    new stdClass(),
                 )
             ),
             array(true),

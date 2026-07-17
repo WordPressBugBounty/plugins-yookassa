@@ -41,7 +41,7 @@ class ForbiddenException extends ApiException
 
     public function __construct($responseHeaders = array(), $responseBody = null)
     {
-        $errorData = json_decode($responseBody, true);
+        $errorData = json_decode($responseBody ?: '{}', true);
         $message   = '';
 
         if (isset($errorData['description'])) {

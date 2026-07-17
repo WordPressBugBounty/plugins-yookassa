@@ -83,7 +83,7 @@ class TestAbstractEnum extends AbstractEnum
 
     protected static $validValues = array(
         self::ENUM_VALUE_1 => true,
-        self::ENUM_VALUE_2  => true,
+        self::ENUM_VALUE_2 => true,
         self::ENUM_DISABLED_VALUE_1 => false,
         self::ENUM_DISABLED_VALUE_2 => false,
     );

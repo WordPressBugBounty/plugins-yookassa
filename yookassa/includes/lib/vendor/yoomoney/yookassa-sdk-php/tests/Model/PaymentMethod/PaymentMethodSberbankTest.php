@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\PaymentMethod;
 
+use stdClass;
 use YooKassa\Model\PaymentMethod\PaymentMethodSberbank;
 use YooKassa\Model\PaymentMethodType;
 
@@ -69,22 +70,22 @@ class PaymentMethodSberbankTest extends PaymentMethodBankCardTest
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setPhone($value);
     }
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->phone = $value;
     }
@@ -115,7 +116,7 @@ class PaymentMethodSberbankTest extends PaymentMethodBankCardTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('2345678901234567'),
         );
     }

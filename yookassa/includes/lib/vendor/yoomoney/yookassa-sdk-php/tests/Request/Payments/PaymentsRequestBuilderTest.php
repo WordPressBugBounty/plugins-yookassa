@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Payments;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
@@ -75,7 +76,7 @@ class PaymentsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCreatedGt($options)
     {
@@ -96,7 +97,7 @@ class PaymentsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCreatedLte($options)
     {
@@ -157,7 +158,7 @@ class PaymentsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCapturedGt($options)
     {
@@ -178,7 +179,7 @@ class PaymentsRequestBuilderTest extends TestCase
     /**
      * @dataProvider validDataProvider
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetCapturedLte($options)
     {
@@ -279,56 +280,56 @@ class PaymentsRequestBuilderTest extends TestCase
 
     public function validDataProvider()
     {
-        $result   = array(
+        $result = array(
             array(
                 array(
-                    'createdAtGte'       => null,
-                    'createdAtGt'        => null,
-                    'createdAtLte'       => null,
-                    'createdAtLt'        => null,
-                    'capturedAtGte'      => null,
-                    'capturedAtGt'       => null,
-                    'capturedAtLte'      => null,
-                    'capturedAtLt'       => null,
-                    'paymentMethod'      => null,
-                    'status'             => null,
-                    'limit'              => null,
-                    'cursor'             => null,
+                    'createdAtGte' => null,
+                    'createdAtGt' => null,
+                    'createdAtLte' => null,
+                    'createdAtLt' => null,
+                    'capturedAtGte' => null,
+                    'capturedAtGt' => null,
+                    'capturedAtLte' => null,
+                    'capturedAtLt' => null,
+                    'paymentMethod' => null,
+                    'status' => null,
+                    'limit' => null,
+                    'cursor' => null,
                 ),
             ),
             array(
                 array(
-                    'createdAtGte'       => '',
-                    'createdAtGt'        => '',
-                    'createdAtLte'       => '',
-                    'createdAtLt'        => '',
-                    'capturedAtGte'      => '',
-                    'capturedAtGt'       => '',
-                    'capturedAtLte'      => '',
-                    'capturedAtLt'       => '',
-                    'paymentMethod'      => '',
-                    'status'             => '',
-                    'limit'              => 0,
-                    'cursor'             => '',
+                    'createdAtGte' => '',
+                    'createdAtGt' => '',
+                    'createdAtLte' => '',
+                    'createdAtLt' => '',
+                    'capturedAtGte' => '',
+                    'capturedAtGt' => '',
+                    'capturedAtLte' => '',
+                    'capturedAtLt' => '',
+                    'paymentMethod' => '',
+                    'status' => '',
+                    'limit' => 0,
+                    'cursor' => '',
                 ),
             ),
         );
         $statuses = PaymentStatus::getValidValues();
-        $methods  = PaymentMethodType::getValidValues();
+        $methods = PaymentMethodType::getValidValues();
         for ($i = 0; $i < 10; $i++) {
-            $request  = array(
-                'createdAtGte'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtGt'        => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtLte'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtLt'        => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtGte'      => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtGt'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtLte'      => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtLt'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'paymentMethod'      => $methods[mt_rand(0, count($methods) - 1)],
-                'status'             => $statuses[mt_rand(0, count($statuses) - 1)],
-                'limit'              => mt_rand(1, 100),
-                'cursor'             => $this->randomString(mt_rand(1, 30)),
+            $request = array(
+                'createdAtGte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtGt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtLte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtLt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtGte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtGt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtLte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtLt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'paymentMethod' => $methods[mt_rand(0, count($methods) - 1)],
+                'status' => $statuses[mt_rand(0, count($statuses) - 1)],
+                'limit' => mt_rand(1, 100),
+                'cursor' => $this->randomString(mt_rand(1, 30)),
             );
             $result[] = array($request);
         }
@@ -344,7 +345,7 @@ class PaymentsRequestBuilderTest extends TestCase
             if ($any) {
                 $char = chr(mt_rand(32, 126));
             } else {
-                $rnd  = mt_rand(0, strlen($chars) - 1);
+                $rnd = mt_rand(0, strlen($chars) - 1);
                 $char = substr($chars, $rnd, 1);
             }
             $result .= $char;

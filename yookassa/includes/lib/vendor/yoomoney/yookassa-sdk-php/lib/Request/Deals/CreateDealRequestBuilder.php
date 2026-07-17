@@ -117,7 +117,7 @@ class CreateDealRequestBuilder extends AbstractRequestBuilder
      * @param array|null $options
      * @return CreateDealRequest|AbstractRequest
      */
-    public function build(array $options = null)
+    public function build($options = null)
     {
         return parent::build($options);
     }

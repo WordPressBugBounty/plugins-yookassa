@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\Metadata;
@@ -66,22 +67,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setId($value['id']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->id = $value['id'];
     }
@@ -109,22 +110,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setStatus($value['status']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->status = $value['status'];
     }
@@ -152,22 +153,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setAmount($value['amount']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->amount = $value['amount'];
     }
@@ -195,44 +196,44 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPayoutDestination($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setPayoutDestination($value['payout_destination']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidPayoutDestination($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->payout_destination = $value['payout_destination'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCancellationDetails($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setCancellationDetails($value['cancellation_details']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCancellationDetails($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->payout_destination = $value['cancellation_details'];
     }
@@ -269,33 +270,33 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setCreatedAt($value['created_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->createdAt = $value['created_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreated_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->created_at = $value['created_at'];
     }
@@ -323,22 +324,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidTest($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setTest($value['test']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidTest($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->test = $value['test'];
     }
@@ -370,22 +371,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidDeal($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setDeal($value['deal']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidDeal($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->deal = $value['deal'];
     }
@@ -421,22 +422,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidSelfEmployed($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setSelfEmployed($value['self_employed']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidSelfEmployed($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->self_employed = $value['self_employed'];
 
@@ -471,22 +472,22 @@ class PayoutTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidReceipt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setReceipt($value['receipt']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReceipt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->receipt = $value['receipt'];
     }
@@ -508,19 +509,19 @@ class PayoutTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidTypeDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $instance->setDescription(true);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidLengthDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payout();
         $description = Random::str(Payout::MAX_LENGTH_DESCRIPTION + 1);
         $instance->setDescription($description);
@@ -615,7 +616,7 @@ class PayoutTest extends TestCase
                 'status' => Random::value(PayoutStatus::getValidValues()),
                 'amount' => new MonetaryAmount(Random::int(1, 10000), 'RUB'),
                 'description' => Random::str(1, Payout::MAX_LENGTH_DESCRIPTION),
-                'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY,PaymentMethodType::BANK_CARD))],
+                'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY, PaymentMethodType::BANK_CARD))],
                 'created_at' => date(YOOKASSA_DATE, mt_rand(111111111, time())),
                 'test' => true,
                 'deal' => null,
@@ -639,9 +640,9 @@ class PayoutTest extends TestCase
                 'test' => true,
                 'deal' => array('id' => Random::str(36, 50)),
                 'receipt' => array(
-                    'service_name'    => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
-                    'npd_receipt_id'  => Random::str(1, 50),
-                    'url'             => Random::str(1, 50),
+                    'service_name' => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
+                    'npd_receipt_id' => Random::str(1, 50),
+                    'url' => Random::str(1, 50),
                     'amount' => array(
                         'value' => number_format(Random::float(1, 99), 2, '.', ''),
                         'currency' => Random::value(CurrencyCode::getValidValues())
@@ -660,15 +661,15 @@ class PayoutTest extends TestCase
                 'amount' => new MonetaryAmount(Random::int(1, 10000), 'RUB'),
                 'description' => ($i == 0 ? null : ($i == 1 ? '' : ($i == 2 ? Random::str(Payout::MAX_LENGTH_DESCRIPTION)
                     : Random::str(1, Payout::MAX_LENGTH_DESCRIPTION)))),
-                'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY,PaymentMethodType::BANK_CARD))],
+                'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY, PaymentMethodType::BANK_CARD))],
                 'created_at' => date(YOOKASSA_DATE, mt_rand(1, time())),
                 'test' => (bool)($i % 2),
                 'deal' => new PayoutDealInfo(array('id' => Random::str(36, 50))),
                 'self_employed' => new PayoutSelfEmployed(array('id' => Random::str(36, 50))),
                 'receipt' => new IncomeReceipt(array(
-                    'service_name'    => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
-                    'npd_receipt_id'  => Random::str(1, 50),
-                    'url'             => Random::str(1, 50),
+                    'service_name' => Random::str(1, IncomeReceipt::MAX_LENGTH_SERVICE_NAME),
+                    'npd_receipt_id' => Random::str(1, 50),
+                    'url' => Random::str(1, 50),
                     'amount' => array(
                         'value' => number_format(Random::float(1, 99), 2, '.', ''),
                         'currency' => Random::value(CurrencyCode::getValidValues())
@@ -708,14 +709,14 @@ class PayoutTest extends TestCase
                     'id' => '',
                     'status' => '',
                     'amount' => '',
-                    'payout_destination' => new \stdClass(),
+                    'payout_destination' => new stdClass(),
                     'test' => '',
                     'deal' => new Metadata(),
-                    'self_employed' => new \stdClass(),
+                    'self_employed' => new stdClass(),
                     'receipt' => new Metadata(),
-                    'metadata' => new \stdClass(),
+                    'metadata' => new stdClass(),
                     'created_at' => array(),
-                    'cancellation_details' => new \stdClass(),
+                    'cancellation_details' => new stdClass(),
                 ),
             ),
         );
@@ -723,14 +724,14 @@ class PayoutTest extends TestCase
             $payment = array(
                 'id' => Random::str($i < 5 ? mt_rand(1, 35) : mt_rand(51, 64)),
                 'status' => Random::str(1, 35),
-                'amount' => $i % 2 ? array() : new \stdClass(),
-                'payout_destination' => $i % 2 ? Random::str(10) : new \stdClass(),
-                'test' => $i == 0 ? array() : new \stdClass(),
-                'deal' => $i == 0 ? Random::str(10) : new \stdClass(),
-                'self_employed' => $i == 0 ? Random::str(10) : new \stdClass(),
-                'receipt' => $i == 0 ? Random::str(10) : new \stdClass(),
-                'metadata' => $i == 0 ? Random::str(10) : new \stdClass(),
-                'cancellation_details' => $i == 0 ? Random::str(10) : new \stdClass(),
+                'amount' => $i % 2 ? array() : new stdClass(),
+                'payout_destination' => $i % 2 ? Random::str(10) : new stdClass(),
+                'test' => $i == 0 ? array() : new stdClass(),
+                'deal' => $i == 0 ? Random::str(10) : new stdClass(),
+                'self_employed' => $i == 0 ? Random::str(10) : new stdClass(),
+                'receipt' => $i == 0 ? Random::str(10) : new stdClass(),
+                'metadata' => $i == 0 ? Random::str(10) : new stdClass(),
+                'cancellation_details' => $i == 0 ? Random::str(10) : new stdClass(),
                 'created_at' => $i == 0 ? '23423-234-32' : -Random::int(),
             );
             $result[] = array($payment);

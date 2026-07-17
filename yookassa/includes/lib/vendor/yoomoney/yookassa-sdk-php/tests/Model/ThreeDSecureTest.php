@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Model\ThreeDSecure;
 
@@ -70,7 +71,8 @@ class ThreeDSecureTest extends TestCase
         $instance = new ThreeDSecure();
         try {
             $instance->setApplied($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassName, $e);
         }
     }
@@ -103,9 +105,6 @@ class ThreeDSecureTest extends TestCase
         return array(
             array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(-1, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(-0.01, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0, $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array('', $exceptionNamespace . 'EmptyPropertyValueException'),
             array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
         );

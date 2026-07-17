@@ -25,11 +25,13 @@
 
 namespace Tests\YooKassa\Request\Payouts\PayoutDestinationData;
 
+use DateTime;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Request\Payouts\PayoutDestinationData\PayoutDestinationDataSbp;
 
-class PayoutDestinationDataSbpTest extends AbstractPayoutDestinationDataTest
+class PayoutDestinationDataSbpTest extends AbstractPayoutDestinationDataTestCase
 {
     /**
      * @return PayoutDestinationDataSbp
@@ -82,21 +84,21 @@ class PayoutDestinationDataSbpTest extends AbstractPayoutDestinationDataTest
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPhone($value);
     }
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->phone = $value;
     }
 
@@ -140,21 +142,21 @@ class PayoutDestinationDataSbpTest extends AbstractPayoutDestinationDataTest
 
     /**
      * @dataProvider invalidBankIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidBankId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setBankId($value);
     }
 
     /**
      * @dataProvider invalidBankIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidBankId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->bankId = $value;
     }
 
@@ -173,8 +175,8 @@ class PayoutDestinationDataSbpTest extends AbstractPayoutDestinationDataTest
             array(null),
             array(''),
             array(true),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
         );
     }
 
@@ -193,8 +195,8 @@ class PayoutDestinationDataSbpTest extends AbstractPayoutDestinationDataTest
             array(null),
             array(''),
             array(true),
-            array(new \stdClass()),
-            array(new \DateTime()),
+            array(new stdClass()),
+            array(new DateTime()),
             array(Random::str(13)),
         );
     }

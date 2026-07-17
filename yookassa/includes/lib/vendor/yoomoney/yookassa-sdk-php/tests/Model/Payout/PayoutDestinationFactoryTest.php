@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\Payout;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Payout\AbstractPayoutDestination;
 use YooKassa\Model\Payout\PayoutDestinationFactory;
@@ -54,11 +55,11 @@ class PayoutDestinationFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $type
      */
     public function testInvalidFactory($type)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factory($type);
     }
@@ -100,11 +101,11 @@ class PayoutDestinationFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidDataArrayDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $options
      */
     public function testInvalidFactoryFromArray($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factoryFromArray($options);
     }
@@ -128,7 +129,7 @@ class PayoutDestinationFactoryTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
         );
     }
@@ -136,15 +137,15 @@ class PayoutDestinationFactoryTest extends TestCase
     public function validArrayDataProvider()
     {
         $result = array(
-             array(
+            array(
                 array(
                     'type' => PaymentMethodType::BANK_CARD,
                     'card' => array(
-                        'first6'         => Random::str(6, '0123456789'),
-                        'last4'          => Random::str(4, '0123456789'),
-                        'card_type'      => Random::str(3, 20),
+                        'first6' => Random::str(6, '0123456789'),
+                        'last4' => Random::str(4, '0123456789'),
+                        'card_type' => Random::str(3, 20),
                         'issuer_country' => Random::str(2),
-                        'issuer_name'    => Random::str(4, 50),
+                        'issuer_name' => Random::str(4, 50),
                     ),
                 ),
             ),
@@ -161,7 +162,7 @@ class PayoutDestinationFactoryTest extends TestCase
                     'bank_id' => Random::str(4, 12),
                 ),
             ),
-         );
+        );
         foreach (PayoutDestinationType::getEnabledValues() as $value) {
             $result[] = array(array('type' => $value));
         }

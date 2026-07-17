@@ -93,10 +93,10 @@ class DealsResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param array $options
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         new DealsResponse($options);
     }
 

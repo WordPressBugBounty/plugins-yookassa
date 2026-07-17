@@ -139,6 +139,15 @@ class YooKassaAdmin
             true
         );
         wp_enqueue_script( $this->plugin_name . '-admin' );
+
+        wp_localize_script(
+            $this->plugin_name . '-admin',
+            'yookassaAdmin',
+            array(
+                'nonce' => wp_create_nonce('yookassa_admin'),
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+            )
+        );
     }
 
     public function addMenu()
@@ -393,6 +402,11 @@ class YooKassaAdmin
      */
     public function get_tab_content ()
     {
+        if (!current_user_can('manage_woocommerce')) {
+            wp_die('Forbidden', 'Forbidden', 403);
+        }
+        check_ajax_referer('yookassa_admin', 'nonce');
+
         $file = 'partials/tabs/' . sanitize_key($_GET['tab']) . '.php';
         if (is_file(plugin_dir_path(__FILE__) . $file)) {
             $this->render($file, $this->get_all_settings());
@@ -410,6 +424,12 @@ class YooKassaAdmin
     public function get_oauth_url()
     {
         header('Content-Type: application/json');
+        if (!current_user_can('manage_woocommerce')) {
+            echo json_encode(array('status' => 'error', 'error' => 'Forbidden', 'code' => 'forbidden'));
+            wp_die();
+        }
+        check_ajax_referer('yookassa_admin', 'nonce');
+
         YooKassaLogger::sendHeka(array('oauth.process.init'));
         if (!is_ajax()) {
             YooKassaLogger::sendHeka(array('oauth.process.fail'));
@@ -482,6 +502,12 @@ class YooKassaAdmin
     public function get_oauth_token()
     {
         header('Content-Type: application/json');
+        if (!current_user_can('manage_woocommerce')) {
+            echo json_encode(array('status' => 'error', 'error' => 'Forbidden', 'code' => 'forbidden'));
+            wp_die();
+        }
+        check_ajax_referer('yookassa_admin', 'nonce');
+
         YooKassaLogger::sendHeka(array('oauth.callback.init'));
         if (!is_ajax()) {
             echo json_encode(array('status' => 'error', 'error' => 'Unknown', 'code' => 'unknown'));

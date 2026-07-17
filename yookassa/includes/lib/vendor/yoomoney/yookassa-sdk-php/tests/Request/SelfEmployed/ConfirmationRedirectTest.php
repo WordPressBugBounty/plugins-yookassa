@@ -28,7 +28,7 @@ namespace Tests\YooKassa\Request\SelfEmployed;
 use YooKassa\Model\SelfEmployed\SelfEmployedConfirmationType;
 use YooKassa\Request\SelfEmployed\SelfEmployedRequestConfirmationRedirect;
 
-class ConfirmationRedirectTest extends AbstractConfirmationTest
+class ConfirmationRedirectTest extends AbstractConfirmationTestCase
 {
     /**
      * @return SelfEmployedRequestConfirmationRedirect

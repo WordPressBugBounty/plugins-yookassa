@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Refunds;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Model\RefundStatus;
 use YooKassa\Request\Refunds\RefundsRequest;
@@ -33,14 +34,14 @@ use YooKassa\Request\Refunds\RefundsRequestSerializer;
 class RefundsRequestSerializerTest extends TestCase
 {
     private $fieldMap = array(
-        'paymentId'      => 'payment_id',
-        'createdAtGte'   => 'created_at.gte',
-        'createdAtGt'    => 'created_at.gt',
-        'createdAtLte'   => 'created_at.lte',
-        'createdAtLt'    => 'created_at.lt',
-        'status'         => 'status',
-        'cursor'         => 'cursor',
-        'limit'          => 'limit',
+        'paymentId' => 'payment_id',
+        'createdAtGte' => 'created_at.gte',
+        'createdAtGt' => 'created_at.gt',
+        'createdAtLte' => 'created_at.lte',
+        'createdAtLt' => 'created_at.lt',
+        'status' => 'status',
+        'cursor' => 'cursor',
+        'limit' => 'limit',
     );
 
     /**
@@ -57,7 +58,7 @@ class RefundsRequestSerializerTest extends TestCase
             if (isset($options[$field])) {
                 $value = $options[$field];
                 if (!empty($value)) {
-                    $expected[$mapped] = $value instanceof \DateTime ? $value->format(YOOKASSA_DATE) : $value;
+                    $expected[$mapped] = $value instanceof DateTime ? $value->format(YOOKASSA_DATE) : $value;
                 }
             }
         }

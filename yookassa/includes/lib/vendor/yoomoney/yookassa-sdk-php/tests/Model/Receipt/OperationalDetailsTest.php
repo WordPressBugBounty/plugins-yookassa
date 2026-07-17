@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Receipt;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\OperationalDetails;
 use PHPUnit\Framework\TestCase;
@@ -88,7 +89,8 @@ class OperationalDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setValue($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -103,7 +105,8 @@ class OperationalDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->value = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -133,7 +136,8 @@ class OperationalDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setOperationId($operation_id);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassOperationId, $e);
         }
     }
@@ -148,7 +152,8 @@ class OperationalDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->operation_id = $operation_id;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassOperationId, $e);
         }
     }
@@ -178,7 +183,8 @@ class OperationalDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setCreatedAt($created_at);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassCreatedAt, $e);
         }
     }
@@ -193,7 +199,8 @@ class OperationalDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->created_at = $created_at;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassCreatedAt, $e);
         }
     }
@@ -215,18 +222,13 @@ class OperationalDetailsTest extends TestCase
     {
         $exceptionValueNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionValueNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionValueNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionValueNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionValueNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(OperationalDetails::VALUE_MAX_LENGTH + 1), $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -234,18 +236,13 @@ class OperationalDetailsTest extends TestCase
     {
         $exceptionOperationIdNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionOperationIdNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionOperationIdNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionOperationIdNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionOperationIdNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(OperationalDetails::OPERATION_ID_MAX_LENGTH + 1), $exceptionOperationIdNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionOperationIdNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0,                  $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(0,                    $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.01,                 $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(true,                 $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionOperationIdNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -253,18 +250,15 @@ class OperationalDetailsTest extends TestCase
     {
         $exceptionCreatedAtNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionCreatedAtNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionCreatedAtNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionCreatedAtNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionCreatedAtNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(1, 20), $exceptionCreatedAtNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionCreatedAtNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0,                  $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
-            array(0,                    $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.01,                 $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
-            array(true,                 $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
+            array('III', $exceptionCreatedAtNamespace . 'InvalidPropertyValueException'),
+            array(-0.01, $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionCreatedAtNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 

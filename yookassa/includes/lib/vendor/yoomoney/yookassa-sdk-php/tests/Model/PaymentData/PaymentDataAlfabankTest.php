@@ -25,11 +25,12 @@
 
 namespace Tests\YooKassa\Model\PaymentData;
 
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentData\PaymentDataAlfabank;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentDataAlfabankTest extends AbstractPaymentDataTest
+class PaymentDataAlfabankTest extends AbstractPaymentDataTestCase
 {
     /**
      * @return PaymentDataAlfabank
@@ -70,22 +71,22 @@ class PaymentDataAlfabankTest extends AbstractPaymentDataTest
 
     /**
      * @dataProvider invalidLoginDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidLogin($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setLogin($value);
     }
 
     /**
      * @dataProvider invalidLoginDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidLogin($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->login = $value;
     }
@@ -107,7 +108,7 @@ class PaymentDataAlfabankTest extends AbstractPaymentDataTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

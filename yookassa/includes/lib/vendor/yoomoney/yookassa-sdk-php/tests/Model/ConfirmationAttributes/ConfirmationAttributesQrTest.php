@@ -28,7 +28,7 @@ namespace Tests\YooKassa\Model\ConfirmationAttributes;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesQr;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationAttributesQrTest extends AbstractConfirmationAttributesTest
+class ConfirmationAttributesQrTest extends AbstractConfirmationAttributesTestCase
 {
     /**
      * @return ConfirmationAttributesQr

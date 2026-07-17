@@ -25,10 +25,11 @@
 
 namespace Tests\YooKassa\Model\Confirmation;
 
+use stdClass;
 use YooKassa\Model\Confirmation\ConfirmationQr;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationQrTest extends AbstractConfirmationTest
+class ConfirmationQrTest extends AbstractConfirmationTestCase
 {
     /**
      * @return ConfirmationQr
@@ -99,33 +100,33 @@ class ConfirmationQrTest extends AbstractConfirmationTest
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidConfirmationData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setConfirmationData($value);
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmationData($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->confirmationData = $value;
     }
 
     /**
      * @dataProvider invalidUrlDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmation_data($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->confirmation_data = $value;
     }
@@ -149,7 +150,7 @@ class ConfirmationQrTest extends AbstractConfirmationTest
             array('true'),
             array('false'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -169,7 +170,7 @@ class ConfirmationQrTest extends AbstractConfirmationTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

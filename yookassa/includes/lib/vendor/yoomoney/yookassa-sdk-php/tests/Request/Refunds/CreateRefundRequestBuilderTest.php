@@ -25,7 +25,10 @@
 
 namespace Tests\YooKassa\Request\Refunds;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AmountInterface;
 use YooKassa\Model\CurrencyCode;
@@ -50,7 +53,7 @@ class CreateRefundRequestBuilderTest extends TestCase
         $builder = new CreateRefundRequestBuilder();
         try {
             $builder->build(array('amountValue' => mt_rand(1, 100)));
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $builder->setPaymentId($options['paymentId']);
             $instance = $builder->build(array('amount' => mt_rand(1, 100)));
             self::assertEquals($options['paymentId'], $instance->getPaymentId());
@@ -64,14 +67,14 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetAmountValue($options)
     {
         $builder = new CreateRefundRequestBuilder();
         try {
             $builder->build(array('paymentId' => Random::str(36)));
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $builder->setAmount($options['amount']);
             $instance = $builder->build(array('paymentId' => Random::str(36)));
             if ($options['amount'] instanceof AmountInterface) {
@@ -83,14 +86,14 @@ class CreateRefundRequestBuilderTest extends TestCase
 
             if ($options['amount'] instanceof AmountInterface) {
                 $builder->setAmount(array(
-                    'value'    => $options['amount']->getValue(),
+                    'value' => $options['amount']->getValue(),
                     'currency' => 'USD',
                 ));
                 $instance = $builder->build(array('paymentId' => Random::str(36)));
                 self::assertEquals($options['amount']->getValue(), $instance->getAmount()->getValue());
             } else {
                 $builder->setAmount(array(
-                    'value'    => $options['amount'],
+                    'value' => $options['amount'],
                     'currency' => 'USD',
                 ));
                 $instance = $builder->build(array('paymentId' => Random::str(36)));
@@ -106,7 +109,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetAmountCurrency($options)
     {
@@ -115,7 +118,7 @@ class CreateRefundRequestBuilderTest extends TestCase
         $builder->setCurrency($options['currency']);
         $instance = $builder->build(array(
             'paymentId' => Random::str(36),
-            'amount'    => mt_rand(1, 100),
+            'amount' => mt_rand(1, 100),
         ));
         self::assertEquals($options['currency'], $instance->getAmount()->getCurrency());
     }
@@ -124,21 +127,21 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetComment($options)
     {
-        $builder  = new CreateRefundRequestBuilder();
+        $builder = new CreateRefundRequestBuilder();
         $instance = $builder->build(array(
             'paymentId' => Random::str(36),
-            'amount'    => mt_rand(1, 100),
+            'amount' => mt_rand(1, 100),
         ));
         self::assertNull($instance->getDescription());
 
         $builder->setDescription($options['description']);
         $instance = $builder->build(array(
             'paymentId' => Random::str(36),
-            'amount'    => mt_rand(1, 100),
+            'amount' => mt_rand(1, 100),
         ));
         if (empty($options['description'])) {
             self::assertNull($instance->getDescription());
@@ -154,7 +157,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      */
     public function testBuild($options)
     {
-        $builder  = new CreateRefundRequestBuilder();
+        $builder = new CreateRefundRequestBuilder();
         $instance = $builder->build($options);
 
         self::assertEquals($options['paymentId'], $instance->getPaymentId());
@@ -175,7 +178,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceiptItems($options)
     {
@@ -197,7 +200,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testAddReceiptItems($options)
     {
@@ -233,7 +236,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testAddReceiptShipping($options)
     {
@@ -266,18 +269,18 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidItemsDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $items
      */
     public function testSetInvalidReceiptItems($items)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateRefundRequestBuilder();
         $builder->setReceiptItems($items);
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceipt()
     {
@@ -289,15 +292,15 @@ class CreateRefundRequestBuilderTest extends TestCase
             ),
             'items' => array(
                 array(
-                    'description'     => 'test',
-                    'quantity'        => 123,
-                    'amount'          => array(
-                        'value'    => 321,
+                    'description' => 'test',
+                    'quantity' => 123,
+                    'amount' => array(
+                        'value' => 321,
                         'currency' => 'USD',
                     ),
-                    'vat_code'        => Random::int(1, 6),
+                    'vat_code' => Random::int(1, 6),
                     'payment_subject' => PaymentSubject::COMMODITY,
-                    'payment_mode'    => PaymentMode::PARTIAL_PREPAYMENT,
+                    'payment_mode' => PaymentMode::PARTIAL_PREPAYMENT,
                 ),
             ),
         );
@@ -325,12 +328,12 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidReceiptDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param mixed $value
      */
     public function testSetInvalidReceipt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateRefundRequestBuilder();
         $builder->setReceipt($value);
     }
@@ -347,7 +350,7 @@ class CreateRefundRequestBuilderTest extends TestCase
             array(1),
             array(1.1),
             array('test'),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -360,18 +363,18 @@ class CreateRefundRequestBuilderTest extends TestCase
             array(
                 array(
                     array(
-                        'price'    => 1,
+                        'price' => 1,
                         'quantity' => 1.4,
-                        'vatCode'  => 3,
+                        'vatCode' => 3,
                     ),
                 ),
             ),
             array(
                 array(
                     array(
-                        'title'    => 'test',
+                        'title' => 'test',
                         'quantity' => 1.4,
-                        'vatCode'  => 3,
+                        'vatCode' => 3,
                     ),
                 ),
             ),
@@ -379,18 +382,18 @@ class CreateRefundRequestBuilderTest extends TestCase
                 array(
                     array(
                         'description' => 'test',
-                        'quantity'    => 1.4,
-                        'vatCode'     => 3,
+                        'quantity' => 1.4,
+                        'vatCode' => 3,
                     ),
                 ),
             ),
             array(
                 array(
                     array(
-                        'title'    => 'test',
-                        'price'    => 123,
+                        'title' => 'test',
+                        'price' => 123,
                         'quantity' => 1.4,
-                        'vatCode'  => 15,
+                        'vatCode' => 15,
                     ),
                 ),
             ),
@@ -398,16 +401,16 @@ class CreateRefundRequestBuilderTest extends TestCase
                 array(
                     array(
                         'description' => 'test',
-                        'price'       => 123,
-                        'quantity'    => -1.4,
+                        'price' => 123,
+                        'quantity' => -1.4,
                     ),
                 ),
             ),
             array(
                 array(
                     array(
-                        'title'   => 'test',
-                        'price'   => 1,
+                        'title' => 'test',
+                        'price' => 1,
                         'vatCode' => 7,
                     ),
                 ),
@@ -419,7 +422,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceiptEmail($options)
     {
@@ -439,12 +442,12 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidEmailDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidEmail($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateRefundRequestBuilder();
         $builder->setReceiptEmail($value);
     }
@@ -453,7 +456,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceiptPhone($options)
     {
@@ -474,12 +477,12 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateRefundRequestBuilder();
         $builder->setReceiptPhone($value);
     }
@@ -488,7 +491,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetReceiptTaxSystemCode($options)
     {
@@ -509,12 +512,12 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidVatIdDataProvider
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidTaxSystemId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateRefundRequestBuilder();
         $builder->setTaxSystemCode($value);
     }
@@ -522,20 +525,20 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
         $result = array(
             array(
                 array(
-                    'paymentId'     => Random::str(36),
-                    'amount'        => mt_rand(1, 999999),
-                    'currency'      => Random::value(CurrencyCode::getValidValues()),
-                    'description'       => null,
-                    'receiptItems'  => array(),
-                    'receiptEmail'  => null,
-                    'receiptPhone'  => null,
+                    'paymentId' => Random::str(36),
+                    'amount' => mt_rand(1, 999999),
+                    'currency' => Random::value(CurrencyCode::getValidValues()),
+                    'description' => null,
+                    'receiptItems' => array(),
+                    'receiptEmail' => null,
+                    'receiptPhone' => null,
                     'taxSystemCode' => Random::int(1, 6),
                     'sources' => array(
                         new Source(array(
@@ -560,16 +563,16 @@ class CreateRefundRequestBuilderTest extends TestCase
             ),
             array(
                 array(
-                    'paymentId'     => Random::str(36),
-                    'amount'        => new MonetaryAmount(
+                    'paymentId' => Random::str(36),
+                    'amount' => new MonetaryAmount(
                         Random::int(1, 999999),
                         Random::value(CurrencyCode::getValidValues())
                     ),
-                    'currency'      => Random::value(CurrencyCode::getValidValues()),
-                    'description'       => '',
-                    'receiptItems'  => array(),
-                    'receiptEmail'  => '',
-                    'receiptPhone'  => '',
+                    'currency' => Random::value(CurrencyCode::getValidValues()),
+                    'description' => '',
+                    'receiptItems' => array(),
+                    'receiptEmail' => '',
+                    'receiptPhone' => '',
                     'taxSystemCode' => Random::int(1, 6),
                     'sources' => array(
                         new Source(array(
@@ -585,13 +588,13 @@ class CreateRefundRequestBuilderTest extends TestCase
                 ),
             ),
         );
-        $items  = array(
+        $items = array(
             new ReceiptItem(),
             array(
-                'title'    => 'test',
-                'price'    => Random::int(1, 999999),
+                'title' => 'test',
+                'price' => Random::int(1, 999999),
                 'quantity' => Random::int(1, 9999),
-                'vatCode'  => Random::int(1, 6),
+                'vatCode' => Random::int(1, 6),
             ),
         );
         $items[0]->setDescription('test1');
@@ -599,14 +602,14 @@ class CreateRefundRequestBuilderTest extends TestCase
         $items[0]->setPrice(new MonetaryAmount(Random::int(1, 999999)));
         $items[0]->setVatCode(Random::int(1, 6));
         for ($i = 0; $i < 10; $i++) {
-            $request  = array(
-                'paymentId'     => Random::str(36),
-                'amount'        => mt_rand(1, 999999),
-                'currency'      => Random::value(CurrencyCode::getValidValues()),
-                'description'       => uniqid('', true),
-                'receiptItems'  => $items,
-                'receiptEmail'  => uniqid('', true),
-                'receiptPhone'  => Random::str(4, 15, '0123456789'),
+            $request = array(
+                'paymentId' => Random::str(36),
+                'amount' => mt_rand(1, 999999),
+                'currency' => Random::value(CurrencyCode::getValidValues()),
+                'description' => uniqid('', true),
+                'receiptItems' => $items,
+                'receiptEmail' => uniqid('', true),
+                'receiptPhone' => Random::str(4, 15, '0123456789'),
                 'taxSystemCode' => Random::int(1, 6),
                 'sources' => array(
                     new Source(array(
@@ -636,13 +639,13 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function getRequiredData()
     {
         return array(
             'paymentId' => Random::str(36),
-            'amount'    => mt_rand(1, 100),
+            'amount' => mt_rand(1, 100),
         );
     }
 
@@ -655,7 +658,7 @@ class CreateRefundRequestBuilderTest extends TestCase
             array(array()),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -665,7 +668,7 @@ class CreateRefundRequestBuilderTest extends TestCase
     public function invalidPhoneDataProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(true),
             array(false),
@@ -674,7 +677,7 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidVatIdDataProvider()
     {
@@ -682,7 +685,7 @@ class CreateRefundRequestBuilderTest extends TestCase
             array(array()),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
             array(7),
             array(Random::int(-100, -1)),
@@ -694,7 +697,7 @@ class CreateRefundRequestBuilderTest extends TestCase
      * @dataProvider validDataProvider
      *
      * @param $options
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetDeal($options)
     {
@@ -714,14 +717,14 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidDealDataProvider()
     {
         return array(
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
             array(7),
             array(Random::int(-100, -1)),
@@ -731,11 +734,11 @@ class CreateRefundRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidDealDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidDeal($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePaymentRequestBuilder();
         $builder->setDeal($value);
     }

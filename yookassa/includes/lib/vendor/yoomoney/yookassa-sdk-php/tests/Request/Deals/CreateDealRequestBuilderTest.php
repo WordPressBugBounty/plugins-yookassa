@@ -28,6 +28,7 @@ namespace Tests\YooKassa\Request\Deals;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Deal\DealType;
 use YooKassa\Model\Deal\FeeMoment;
@@ -80,12 +81,12 @@ class CreateDealRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException InvalidArgumentException
      *
      * @param $options
      */
     public function testSetInvalidTypeType($options)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateDealRequestBuilder();
         $builder->setType($options);
     }
@@ -113,12 +114,12 @@ class CreateDealRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException InvalidArgumentException
      *
      * @param $options
      */
     public function testSetInvalidTypeFeeMoment($options)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateDealRequestBuilder();
         $builder->setFeeMoment($options);
     }
@@ -148,12 +149,12 @@ class CreateDealRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException InvalidArgumentException
      *
      * @param $options
      */
     public function testSetInvalidTypeMetadata($options)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateDealRequestBuilder();
         $builder->setMetadata($options);
     }
@@ -180,22 +181,22 @@ class CreateDealRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException InvalidArgumentException
      *
      * @param $options
      */
     public function testSetInvalidTypeDescription($options)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreateDealRequestBuilder();
         $builder->setDescription($options);
     }
 
     /**
-     * @expectedException InvalidArgumentException
      */
     public function testSetInvalidLengthDescription()
     {
-        $builder     = new CreateDealRequestBuilder();
+        $this->expectException('InvalidArgumentException');
+        $builder = new CreateDealRequestBuilder();
         $description = Random::str(SafeDeal::MAX_LENGTH_DESCRIPTION + 1);
         $builder->setDescription($description);
     }
@@ -242,7 +243,7 @@ class CreateDealRequestBuilderTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(new SafeDeal()),
         );
     }

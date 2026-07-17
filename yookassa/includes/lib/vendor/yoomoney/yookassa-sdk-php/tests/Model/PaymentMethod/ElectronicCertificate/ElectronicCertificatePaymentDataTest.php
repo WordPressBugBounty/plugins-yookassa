@@ -28,6 +28,7 @@ namespace Tests\YooKassa\Model\PaymentMethod\ElectronicCertificate;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -84,21 +85,21 @@ class ElectronicCertificatePaymentDataTest extends TestCase
 
     /**
      * @dataProvider invalidAmountDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAmount($value);
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->amount = $value;
     }
 
@@ -113,31 +114,31 @@ class ElectronicCertificatePaymentDataTest extends TestCase
 
     /**
      * @dataProvider invalidBasketIdDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidBasketId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setBasketId($value);
     }
 
     /**
      * @dataProvider invalidBasketIdDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidBasketId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->basketId = $value;
     }
 
     /**
      * @dataProvider invalidBasketIdDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidBasketIdSnakeCase($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->basket_id = $value;
     }
 
@@ -178,7 +179,7 @@ class ElectronicCertificatePaymentDataTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -203,7 +204,7 @@ class ElectronicCertificatePaymentDataTest extends TestCase
             array(''),
             array(null),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 

@@ -25,12 +25,13 @@
 
 namespace Model\Confirmation;
 
-use Tests\YooKassa\Model\Confirmation\AbstractConfirmationTest;
+use stdClass;
+use Tests\YooKassa\Model\Confirmation\AbstractConfirmationTestCase;
 use YooKassa\Model\Confirmation\AbstractConfirmation;
 use YooKassa\Model\Confirmation\ConfirmationEmbedded;
 use YooKassa\Model\ConfirmationType;
 
-class ConfirmationEmbeddedTest extends AbstractConfirmationTest
+class ConfirmationEmbeddedTest extends AbstractConfirmationTestCase
 {
     /**
      * @return AbstractConfirmation
@@ -70,7 +71,7 @@ class ConfirmationEmbeddedTest extends AbstractConfirmationTest
             self::assertEquals($value, $instance->confirmationToken);
         }
 
-        $instance                    = $this->getTestInstance();
+        $instance = $this->getTestInstance();
         $instance->confirmationToken = $value;
         if ($value === null || $value === '') {
             self::assertNull($instance->getConfirmationToken());
@@ -83,11 +84,11 @@ class ConfirmationEmbeddedTest extends AbstractConfirmationTest
 
     /**
      * @dataProvider invalidConfirmationTokenDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testIvalidSetConfirmationToken($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setConfirmationToken($value);
     }
@@ -104,7 +105,7 @@ class ConfirmationEmbeddedTest extends AbstractConfirmationTest
     public function invalidConfirmationTokenDataProvider()
     {
         return array(
-            array(new \stdClass())
+            array(new stdClass())
         );
     }
 }

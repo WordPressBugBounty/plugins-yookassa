@@ -27,7 +27,7 @@ namespace Tests\YooKassa\Request\Deals;
 
 use YooKassa\Request\Deals\DealResponse;
 
-class DealResponseTest extends AbstractDealResponseTest
+class DealResponseTest extends AbstractDealResponseTestCase
 {
     protected function getTestInstance($options)
     {

@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\Refunds;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Deal\RefundDealData;
 use YooKassa\Model\Deal\SettlementPayoutPaymentType;
@@ -66,22 +67,22 @@ class CreateRefundRequestTest extends TestCase
 
     /**
      * @dataProvider invalidPaymentIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPaymentId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->setPaymentId($value);
     }
 
     /**
      * @dataProvider invalidPaymentIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidPaymentId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->paymentId = $value;
     }
@@ -95,7 +96,7 @@ class CreateRefundRequestTest extends TestCase
         $instance = new CreateRefundRequest();
 
         self::assertNull($instance->getAmount());
-        self::assertNull($instance->amount, $instance->getAmount());
+        self::assertNull($instance->amount);
 
         $instance->setAmount($options['amount']);
 
@@ -156,22 +157,22 @@ class CreateRefundRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDescriptionDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidDescription($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->setDescription($value);
     }
 
     /**
      * @dataProvider invalidDescriptionDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidDescription($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->description = $value;
     }
@@ -228,22 +229,22 @@ class CreateRefundRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDealDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidDeal($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->setDeal($value);
     }
 
     /**
      * @dataProvider invalidDealDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidDeal($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->deal = $value;
     }
@@ -289,22 +290,22 @@ class CreateRefundRequestTest extends TestCase
 
     /**
      * @dataProvider invalidReceiptDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidReceipt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->setReceipt($value);
     }
 
     /**
      * @dataProvider invalidReceiptDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReceipt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->receipt = $value;
     }
@@ -317,11 +318,11 @@ class CreateRefundRequestTest extends TestCase
 
     /**
      * @dataProvider invalidSourceDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testInvalidSetSources($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new CreateRefundRequest();
         $instance->setSources($value);
     }
@@ -393,7 +394,7 @@ class CreateRefundRequestTest extends TestCase
             array('test'),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -404,7 +405,7 @@ class CreateRefundRequestTest extends TestCase
             array(null),
             array(array()),
             array(1),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(35)),
             array(Random::str(37)),
         );
@@ -414,7 +415,7 @@ class CreateRefundRequestTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -422,7 +423,7 @@ class CreateRefundRequestTest extends TestCase
     {
         return array(
             array(1),
-            array(array(new \stdClass())),
+            array(array(new stdClass())),
         );
     }
 
@@ -430,7 +431,7 @@ class CreateRefundRequestTest extends TestCase
     {
         return array(
             array(Random::str(35)),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Receipt;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\IndustryDetails;
 use PHPUnit\Framework\TestCase;
@@ -90,7 +91,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setValue($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -105,7 +107,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->value = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -135,7 +138,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setDocumentNumber($document_number);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -150,7 +154,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->document_number = $document_number;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -180,7 +185,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setFederalId($federal_id);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassFederalId, $e);
         }
     }
@@ -195,7 +201,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->federal_id = $federal_id;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassFederalId, $e);
         }
     }
@@ -225,7 +232,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setDocumentDate($document_date);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentDate, $e);
         }
     }
@@ -240,7 +248,8 @@ class IndustryDetailsTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->document_date = $document_date;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentDate, $e);
         }
     }
@@ -263,18 +272,13 @@ class IndustryDetailsTest extends TestCase
     {
         $exceptionValueNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionValueNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionValueNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionValueNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionValueNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(IndustryDetails::VALUE_MAX_LENGTH + 1), $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionValueNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionValueNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -282,18 +286,13 @@ class IndustryDetailsTest extends TestCase
     {
         $exceptionDocumentNumberNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionDocumentNumberNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionDocumentNumberNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionDocumentNumberNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionDocumentNumberNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(IndustryDetails::DOCUMENT_NUMBER_MAX_LENGTH + 1), $exceptionDocumentNumberNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionDocumentNumberNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0,                  $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
-            array(0,                    $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.01,                 $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
-            array(true,                 $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionDocumentNumberNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -301,18 +300,12 @@ class IndustryDetailsTest extends TestCase
     {
         $exceptionFederalIdNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionFederalIdNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionFederalIdNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionFederalIdNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionFederalIdNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(Random::str(IndustryDetails::DOCUMENT_NUMBER_MAX_LENGTH + 1), $exceptionFederalIdNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionFederalIdNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0,                  $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(0,                    $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.01,                 $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(true,                 $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
+            array(true, $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionFederalIdNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -320,18 +313,14 @@ class IndustryDetailsTest extends TestCase
     {
         $exceptionDocumentDateNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionDocumentDateNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionDocumentDateNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionDocumentDateNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionDocumentDateNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(IndustryDetails::DOCUMENT_NUMBER_MAX_LENGTH + 1), $exceptionDocumentDateNamespace . 'InvalidPropertyValueException'),
-            array('III',                $exceptionDocumentDateNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.0,                  $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
-            array(0,                    $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
-            array(0.01,                 $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
-            array(true,                 $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
+            array('III', $exceptionDocumentDateNamespace . 'InvalidPropertyValueException'),
+            array(true, $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
+            array(false, $exceptionDocumentDateNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 

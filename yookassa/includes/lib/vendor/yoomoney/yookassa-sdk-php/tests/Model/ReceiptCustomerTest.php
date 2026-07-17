@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt;
 use YooKassa\Model\ReceiptCustomer;
@@ -44,8 +45,8 @@ class ReceiptCustomerTest extends TestCase
         self::assertNull($instance->phone);
 
         $value = !empty($options['customer']['phone'])
-               ? $options['customer']['phone']
-               : (!empty($options['phone']) ? $options['phone'] : null);
+            ? $options['customer']['phone']
+            : (!empty($options['phone']) ? $options['phone'] : null);
 
         $instance->setPhone($value);
         if ($value === null || $value === '') {
@@ -69,8 +70,8 @@ class ReceiptCustomerTest extends TestCase
         self::assertNull($instance->phone);
 
         $value = !empty($options['customer']['phone'])
-               ? $options['customer']['phone']
-               : (!empty($options['phone']) ? $options['phone'] : null);
+            ? $options['customer']['phone']
+            : (!empty($options['phone']) ? $options['phone'] : null);
 
         $instance->phone = $value;
         if ($value === null || $value === '') {
@@ -84,11 +85,11 @@ class ReceiptCustomerTest extends TestCase
 
     /**
      * @dataProvider invalidPhoneProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptCustomer();
         $instance->setPhone($value);
     }
@@ -96,7 +97,7 @@ class ReceiptCustomerTest extends TestCase
     public function invalidPhoneProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(true),
             array(false),
@@ -115,8 +116,8 @@ class ReceiptCustomerTest extends TestCase
         self::assertNull($instance->email);
 
         $value = !empty($options['customer']['email'])
-               ? $options['customer']['email']
-               : (!empty($options['email']) ? $options['email'] : null);
+            ? $options['customer']['email']
+            : (!empty($options['email']) ? $options['email'] : null);
 
         $instance->setEmail($value);
         if ($value === null || $value === '') {
@@ -140,8 +141,8 @@ class ReceiptCustomerTest extends TestCase
         self::assertNull($instance->email);
 
         $value = !empty($options['customer']['email'])
-               ? $options['customer']['email']
-               : (!empty($options['email']) ? $options['email'] : null);
+            ? $options['customer']['email']
+            : (!empty($options['email']) ? $options['email'] : null);
 
         $instance->email = $value;
         if ($value === null || $value === '') {
@@ -238,11 +239,11 @@ class ReceiptCustomerTest extends TestCase
 
     /**
      * @dataProvider invalidFullNameProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidFullName($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptCustomer();
         $instance->setFullName($value);
     }
@@ -250,7 +251,7 @@ class ReceiptCustomerTest extends TestCase
     public function invalidFullNameProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(true),
             array(false),
@@ -314,11 +315,11 @@ class ReceiptCustomerTest extends TestCase
 
     /**
      * @dataProvider invalidInnProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidInn($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new ReceiptCustomer();
         $instance->setInn($value);
     }
@@ -327,7 +328,7 @@ class ReceiptCustomerTest extends TestCase
     public function invalidInnProvider()
     {
         return array(
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(true),
             array(false),
@@ -368,7 +369,7 @@ class ReceiptCustomerTest extends TestCase
                 array(
                     'customer' => array(
                         'full_name' => Random::str(1, 256),
-                        'inn'    => Random::str(12, 12, '1234567890'),
+                        'inn' => Random::str(12, 12, '1234567890'),
                     ),
                     'phone' => Random::str(10, 10, '1234567890'),
                     'email' => uniqid() . '@' . uniqid(),
@@ -380,7 +381,7 @@ class ReceiptCustomerTest extends TestCase
                         'full_name' => Random::str(1, 256),
                         'phone' => Random::str(10, 10, '1234567890'),
                         'email' => uniqid() . '@' . uniqid(),
-                        'inn'    => Random::str(10, 10, '1234567890'),
+                        'inn' => Random::str(10, 10, '1234567890'),
                     ),
                 ),
             ),

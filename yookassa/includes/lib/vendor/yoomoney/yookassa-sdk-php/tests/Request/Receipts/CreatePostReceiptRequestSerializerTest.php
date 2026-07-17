@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Payments;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
@@ -157,7 +158,7 @@ class CreatePostReceiptRequestSerializerTest extends TestCase
     /**
      * @param int $count
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function getReceiptItems($count)
     {
@@ -186,7 +187,7 @@ class CreatePostReceiptRequestSerializerTest extends TestCase
     /**
      * @param int $count
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function getSettlements($count)
     {

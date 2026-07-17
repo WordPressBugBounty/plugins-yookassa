@@ -25,11 +25,12 @@
 
 namespace Tests\YooKassa\Model\PaymentMethod;
 
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethod\PaymentMethodYooMoney;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentMethodYooMoneyTest extends AbstractPaymentMethodTest
+class PaymentMethodYooMoneyTest extends AbstractPaymentMethodTestCase
 {
     /**
      * @return PaymentMethodYooMoney
@@ -79,33 +80,33 @@ class PaymentMethodYooMoneyTest extends AbstractPaymentMethodTest
 
     /**
      * @dataProvider invalidAccountNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidAccountNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setAccountNumber($value);
     }
 
     /**
      * @dataProvider invalidAccountNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidAccountNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->accountNumber = $value;
     }
 
     /**
      * @dataProvider invalidAccountNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidAccount_number($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->account_number = $value;
     }
@@ -130,7 +131,7 @@ class PaymentMethodYooMoneyTest extends AbstractPaymentMethodTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10, '0123456789')),
             array(Random::str(34, '0123456789')),
         );

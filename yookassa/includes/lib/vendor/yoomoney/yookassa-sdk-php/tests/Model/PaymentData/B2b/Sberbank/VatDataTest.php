@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model\PaymentData;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\MonetaryAmount;
@@ -67,25 +69,25 @@ class VatDataTest extends TestCase
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setType($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validConstructDataProvider()
     {
         $result = array(
             array(
                 array(
-                    'type'   => VatDataType::CALCULATED,
-                    'rate'   => VatDataRate::RATE_5,
+                    'type' => VatDataType::CALCULATED,
+                    'rate' => VatDataRate::RATE_5,
                     'amount' => new MonetaryAmount(Random::int(1, 1000))
                 ),
             ),
@@ -96,7 +98,7 @@ class VatDataTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validTypeDataProvider()
     {
@@ -110,7 +112,7 @@ class VatDataTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidTypeDataProvider()
     {
@@ -121,7 +123,7 @@ class VatDataTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(20)),
         );
     }
@@ -137,17 +139,17 @@ class VatDataTest extends TestCase
 
     /**
      * @dataProvider invalidRateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidRate($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setRate($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validRateDataProvider()
     {
@@ -165,7 +167,7 @@ class VatDataTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidRateDataProvider()
     {
@@ -176,7 +178,7 @@ class VatDataTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(20)),
         );
     }
@@ -215,19 +217,19 @@ class VatDataTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
-        self::setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
+        self::expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->setAmount($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -235,7 +237,7 @@ class VatDataTest extends TestCase
             array(null),
             array(
                 array(
-                    'value'    => Random::int(1, 1000),
+                    'value' => Random::int(1, 1000),
                     'currency' => CurrencyCode::EUR,
                 )
             ),
@@ -247,7 +249,7 @@ class VatDataTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function invalidDataProvider()
     {
@@ -257,7 +259,7 @@ class VatDataTest extends TestCase
             array(1),
             array(-1),
             //array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(20)),
         );
     }

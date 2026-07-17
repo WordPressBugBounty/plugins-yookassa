@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AmountInterface;
 use YooKassa\Model\CurrencyCode;
@@ -105,7 +107,7 @@ class SourceTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -129,24 +131,24 @@ class SourceTest extends TestCase
     /**
      * @dataProvider invalidAccountIdProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param mixed $value
      */
     public function testGetSetInvalidAccountId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAccountId($value);
     }
 
     /**
      * @dataProvider invalidAccountIdProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidAccountId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->accountId = $value;
     }
 
@@ -159,7 +161,7 @@ class SourceTest extends TestCase
             array(null),
             array(''),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -222,8 +224,8 @@ class SourceTest extends TestCase
     }
 
     /**
-     * @return \YooKassa\Model\MonetaryAmount[][]
-     * @throws \Exception
+     * @return MonetaryAmount[][]
+     * @throws Exception
      */
     public function validAmountDataProvider()
     {
@@ -243,48 +245,48 @@ class SourceTest extends TestCase
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAmount($value);
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->amount = $value;
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetInvalidPlatformFeeAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPlatformFeeAmount($value);
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
      *
      * @param $value
      */
     public function testSetterInvalidPlatformFeeAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->platform_fee_amount = $value;
     }
 
@@ -300,7 +302,7 @@ class SourceTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 }

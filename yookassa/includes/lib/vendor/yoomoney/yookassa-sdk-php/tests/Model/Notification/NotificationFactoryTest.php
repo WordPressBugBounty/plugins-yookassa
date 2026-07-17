@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model\Notification;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\ConfirmationType;
 use YooKassa\Model\CurrencyCode;
@@ -61,11 +63,11 @@ class NotificationFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidDataArrayDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $options
      */
     public function testInvalidFactory($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factory($options);
     }
@@ -94,7 +96,7 @@ class NotificationFactoryTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validArrayDataProvider()
     {
@@ -129,32 +131,32 @@ class NotificationFactoryTest extends TestCase
             array(array()),
             array(array('type' => 'test')),
             array(array('event' => 'test')),
-            array(array('event' => new \stdClass())),
+            array(array('event' => new stdClass())),
         );
     }
 
     private function getRefundNotification()
     {
-        $statuses             = RefundStatus::getValidValues();
+        $statuses = RefundStatus::getValidValues();
         $receiptRegistrations = ReceiptRegistrationStatus::getValidValues();
 
         $refund = array(
-            'id'                   => Random::str(36),
-            'payment_id'           => Random::str(36),
-            'status'               => Random::value($statuses),
-            'amount'               => array(
-                'value'    => Random::float(0.01, 1000000.0),
+            'id' => Random::str(36),
+            'payment_id' => Random::str(36),
+            'status' => Random::value($statuses),
+            'amount' => array(
+                'value' => Random::float(0.01, 1000000.0),
                 'currency' => Random::value(CurrencyCode::getValidValues()),
             ),
-            'created_at'           => date(YOOKASSA_DATE, Random::int(1, time())),
+            'created_at' => date(YOOKASSA_DATE, Random::int(1, time())),
             'receipt_registration' => Random::value($receiptRegistrations),
-            'description'          => Random::str(1, 128),
+            'description' => Random::str(1, 128),
         );
 
         return array(
             array(
-                'type'   => $this->getExpectedType(),
-                'event'  => NotificationEventType::REFUND_SUCCEEDED,
+                'type' => $this->getExpectedType(),
+                'event' => NotificationEventType::REFUND_SUCCEEDED,
                 'object' => $refund,
             ),
         );
@@ -239,7 +241,7 @@ class NotificationFactoryTest extends TestCase
             'status' => Random::value(PayoutStatus::getValidValues()),
             'amount' => array('value' => Random::int(1, 10000), 'currency' => 'RUB'),
             'description' => Random::str(1, Payout::MAX_LENGTH_DESCRIPTION),
-            'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY,PaymentMethodType::BANK_CARD))],
+            'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY, PaymentMethodType::BANK_CARD))],
             'created_at' => date(YOOKASSA_DATE, mt_rand(111111111, time())),
             'test' => true,
             'deal' => array('id' => Random::str(36, 50)),
@@ -304,7 +306,7 @@ class NotificationFactoryTest extends TestCase
 
     /**
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getExpectedEvent()
     {
@@ -312,7 +314,7 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function assertObject($event, $object, $value)
     {

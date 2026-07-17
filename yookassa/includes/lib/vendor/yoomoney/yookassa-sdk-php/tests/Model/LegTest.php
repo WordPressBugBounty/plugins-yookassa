@@ -56,7 +56,7 @@ class LegTest extends TestCase
     {
         $leg = new Leg();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $leg->setDepartureAirport($data['value']);
     }
@@ -70,7 +70,7 @@ class LegTest extends TestCase
     {
         $leg = new Leg();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $leg->setDestinationAirport($data['value']);
     }
@@ -84,7 +84,7 @@ class LegTest extends TestCase
     {
         $leg = new Leg();
 
-        $this->setExpectedException($data['exception']);
+        $this->expectException($data['exception']);
 
         $leg->setDepartureDate($data['value']);
     }
@@ -94,16 +94,16 @@ class LegTest extends TestCase
         return array(
             array(
                 array(
-                    "departure_airport"   => "LED",
+                    "departure_airport" => "LED",
                     "destination_airport" => "AMS",
-                    "departure_date"      => "2018-06-20",
+                    "departure_date" => "2018-06-20",
                 ),
             ),
             array(
                 array(
-                    "departure_airport"   => "UGR",
+                    "departure_airport" => "UGR",
                     "destination_airport" => "IVA",
-                    "departure_date"      => "2018-06-21",
+                    "departure_date" => "2018-06-21",
                 ),
             ),
         );
@@ -115,13 +115,13 @@ class LegTest extends TestCase
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\InvalidPropertyValueTypeException',
-                    "value"     => array(),
+                    "value" => array(),
                 ),
             ),
             array(
                 array(
                     "exception" => 'YooKassa\Common\Exceptions\InvalidPropertyValueException',
-                    "value"     => 'stringThatGreaterThanNeededCharsLongAndActuallyNotValidAtAll123',
+                    "value" => 'stringThatGreaterThanNeededCharsLongAndActuallyNotValidAtAll123',
                 ),
             ),
         );

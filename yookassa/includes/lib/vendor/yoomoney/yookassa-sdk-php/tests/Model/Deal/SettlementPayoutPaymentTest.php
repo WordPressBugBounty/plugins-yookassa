@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Model;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Common\Exceptions\EmptyPropertyValueException;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AmountInterface;
@@ -84,19 +86,18 @@ class SettlementPayoutPaymentTest extends TestCase
     /**
      * @dataProvider invalidTypeDataProvider
      *
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      *
      * @param $value
      */
     public function testSetInvalidType($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setType($value);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -160,26 +161,24 @@ class SettlementPayoutPaymentTest extends TestCase
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      *
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setAmount($value);
     }
 
     /**
      * @dataProvider invalidAmountDataProvider
      *
-     * @expectedException \InvalidArgumentException
-     * @expectedException EmptyPropertyValueException
      *
      * @param $value
      */
     public function testSetterInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->amount = $value;
     }
 
@@ -192,7 +191,7 @@ class SettlementPayoutPaymentTest extends TestCase
             array(1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
 
         return $result;
@@ -208,7 +207,7 @@ class SettlementPayoutPaymentTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, 10)),
         );
 

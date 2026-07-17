@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\SelfEmployed;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\SelfEmployed\SelfEmployedConfirmationType;
 use YooKassa\Request\SelfEmployed\SelfEmployedRequest;
@@ -55,11 +56,11 @@ class SelfEmployedRequestTest extends TestCase
 
     /**
      * @dataProvider invalidItnDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidItn($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedRequest();
         $instance->setItn($value);
     }
@@ -108,11 +109,11 @@ class SelfEmployedRequestTest extends TestCase
 
     /**
      * @dataProvider invalidPhoneDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedRequest();
         $instance->setPhone($value);
     }
@@ -164,11 +165,11 @@ class SelfEmployedRequestTest extends TestCase
 
     /**
      * @dataProvider invalidConfirmationDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidConfirmation($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedRequest();
         $instance->setConfirmation($value);
     }
@@ -231,7 +232,7 @@ class SelfEmployedRequestTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -240,7 +241,7 @@ class SelfEmployedRequestTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -249,7 +250,7 @@ class SelfEmployedRequestTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
         );
     }

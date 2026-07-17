@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CancellationDetails;
 use YooKassa\Model\CancellationDetailsPartyCode;
@@ -66,22 +67,22 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setId($value['id']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->id = $value['id'];
     }
@@ -109,22 +110,22 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setStatus($value['status']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->status = $value['status'];
     }
@@ -157,7 +158,7 @@ class PaymentTest extends TestCase
     public function testSetInvalidRecipient($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->setRecipient($value['recipient']);
         }
@@ -170,7 +171,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidRecipient($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->recipient = $value['recipient'];
         }
@@ -204,7 +205,7 @@ class PaymentTest extends TestCase
     public function testSetInvalidAmount($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->setAmount($value['amount']);
         }
@@ -217,7 +218,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidAmount($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->amount = $value['amount'];
         }
@@ -260,7 +261,7 @@ class PaymentTest extends TestCase
     public function testSetInvalidPaymentMethod($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->setPaymentMethod($value['payment_method']);
         }
@@ -273,7 +274,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidPaymentMethod($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->paymentMethod = $value['payment_method'];
         }
@@ -286,7 +287,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidPayment_method($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->payment_method = $value['payment_method'];
         }
@@ -324,33 +325,33 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setCreatedAt($value['created_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->createdAt = $value['created_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreated_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->created_at = $value['created_at'];
     }
@@ -405,33 +406,33 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCapturedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setCapturedAt($value['captured_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCapturedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->capturedAt = $value['captured_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCaptured_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->captured_at = $value['captured_at'];
     }
@@ -464,7 +465,7 @@ class PaymentTest extends TestCase
     public function testSetInvalidConfirmation($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->setConfirmation($value['confirmation']);
         }
@@ -477,7 +478,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidConfirmation($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->confirmation = $value['confirmation'];
         }
@@ -520,7 +521,7 @@ class PaymentTest extends TestCase
     public function testSetInvalidRefundedAmount($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->setRefundedAmount($value['refunded_amount']);
         }
@@ -533,7 +534,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidRefundedAmount($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->refundedAmount = $value['refunded_amount'];
         }
@@ -546,7 +547,7 @@ class PaymentTest extends TestCase
     public function testSetterInvalidRefunded_amount($value)
     {
         if (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Payment();
             $instance->refunded_amount = $value['refunded_amount'];
         }
@@ -575,22 +576,22 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPaid($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setPaid($value['paid']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidPaid($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->paid = $value['paid'];
     }
@@ -618,22 +619,22 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidRefundable($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setRefundable($value['refundable']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidRefundable($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->refundable = $value['refundable'];
     }
@@ -689,33 +690,33 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidReceiptRegistration($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setReceiptRegistration($value['receipt_registration']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReceiptRegistration($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->receiptRegistration = $value['receipt_registration'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReceipt_registration($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->receipt_registration = $value['receipt_registration'];
     }
@@ -765,10 +766,10 @@ class PaymentTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param array $options
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidTransfers($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setTransfers($options['transfers']);
     }
@@ -787,10 +788,10 @@ class PaymentTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param array $options
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidTest($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setTest($options['test']);
     }
@@ -811,7 +812,7 @@ class PaymentTest extends TestCase
                 'description' => ($i == 0 ? null : ($i == 1 ? '' : ($i == 2 ? Random::str(Payment::MAX_LENGTH_DESCRIPTION)
                     : Random::str(1, Payment::MAX_LENGTH_DESCRIPTION)))),
                 'payment_method' => new PaymentMethodQiwi(),
-                'reference_id' => ($i == 0 ? null :  ($i == 1 ? '' : Random::str(10, 20, 'abcdef0123456789'))),
+                'reference_id' => ($i == 0 ? null : ($i == 1 ? '' : Random::str(10, 20, 'abcdef0123456789'))),
                 'created_at' => date(YOOKASSA_DATE, mt_rand(1, time())),
                 'captured_at' => ($i == 0 ? null : ($i == 1 ? '' : date(YOOKASSA_DATE, mt_rand(1, time())))),
                 'expires_at' => ($i == 0 ? null : ($i == 1 ? '' : date(YOOKASSA_DATE, mt_rand(1, time())))),
@@ -881,8 +882,8 @@ class PaymentTest extends TestCase
                     'refundable' => '',
                     'created_at' => array(),
                     'captured_at' => '23423-234-234',
-                    'receipt_registration' => new \stdClass(),
-                    'transfers' => new \stdClass(),
+                    'receipt_registration' => new stdClass(),
+                    'transfers' => new stdClass(),
                     'test' => ''
                 ),
             )
@@ -899,8 +900,8 @@ class PaymentTest extends TestCase
                 'charge' => 'test',
                 'income' => 'test',
                 'refunded_amount' => 'test',
-                'paid' => $i == 0 ? array() : new \stdClass(),
-                'refundable' => $i == 0 ? array() : new \stdClass(),
+                'paid' => $i == 0 ? array() : new stdClass(),
+                'refundable' => $i == 0 ? array() : new stdClass(),
                 'created_at' => $i == 0 ? '23423-234-32' : -Random::int(),
                 'captured_at' => -Random::int(),
                 'receipt_registration' => $i == 0 ? true : Random::str(5),
@@ -962,33 +963,33 @@ class PaymentTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidExpiresAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setExpiresAt($value['captured_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidExpiresAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->expiresAt = $value['captured_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidExpires_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->expires_at = $value['captured_at'];
     }
@@ -1010,19 +1011,19 @@ class PaymentTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidTypeDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $instance->setDescription(true);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidLengthDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Payment();
         $description = Random::str(Payment::MAX_LENGTH_DESCRIPTION + 1);
         $instance->setDescription($description);

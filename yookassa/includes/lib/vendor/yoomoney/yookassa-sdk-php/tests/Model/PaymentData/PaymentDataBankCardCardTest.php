@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\PaymentData;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentData\PaymentDataBankCardCard;
 
@@ -47,21 +48,21 @@ class PaymentDataBankCardCardTest extends TestCase
 
     /**
      * @dataProvider invalidNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setNumber($value);
     }
 
     /**
      * @dataProvider invalidNumberDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->number = $value;
     }
 
@@ -76,51 +77,51 @@ class PaymentDataBankCardCardTest extends TestCase
 
     /**
      * @dataProvider invalidYearDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidYear($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setExpiryYear($value);
     }
 
     /**
      * @dataProvider invalidYearDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidYear($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiryYear = $value;
     }
 
     /**
      * @dataProvider invalidYearDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalid_year($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiry_year = $value;
     }
 
     /**
      * @dataProvider invalidMonthDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidMonth($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiryMonth = $value;
     }
 
     /**
      * @dataProvider invalidMonthDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalid_month($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->expiry_month = $value;
     }
 
@@ -135,11 +136,11 @@ class PaymentDataBankCardCardTest extends TestCase
 
     /**
      * @dataProvider invalidMonthDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidMonth($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setExpiryMonth($value);
     }
 
@@ -154,21 +155,21 @@ class PaymentDataBankCardCardTest extends TestCase
 
     /**
      * @dataProvider invalidCscDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCsc($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCsc($value);
     }
 
     /**
      * @dataProvider invalidCscDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCsc($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->csc = $value;
     }
 
@@ -183,21 +184,21 @@ class PaymentDataBankCardCardTest extends TestCase
 
     /**
      * @dataProvider invalidCardholderDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCardholder($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCardholder($value);
     }
 
     /**
      * @dataProvider invalidCardholderDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCardholder($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->cardholder = $value;
     }
 
@@ -281,7 +282,7 @@ class PaymentDataBankCardCardTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(15, '0123456789')),
             array(Random::str(20, '0123456789')),
         );
@@ -297,7 +298,7 @@ class PaymentDataBankCardCardTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, '0123456789')),
             array(Random::str(2, '0123456789')),
             array(Random::str(3, '0123456789')),
@@ -315,7 +316,7 @@ class PaymentDataBankCardCardTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, '0123456789')),
             array(Random::str(3, '0123456789')),
             array('13'),
@@ -333,7 +334,7 @@ class PaymentDataBankCardCardTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, '0123456789')),
             array(Random::str(2, '0123456789')),
             array(Random::str(5, '0123456789')),
@@ -353,7 +354,7 @@ class PaymentDataBankCardCardTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, '0123456789')),
             array(Random::str(2, '0123456789')),
             array(Random::str(5, '0123456789')),

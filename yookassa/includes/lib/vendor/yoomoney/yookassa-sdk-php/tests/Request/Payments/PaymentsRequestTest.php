@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Request\Payments;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Helpers\StringObject;
 use YooKassa\Model\PaymentMethodType;
@@ -54,11 +56,11 @@ class PaymentsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidPageDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCursor($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCursor($value);
     }
 
@@ -73,11 +75,11 @@ class PaymentsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidPaymentMethodDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPaymentMethod($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setPaymentMethod($value);
     }
 
@@ -97,8 +99,8 @@ class PaymentsRequestTest extends TestCase
             'capturedAtLte',
             'capturedAtLt',
         );
-        $expected   = null;
-        if ($value instanceof \DateTime) {
+        $expected = null;
+        if ($value instanceof DateTime) {
             $expected = $value->format(YOOKASSA_DATE);
         } elseif (is_numeric($value)) {
             $expected = date(YOOKASSA_DATE, $value);
@@ -106,87 +108,87 @@ class PaymentsRequestTest extends TestCase
             $expected = $value;
         }
         foreach ($properties as $property) {
-            $this->getterAndSetterTest($value, $property, empty($expected) ? null : new \DateTime($expected));
+            $this->getterAndSetterTest($value, $property, empty($expected) ? null : new DateTime($expected));
         }
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedAtGte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCreatedAtGte($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedAtGt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCreatedAtGt($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedAtLte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCreatedAtLte($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCreatedAtLt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCreatedAtLt($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCapturedAtGte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCapturedAtGte($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCapturedAtGt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCapturedAtGt($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCapturedAtLte($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCapturedAtLte($value);
     }
 
     /**
      * @dataProvider invalidDateDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCapturedAtLt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCapturedAtLt($value);
     }
 
@@ -202,11 +204,11 @@ class PaymentsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidLimit($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setLimit($value);
     }
 
@@ -221,11 +223,11 @@ class PaymentsRequestTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setStatus($value);
     }
 
@@ -284,7 +286,7 @@ class PaymentsRequestTest extends TestCase
             array(''),
             array(Random::int(0, time())),
             array(date(YOOKASSA_DATE, Random::int(0, time()))),
-            array(new \DateTime()),
+            array(new DateTime()),
         );
     }
 
@@ -313,7 +315,7 @@ class PaymentsRequestTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
         );
@@ -323,7 +325,7 @@ class PaymentsRequestTest extends TestCase
     {
         $result = array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
             array(Random::bytes(10)),
             array(-1),
@@ -338,7 +340,7 @@ class PaymentsRequestTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(35)),
             array(Random::str(37)),
             array(new StringObject(Random::str(10))),
@@ -351,7 +353,7 @@ class PaymentsRequestTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(35)),
             array(Random::str(37)),
             array(new StringObject(Random::str(10))),
@@ -363,7 +365,7 @@ class PaymentsRequestTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(true),
             array(false),
         );
@@ -373,7 +375,7 @@ class PaymentsRequestTest extends TestCase
     {
         $getter = 'get' . ucfirst($property);
         $setter = 'set' . ucfirst($property);
-        $has    = 'has' . ucfirst($property);
+        $has = 'has' . ucfirst($property);
 
         $instance = $this->getTestInstance();
 
@@ -394,7 +396,7 @@ class PaymentsRequestTest extends TestCase
             if ($testHas) {
                 self::assertTrue($instance->{$has}());
             }
-            if ($expected instanceof \DateTime) {
+            if ($expected instanceof DateTime) {
                 self::assertEquals($expected->getTimestamp(), $instance->{$getter}()->getTimestamp());
                 self::assertEquals($expected->getTimestamp(), $instance->{$property}->getTimestamp());
             } else {
@@ -421,7 +423,7 @@ class PaymentsRequestTest extends TestCase
             if ($testHas) {
                 self::assertTrue($instance->{$has}());
             }
-            if ($expected instanceof \DateTime) {
+            if ($expected instanceof DateTime) {
                 self::assertEquals($expected->getTimestamp(), $instance->{$getter}()->getTimestamp());
                 self::assertEquals($expected->getTimestamp(), $instance->{$property}->getTimestamp());
             } else {

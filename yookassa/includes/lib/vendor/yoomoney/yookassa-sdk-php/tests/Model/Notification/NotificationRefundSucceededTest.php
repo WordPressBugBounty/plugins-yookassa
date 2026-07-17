@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Notification;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\Notification\NotificationRefundSucceeded;
@@ -34,7 +35,7 @@ use YooKassa\Model\ReceiptRegistrationStatus;
 use YooKassa\Model\RefundInterface;
 use YooKassa\Model\RefundStatus;
 
-class NotificationRefundSucceededTest extends AbstractNotificationTest
+class NotificationRefundSucceededTest extends AbstractNotificationTestCase
 {
     /**
      * @param array $source
@@ -76,31 +77,31 @@ class NotificationRefundSucceededTest extends AbstractNotificationTest
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
-        $result               = array();
-        $statuses             = RefundStatus::getValidValues();
+        $result = array();
+        $statuses = RefundStatus::getValidValues();
         $receiptRegistrations = ReceiptRegistrationStatus::getValidValues();
 
         for ($i = 0; $i < 10; $i++) {
-            $refund   = array(
-                'id'                   => Random::str(36),
-                'payment_id'           => Random::str(36),
-                'status'               => Random::value($statuses),
-                'amount'               => array(
-                    'value'    => Random::float(0.01, 1000000.0),
+            $refund = array(
+                'id' => Random::str(36),
+                'payment_id' => Random::str(36),
+                'status' => Random::value($statuses),
+                'amount' => array(
+                    'value' => Random::float(0.01, 1000000.0),
                     'currency' => Random::value(CurrencyCode::getValidValues()),
                 ),
-                'created_at'           => date(YOOKASSA_DATE, Random::int(1, time())),
+                'created_at' => date(YOOKASSA_DATE, Random::int(1, time())),
                 'receipt_registration' => Random::value($receiptRegistrations),
-                'description'          => Random::str(1, 128),
+                'description' => Random::str(1, 128),
             );
             $result[] = array(
                 array(
-                    'type'   => $this->getExpectedType(),
-                    'event'  => $this->getExpectedEvent(),
+                    'type' => $this->getExpectedType(),
+                    'event' => $this->getExpectedEvent(),
                     'object' => $refund,
                 ),
             );

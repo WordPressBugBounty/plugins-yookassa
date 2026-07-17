@@ -26,6 +26,7 @@
 namespace Model\ConfirmationAttributes;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\ConfirmationAttributes\AbstractConfirmationAttributes;
 use YooKassa\Model\ConfirmationAttributes\ConfirmationAttributesFactory;
@@ -56,11 +57,11 @@ class ConfirmationAttributesFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $type
      */
     public function testInvalidFactory($type)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factory($type);
     }
@@ -94,11 +95,11 @@ class ConfirmationAttributesFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidDataArrayDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $options
      */
     public function testInvalidFactoryFromArray($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factoryFromArray($options);
     }
@@ -122,7 +123,7 @@ class ConfirmationAttributesFactoryTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
         );
     }

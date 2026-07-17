@@ -25,7 +25,9 @@
 
 namespace Tests\YooKassa\Helpers;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\StringObject;
 use YooKassa\Helpers\TypeCast;
 
@@ -83,7 +85,7 @@ class TypeCastTest extends TestCase
     {
         $instance = TypeCast::castToDateTime($value);
         if ($valid) {
-            if ($value instanceof \DateTime) {
+            if ($value instanceof DateTime) {
                 self::assertEquals($value->getTimestamp(), $instance->getTimestamp());
                 self::assertNotSame($value, $instance);
             } else {
@@ -109,7 +111,7 @@ class TypeCastTest extends TestCase
             array(false, false),
             array(null, false),
             array(array(), false),
-            array(new \stdClass(), false),
+            array(new stdClass(), false),
             array(fopen(__FILE__, 'r'), false),
             array(new StringObject('test'), true),
         );
@@ -130,7 +132,7 @@ class TypeCastTest extends TestCase
             array(false, false),
             array(null, false),
             array(array(), false),
-            array(new \stdClass(), false),
+            array(new stdClass(), false),
             array(fopen(__FILE__, 'r'), false),
             array(new StringObject('test'), true),
         );
@@ -151,10 +153,10 @@ class TypeCastTest extends TestCase
             array(false, false),
             array(null, false),
             array(array(), false),
-            array(new \stdClass(), false),
+            array(new stdClass(), false),
             array(fopen(__FILE__, 'r'), false),
             array(new StringObject('test'), true),
-            array(new \DateTime(), true),
+            array(new DateTime(), true),
         );
     }
 
@@ -165,8 +167,8 @@ class TypeCastTest extends TestCase
         $time = time();
         $result[] = array($time, $time, true);
         $result[] = array(date(YOOKASSA_DATE, $time), $time, true);
-        $result[] = array(new \DateTime(date(YOOKASSA_DATE, $time)), $time, true);
-        $result[] = array('3234-234-23', $time, false);
+        $result[] = array(new DateTime(date(YOOKASSA_DATE, $time)), $time, true);
+        $result[] = array('not-a-real-date-string', $time, false);
         $result[] = array(array(), $time, false);
 
         return $result;

@@ -28,6 +28,7 @@ namespace Tests\YooKassa\Model\PaymentMethod\ElectronicCertificate;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\CurrencyCode;
 use YooKassa\Model\PaymentMethod\ElectronicCertificate\ElectronicCertificate;
@@ -54,31 +55,31 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
 
     /**
      * @dataProvider invalidArticleNumberDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidArticleNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setArticleNumber($value);
     }
 
     /**
      * @dataProvider invalidArticleNumberDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidArticleNumber($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->articleNumber = $value;
     }
 
     /**
      * @dataProvider invalidArticleNumberDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidArticleNumberSnakeCase($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->article_number = $value;
     }
 
@@ -93,31 +94,31 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
 
     /**
      * @dataProvider invalidTruCodeDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidTruCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setTruCode($value);
     }
 
     /**
      * @dataProvider invalidTruCodeDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidTruCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->truCode = $value;
     }
 
     /**
      * @dataProvider invalidTruCodeDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidTruCodeSnakeCase($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->tru_code = $value;
     }
 
@@ -132,21 +133,21 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
 
     /**
      * @dataProvider invalidArticleCodeDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidArticleCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setArticleCode($value);
     }
 
     /**
      * @dataProvider invalidArticleCodeDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidArticleCode($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->articleCode = $value;
     }
 
@@ -186,21 +187,21 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
 
     /**
      * @dataProvider invalidCertificatesDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidCertificates($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->setCertificates($value);
     }
 
     /**
      * @dataProvider invalidCertificatesDataProvider
-     * @expectedException InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidCertificates($value)
     {
+        $this->expectException('InvalidArgumentException');
         $this->getTestInstance()->certificates = $value;
     }
 
@@ -228,7 +229,7 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
             array(1000),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -256,7 +257,7 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(29, '0123456789.')),
             array(Random::str(31, '0123456789.')),
         );
@@ -284,7 +285,7 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(129)),
         );
     }
@@ -364,8 +365,8 @@ class ElectronicCertificateApprovedPaymentArticleTest extends TestCase
             array(array()),
             array(1),
             array('string'),
-            array(new \stdClass()),
-            array(array(new \stdClass())),
+            array(new stdClass()),
+            array(array(new stdClass())),
             array(array(1, 2, 3)),
             array(array('invalid_data')),
         );

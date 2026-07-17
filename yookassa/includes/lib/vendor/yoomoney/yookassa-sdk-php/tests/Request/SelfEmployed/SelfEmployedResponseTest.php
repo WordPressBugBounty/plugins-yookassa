@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\SelfEmployed;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\SelfEmployed\SelfEmployedConfirmationFactory;
 use YooKassa\Model\SelfEmployed\SelfEmployedConfirmationType;
@@ -57,22 +58,22 @@ class SelfEmployedResponseTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->setId($value['id']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->id = $value['id'];
     }
@@ -100,22 +101,22 @@ class SelfEmployedResponseTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->setStatus($value['status']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->status = $value['status'];
     }
@@ -144,10 +145,10 @@ class SelfEmployedResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidTest($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->setTest($value['test']);
     }
@@ -155,10 +156,10 @@ class SelfEmployedResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetterInvalidTest($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->test = $value['test'];
     }
@@ -187,10 +188,10 @@ class SelfEmployedResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->setPhone($value['phone']);
     }
@@ -198,10 +199,10 @@ class SelfEmployedResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetterInvalidPhone($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->phone = $value['phone'];
     }
@@ -230,10 +231,10 @@ class SelfEmployedResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidItn($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->setItn($value['itn']);
     }
@@ -241,10 +242,10 @@ class SelfEmployedResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetterInvalidItn($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->itn = $value['itn'];
     }
@@ -281,33 +282,33 @@ class SelfEmployedResponseTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->setCreatedAt($value['created_at']);
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->createdAt = $value['created_at'];
     }
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreated_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->created_at = $value['created_at'];
     }
@@ -345,11 +346,11 @@ class SelfEmployedResponseTest extends TestCase
 
     /**
      * @dataProvider invalidDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidConfirmation($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new SelfEmployedResponse();
         $instance->confirmation = $value['confirmation'];
     }
@@ -366,7 +367,7 @@ class SelfEmployedResponseTest extends TestCase
                 'status' => Random::value(SelfEmployedStatus::getValidValues()),
                 'test' => Random::bool(),
                 'itn' => null,
-                'phone' => Random::str(11, 11,'0123456789'),
+                'phone' => Random::str(11, 11, '0123456789'),
                 'created_at' => date(YOOKASSA_DATE, mt_rand(111111111, time())),
                 'confirmation' => array('type' => Random::value($confirmTypes)),
             )
@@ -376,7 +377,7 @@ class SelfEmployedResponseTest extends TestCase
                 'id' => Random::str(36, 50),
                 'status' => Random::value(SelfEmployedStatus::getValidValues()),
                 'test' => Random::bool(),
-                'itn' => Random::str(11, 11,'0123456789'),
+                'itn' => Random::str(11, 11, '0123456789'),
                 'phone' => null,
                 'created_at' => date(YOOKASSA_DATE, mt_rand(1, time())),
                 'confirmation' => null,
@@ -388,8 +389,8 @@ class SelfEmployedResponseTest extends TestCase
                 'id' => Random::str(36, 50),
                 'status' => Random::value(SelfEmployedStatus::getValidValues()),
                 'test' => Random::bool(),
-                'itn' => Random::str(11, 11,'0123456789'),
-                'phone' => Random::str(11, 11,'0123456789'),
+                'itn' => Random::str(11, 11, '0123456789'),
+                'phone' => Random::str(11, 11, '0123456789'),
                 'created_at' => date(YOOKASSA_DATE, mt_rand(1, time())),
                 'confirmation' => $confirmFactory->factory(Random::value($confirmTypes)),
             );
@@ -406,7 +407,7 @@ class SelfEmployedResponseTest extends TestCase
                     'id' => null,
                     'test' => null,
                     'status' => null,
-                    'itn' => new \stdClass(),
+                    'itn' => new stdClass(),
                     'phone' => array(),
                     'created_at' => null,
                     'confirmation' => array('type' => null),
@@ -418,24 +419,24 @@ class SelfEmployedResponseTest extends TestCase
                     'test' => 'null',
                     'status' => '',
                     'itn' => array(),
-                    'phone' => new \stdClass(),
+                    'phone' => new stdClass(),
                     'created_at' => array(),
-                    'confirmation' => new \stdClass(),
+                    'confirmation' => new stdClass(),
                 ),
             ),
         );
         for ($i = 0; $i < 10; $i++) {
             $selfEmployed = array(
                 'id' => Random::str($i < 5 ? mt_rand(1, 35) : mt_rand(51, 64)),
-                'test' => $i % 2 ? Random::str(10) : new \stdClass(),
+                'test' => $i % 2 ? Random::str(10) : new stdClass(),
                 'status' => Random::str(1, 35),
-                'phone' => $i % 2 ? new \stdClass() : array(),
-                'itn' => $i % 2 ? new \stdClass() : array(),
+                'phone' => $i % 2 ? new stdClass() : array(),
+                'itn' => $i % 2 ? new stdClass() : array(),
                 'created_at' => $i === 0 ? '23423-234-32' : -Random::int(),
                 'confirmation' => Random::value(array(
                     array('type' => null),
                     array('type' => true),
-                    array('type' => new \stdClass()),
+                    array('type' => new stdClass()),
                     array('type' => array()),
                     array('type' => 'fake'),
                 )),

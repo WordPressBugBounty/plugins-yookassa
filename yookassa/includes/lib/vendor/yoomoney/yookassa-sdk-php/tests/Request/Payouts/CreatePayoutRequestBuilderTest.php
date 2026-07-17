@@ -28,6 +28,7 @@ namespace Tests\YooKassa\Request\Payouts;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\AmountInterface;
 use YooKassa\Model\CurrencyCode;
@@ -173,7 +174,7 @@ class CreatePayoutRequestBuilderTest extends TestCase
 
         if (!($options['amount'] instanceof AmountInterface)) {
             $builder->setAmount(array(
-                'value'    => $options['amount'],
+                'value' => $options['amount'],
                 'currency' => 'EUR',
             ));
             $instance = $builder->build($this->getRequiredData('amount'));
@@ -182,13 +183,13 @@ class CreatePayoutRequestBuilderTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
      * @dataProvider invalidAmountDataProvider
      *
      * @param $value
      */
     public function testSetInvalidAmount($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePayoutRequestBuilder();
         $builder->setAmount($value);
     }
@@ -295,7 +296,7 @@ class CreatePayoutRequestBuilderTest extends TestCase
             array(1),
             array(1.1),
             array('test'),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -326,14 +327,14 @@ class CreatePayoutRequestBuilderTest extends TestCase
         $result = array(
             array(
                 array(
-                    'description'       => null,
-                    'amount'            => new MonetaryAmount(Random::int(1, 1000)),
-                    'currency'          => Random::value(CurrencyCode::getValidValues()),
-                    'payoutToken'       => uniqid('', true),
-                    'paymentMethodId'   => null,
+                    'description' => null,
+                    'amount' => new MonetaryAmount(Random::int(1, 1000)),
+                    'currency' => Random::value(CurrencyCode::getValidValues()),
+                    'payoutToken' => uniqid('', true),
+                    'paymentMethodId' => null,
                     'payoutDestinationData' => null,
-                    'confirmation'      => null,
-                    'metadata'          => null,
+                    'confirmation' => null,
+                    'metadata' => null,
                     'deal' => array(
                         'id' => Random::str(36, 50),
                     ),
@@ -343,13 +344,13 @@ class CreatePayoutRequestBuilderTest extends TestCase
             ),
             array(
                 array(
-                    'description'       => '',
-                    'amount'            => new MonetaryAmount(Random::int(1, 1000)),
-                    'currency'          => Random::value(CurrencyCode::getValidValues()),
-                    'payoutToken'      => null,
-                    'paymentMethodId'   => '',
+                    'description' => '',
+                    'amount' => new MonetaryAmount(Random::int(1, 1000)),
+                    'currency' => Random::value(CurrencyCode::getValidValues()),
+                    'payoutToken' => null,
+                    'paymentMethodId' => '',
                     'payoutDestinationData' => Random::value($payoutDestinationData),
-                    'metadata'          => array(),
+                    'metadata' => array(),
                     'deal' => array(
                         'id' => Random::str(36, 50),
                     ),
@@ -365,14 +366,14 @@ class CreatePayoutRequestBuilderTest extends TestCase
         );
         for ($i = 0; $i < 10; $i++) {
             $even = (bool)($i % 2);
-            $request  = array(
-                'description'       => uniqid('', true),
-                'amount'            => mt_rand(1, 100000),
-                'currency'          => CurrencyCode::RUB,
-                'paymentMethodId'   => uniqid('', true),
-                'payoutToken'      => $even ? null : uniqid('', true),
+            $request = array(
+                'description' => uniqid('', true),
+                'amount' => mt_rand(1, 100000),
+                'currency' => CurrencyCode::RUB,
+                'paymentMethodId' => uniqid('', true),
+                'payoutToken' => $even ? null : uniqid('', true),
                 'payoutDestinationData' => $even ? Random::value($payoutDestinationData) : null,
-                'metadata'          => array('test' => 'test'),
+                'metadata' => array('test' => 'test'),
                 'deal' => array(
                     'id' => Random::str(36, 50),
                 ),
@@ -399,7 +400,7 @@ class CreatePayoutRequestBuilderTest extends TestCase
             array(-1),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
         );
     }
@@ -425,20 +426,20 @@ class CreatePayoutRequestBuilderTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
      */
     public function testSetInvalidTypeDescription()
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePayoutRequestBuilder();
         $builder->setDescription(true);
     }
 
     /**
-     * @expectedException InvalidArgumentException
      */
     public function testSetInvalidLengthDescription()
     {
-        $builder     = new CreatePayoutRequestBuilder();
+        $this->expectException('InvalidArgumentException');
+        $builder = new CreatePayoutRequestBuilder();
         $description = Random::str(Payout::MAX_LENGTH_DESCRIPTION + 1);
         $builder->setDescription($description);
     }
@@ -452,7 +453,7 @@ class CreatePayoutRequestBuilderTest extends TestCase
         return array(
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
             array(7),
             array(Random::int(-100, -1)),
@@ -462,11 +463,11 @@ class CreatePayoutRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidDealDataProvider
-     * @expectedException InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidDeal($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePayoutRequestBuilder();
         $builder->setDeal($value);
     }
@@ -480,7 +481,7 @@ class CreatePayoutRequestBuilderTest extends TestCase
         return array(
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(0),
             array(7),
             array(Random::int(-100, -1)),
@@ -490,11 +491,11 @@ class CreatePayoutRequestBuilderTest extends TestCase
 
     /**
      * @dataProvider invalidSelfEmployedProvider
-     * @expectedException InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidSelfEmployed($value)
     {
+        $this->expectException('InvalidArgumentException');
         $builder = new CreatePayoutRequestBuilder();
         $builder->setSelfEmployed($value);
     }

@@ -25,6 +25,8 @@
 
 namespace Tests\YooKassa\Common;
 
+use Exception;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Common\AbstractRequest;
 use YooKassa\Common\AbstractRequestBuilder;
@@ -46,9 +48,9 @@ class AbstractRequestBuilderTest extends TestCase
             $mess = 'test message';
             try {
                 $builder->build(array(
-                    'throwException' => new \Exception($mess),
+                    'throwException' => new Exception($mess),
                 ));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 self::assertEquals($mess, $e->getPrevious()->getMessage());
                 return;
             }
@@ -73,8 +75,8 @@ class AbstractRequestBuilderTest extends TestCase
 
             try {
                 $builder->setOptions('test');
-            } catch (\Exception $e) {
-                self::assertTrue($e instanceof \InvalidArgumentException);
+            } catch (Exception $e) {
+                self::assertTrue($e instanceof InvalidArgumentException);
                 return;
             }
             self::fail('Exception not thrown in setOptions method');
@@ -102,11 +104,11 @@ class TestAbstractRequestBuilder extends AbstractRequestBuilder
     }
 
     /**
-     * @param \Exception $e
+     * @param Exception $e
      * @return TestAbstractRequestBuilder
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setThrowException(\Exception $e)
+    public function setThrowException(Exception $e)
     {
         $this->currentObject->setThrowException($e);
         return $this;
@@ -118,15 +120,15 @@ class TestAbstractRequestClass extends AbstractRequest
     private $valid = false;
 
     /**
-     * @var \Exception|null
+     * @var Exception|null
      */
     private $exception = null;
 
     /**
-     * @param \Exception $e
-     * @throws \Exception
+     * @param Exception $e
+     * @throws Exception
      */
-    public function setThrowException(\Exception $e)
+    public function setThrowException(Exception $e)
     {
         $this->exception = $e;
     }

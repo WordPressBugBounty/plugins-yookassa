@@ -25,10 +25,10 @@
 
 namespace Tests\YooKassa\Request\Payments\Payment;
 
-use Tests\YooKassa\Request\Payments\AbstractPaymentResponseTest;
+use Tests\YooKassa\Request\Payments\AbstractPaymentResponseTestCase;
 use YooKassa\Request\Payments\Payment\CancelResponse;
 
-class CancelResponseTest extends AbstractPaymentResponseTest
+class CancelResponseTest extends AbstractPaymentResponseTestCase
 {
     protected function getTestInstance($options)
     {

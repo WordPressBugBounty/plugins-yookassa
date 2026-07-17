@@ -25,13 +25,15 @@
 
 namespace Tests\YooKassa\Request\Receipts;
 
+use Exception;
+use stdClass;
 use YooKassa\Common\Exceptions\InvalidPropertyValueException;
 use YooKassa\Common\Exceptions\InvalidPropertyValueTypeException;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Airline;
 use YooKassa\Request\Receipts\RefundReceiptResponse;
 
-class RefundReceiptResponseTest extends AbstractReceiptResponseTest
+class RefundReceiptResponseTest extends AbstractReceiptResponseTestCase
 {
     protected $type = 'refund';
 
@@ -44,17 +46,17 @@ class RefundReceiptResponseTest extends AbstractReceiptResponseTest
     {
         $array = array(
             Random::str(30),
-            new \stdClass(),
+            new stdClass(),
             array(),
-            new \stdClass(),
-            new \Exception(),
+            new stdClass(),
+            new Exception(),
             new Airline(),
             Random::str(40),
             array(new Airline())
         );
         $options['refund_id'] = !$this->valid
             ? (Random::value($array))
-            : Random::value(array( null, '', Random::str(RefundReceiptResponse::LENGTH_REFUND_ID)));
+            : Random::value(array(null, '', Random::str(RefundReceiptResponse::LENGTH_REFUND_ID)));
         return $options;
     }
 

@@ -70,23 +70,23 @@ class WebhookTest extends TestCase
         return array(
             array(
                 array(
-                    "id"    => Random::str(20),
+                    "id" => Random::str(20),
                     "event" => NotificationEventType::REFUND_SUCCEEDED,
-                    "url"   => Random::str(20),
+                    "url" => Random::str(20),
                 ),
             ),
             array(
                 array(
-                    "id"    => Random::str(20),
+                    "id" => Random::str(20),
                     "event" => NotificationEventType::PAYMENT_SUCCEEDED,
-                    "url"   => Random::str(20),
+                    "url" => Random::str(20),
                 ),
             ),
             array(
                 array(
-                    "id"    => Random::str(20),
+                    "id" => Random::str(20),
                     "event" => NotificationEventType::PAYMENT_WAITING_FOR_CAPTURE,
-                    "url"   => Random::str(20),
+                    "url" => Random::str(20),
                 ),
             ),
         );

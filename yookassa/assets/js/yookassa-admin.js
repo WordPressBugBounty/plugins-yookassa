@@ -98,7 +98,8 @@
             url: ajaxurl,
             data: {
                 action: 'yookassa_get_tab',
-                tab: target.replace('#', '')
+                tab: target.replace('#', ''),
+                nonce: yookassaAdmin.nonce
             },
             method : 'GET',
             success : function (data) {
@@ -177,7 +178,7 @@
      * Запрос на бэк для получения ссылки на авторизацию в OAuth
      */
     function fetchOauthLink() {
-        $.get(ajaxurl + '?action=yookassa_get_oauth_url',
+        $.get(ajaxurl + '?action=yookassa_get_oauth_url&nonce=' + yookassaAdmin.nonce,
             {},
             function (response) {
                 showOauthWindow(response.oauth_url);
@@ -216,7 +217,7 @@
      * Инициализация получения OAuth токена
      */
     function getOauthToken() {
-        $.get(ajaxurl + '?action=yookassa_get_oauth_token',
+        $.get(ajaxurl + '?action=yookassa_get_oauth_token&nonce=' + yookassaAdmin.nonce,
             {},
             function (res) {
                 $('a[data-toggle="tab"].active').trigger('shown.bs.tab');

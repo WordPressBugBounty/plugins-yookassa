@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Request\Payments;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use YooKassa\Model\PaymentMethodType;
 use YooKassa\Model\PaymentStatus;
@@ -34,18 +35,18 @@ use YooKassa\Request\Payments\PaymentsRequestSerializer;
 class PaymentsRequestSerializerTest extends TestCase
 {
     private $fieldMap = array(
-        'createdAtGte'       => 'created_at.gte',
-        'createdAtGt'        => 'created_at.gt',
-        'createdAtLte'       => 'created_at.lte',
-        'createdAtLt'        => 'created_at.lt',
-        'capturedAtGte'      => 'captured_at.gte',
-        'capturedAtGt'       => 'captured_at.gt',
-        'capturedAtLte'      => 'captured_at.lte',
-        'capturedAtLt'       => 'captured_at.lt',
-        'status'             => 'status',
-        'paymentMethod'      => 'payment_method',
-        'limit'              => 'limit',
-        'cursor'             => 'cursor',
+        'createdAtGte' => 'created_at.gte',
+        'createdAtGt' => 'created_at.gt',
+        'createdAtLte' => 'created_at.lte',
+        'createdAtLt' => 'created_at.lt',
+        'capturedAtGte' => 'captured_at.gte',
+        'capturedAtGt' => 'captured_at.gt',
+        'capturedAtLte' => 'captured_at.lte',
+        'capturedAtLt' => 'captured_at.lt',
+        'status' => 'status',
+        'paymentMethod' => 'payment_method',
+        'limit' => 'limit',
+        'cursor' => 'cursor',
     );
 
     /**
@@ -55,14 +56,14 @@ class PaymentsRequestSerializerTest extends TestCase
     public function testSerialize($options)
     {
         $serializer = new PaymentsRequestSerializer();
-        $data       = $serializer->serialize(PaymentsRequest::builder()->build($options));
+        $data = $serializer->serialize(PaymentsRequest::builder()->build($options));
 
         $expected = array();
         foreach ($this->fieldMap as $field => $mapped) {
             if (isset($options[$field])) {
                 $value = $options[$field];
                 if (!empty($value)) {
-                    $expected[$mapped] = $value instanceof \DateTime ? $value->format(YOOKASSA_DATE) : $value;
+                    $expected[$mapped] = $value instanceof DateTime ? $value->format(YOOKASSA_DATE) : $value;
                 }
             }
         }
@@ -71,43 +72,43 @@ class PaymentsRequestSerializerTest extends TestCase
 
     public function validDataProvider()
     {
-        $result   = array(
+        $result = array(
             array(
                 array(),
             ),
             array(
                 array(
-                    'createdAtGte'       => '',
-                    'createdAtGt'        => '',
-                    'createdAtLte'       => '',
-                    'createdAtLt'        => '',
-                    'capturedAtGte'      => '',
-                    'capturedAtGt'       => '',
-                    'capturedAtLte'      => '',
-                    'capturedAtLt'       => '',
-                    'paymentMethod'      => '',
-                    'status'             => '',
-                    'limit'              => 0,
-                    'cursor'             => '',
+                    'createdAtGte' => '',
+                    'createdAtGt' => '',
+                    'createdAtLte' => '',
+                    'createdAtLt' => '',
+                    'capturedAtGte' => '',
+                    'capturedAtGt' => '',
+                    'capturedAtLte' => '',
+                    'capturedAtLt' => '',
+                    'paymentMethod' => '',
+                    'status' => '',
+                    'limit' => 0,
+                    'cursor' => '',
                 ),
             ),
         );
         $statuses = PaymentStatus::getValidValues();
-        $methods  = PaymentMethodType::getValidValues();
+        $methods = PaymentMethodType::getValidValues();
         for ($i = 0; $i < 10; $i++) {
-            $request  = array(
-                'createdAtGte'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtGt'        => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtLte'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'createdAtLt'        => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtGte'      => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtGt'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtLte'      => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'capturedAtLt'       => date(YOOKASSA_DATE, mt_rand(1, time())),
-                'paymentMethod'      => $methods[mt_rand(0, count($methods) - 1)],
-                'status'             => $statuses[mt_rand(0, count($statuses) - 1)],
-                'limit'              => mt_rand(1, 100),
-                'cursor'             => $this->randomString(mt_rand(2, 30)),
+            $request = array(
+                'createdAtGte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtGt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtLte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'createdAtLt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtGte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtGt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtLte' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'capturedAtLt' => date(YOOKASSA_DATE, mt_rand(1, time())),
+                'paymentMethod' => $methods[mt_rand(0, count($methods) - 1)],
+                'status' => $statuses[mt_rand(0, count($statuses) - 1)],
+                'limit' => mt_rand(1, 100),
+                'cursor' => $this->randomString(mt_rand(2, 30)),
             );
             $result[] = array($request);
         }
@@ -123,7 +124,7 @@ class PaymentsRequestSerializerTest extends TestCase
             if ($any) {
                 $char = chr(mt_rand(32, 126));
             } else {
-                $rnd  = mt_rand(0, strlen($chars) - 1);
+                $rnd = mt_rand(0, strlen($chars) - 1);
                 $char = substr($chars, $rnd, 1);
             }
             $result .= $char;

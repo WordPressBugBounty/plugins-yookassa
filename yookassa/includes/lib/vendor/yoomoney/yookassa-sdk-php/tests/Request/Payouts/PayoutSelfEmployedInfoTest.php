@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\Payouts;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Request\Payouts\PayoutSelfEmployedInfo;
 
@@ -66,22 +67,22 @@ class PayoutSelfEmployedInfoTest extends TestCase
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PayoutSelfEmployedInfo();
         $instance->setId($value);
     }
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new PayoutSelfEmployedInfo();
         $instance->id = $value;
     }
@@ -91,7 +92,7 @@ class PayoutSelfEmployedInfoTest extends TestCase
         return array(
             array(false),
             array(true),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(array()),
             array(Random::str(1, 35)),
             array(Random::str(51, 60)),

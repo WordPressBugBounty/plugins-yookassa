@@ -25,10 +25,11 @@
 
 namespace Tests\YooKassa\Model\PaymentData;
 
+use stdClass;
 use YooKassa\Model\PaymentData\PaymentDataCash;
 use YooKassa\Model\PaymentMethodType;
 
-class PaymentDataCashTest extends AbstractPaymentDataPhoneTest
+class PaymentDataCashTest extends AbstractPaymentDataPhoneTestCase
 {
     /**
      * @return PaymentDataCash
@@ -72,7 +73,7 @@ class PaymentDataCashTest extends AbstractPaymentDataPhoneTest
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('2345678901234567'),
         );
     }

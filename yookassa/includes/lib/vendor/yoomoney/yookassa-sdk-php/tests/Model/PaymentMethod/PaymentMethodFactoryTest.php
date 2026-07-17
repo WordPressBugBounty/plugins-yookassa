@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Model\PaymentMethodTest;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\PaymentMethod\AbstractPaymentMethod;
 use YooKassa\Model\PaymentMethod\PaymentMethodFactory;
@@ -56,11 +57,11 @@ class PaymentMethodFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $type
      */
     public function testInvalidFactory($type)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factory($type);
     }
@@ -103,11 +104,11 @@ class PaymentMethodFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidDataArrayDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $options
      */
     public function testInvalidFactoryFromArray($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factoryFromArray($options);
     }
@@ -129,7 +130,7 @@ class PaymentMethodFactoryTest extends TestCase
             array(1),
             array(-1),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -138,147 +139,162 @@ class PaymentMethodFactoryTest extends TestCase
         $result = array(
             array(
                 array(
-                    'type'     => PaymentMethodType::ALFABANK,
-                    'login'    => Random::str(10, 20),
-                    'id'       => Random::str(1, 64),
-                    'saved'    => Random::bool(),
-                    'title'    => Random::str(10, 20),
+                    'type' => PaymentMethodType::ALFABANK,
+                    'login' => Random::str(10, 20),
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'     => PaymentMethodType::GOOGLE_PAY,
-                    'id'       => Random::str(1, 64),
-                    'saved'    => Random::bool(),
-                    'title'    => Random::str(10, 20),
+                    'type' => PaymentMethodType::GOOGLE_PAY,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'     => PaymentMethodType::APPLE_PAY,
-                    'id'       => Random::str(1, 64),
-                    'saved'    => Random::bool(),
-                    'title'    => Random::str(10, 20),
+                    'type' => PaymentMethodType::APPLE_PAY,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'        => PaymentMethodType::BANK_CARD,
-                    'id'          => Random::str(1, 64),
-                    'saved'       => Random::bool(),
-                    'title'       => Random::str(10, 20),
+                    'type' => PaymentMethodType::BANK_CARD,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                     'card' => array(
-                        'last4'       => Random::str(4, '0123456789'),
-                        'first6'      => Random::str(6, '0123456789'),
-                        'expiry_year'  => Random::int(2000, 2200),
-                        'expiry_month' => Random::value(array('01','02','03','04','05','06','07','08','09','10','11','12')),
-                        'card_type'    => Random::str(3, 10),
+                        'last4' => Random::str(4, '0123456789'),
+                        'first6' => Random::str(6, '0123456789'),
+                        'expiry_year' => Random::int(2000, 2200),
+                        'expiry_month' => Random::value(array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12')),
+                        'card_type' => Random::str(3, 10),
                     ),
                 ),
             ),
             array(
                 array(
-                    'type'         => PaymentMethodType::BANK_CARD,
-                    'id'           => Random::str(1, 64),
-                    'saved'        => Random::bool(),
-                    'title'        => Random::str(10, 20),
+                    'type' => PaymentMethodType::BANK_CARD,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                     'card' => array(
-                        'last4'        => Random::str(4, '0123456789'),
-                        'first6'       => Random::str(6, '0123456789'),
-                        'expiry_year'  => Random::int(2000, 2200),
-                        'expiry_month' => Random::value(array('01','02','03','04','05','06','07','08','09','10','11','12')),
-                        'card_type'    => Random::str(3, 10),
+                        'last4' => Random::str(4, '0123456789'),
+                        'first6' => Random::str(6, '0123456789'),
+                        'expiry_year' => Random::int(2000, 2200),
+                        'expiry_month' => Random::value(array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12')),
+                        'card_type' => Random::str(3, 10),
                     ),
                 ),
             ),
             array(
                 array(
-                    'type'         => PaymentMethodType::SBERBANK,
-                    'id'           => Random::str(1, 64),
-                    'saved'        => Random::bool(),
-                    'title'        => Random::str(10, 20),
+                    'type' => PaymentMethodType::SBERBANK,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                     'card' => array(
-                        'last4'        => Random::str(4, '0123456789'),
-                        'first6'       => Random::str(6, '0123456789'),
-                        'expiry_year'  => Random::int(2000, 2200),
-                        'expiry_month' => Random::value(array('01','02','03','04','05','06','07','08','09','10','11','12')),
-                        'card_type'    => Random::str(3, 10),
+                        'last4' => Random::str(4, '0123456789'),
+                        'first6' => Random::str(6, '0123456789'),
+                        'expiry_year' => Random::int(2000, 2200),
+                        'expiry_month' => Random::value(array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12')),
+                        'card_type' => Random::str(3, 10),
                     ),
-                    'phone'    => Random::str(4, 15, '0123456789'),
+                    'phone' => Random::str(4, 15, '0123456789'),
                 ),
             ),
             array(
                 array(
-                    'type'     => PaymentMethodType::CASH,
-                    'id'       => Random::str(1, 64),
-                    'saved'    => Random::bool(),
-                    'title'    => Random::str(10, 20),
+                    'type' => PaymentMethodType::CASH,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'     => PaymentMethodType::MOBILE_BALANCE,
-                    'id'       => Random::str(1, 64),
-                    'saved'    => Random::bool(),
-                    'title'    => Random::str(10, 20),
-                    'phone'    => Random::str(4, 15, '0123456789'),
+                    'type' => PaymentMethodType::MOBILE_BALANCE,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
+                    'phone' => Random::str(4, 15, '0123456789'),
                 ),
             ),
             array(
                 array(
-                    'type'     => PaymentMethodType::SBERBANK,
-                    'phone'    => Random::str(4, 15, '0123456789'),
-                    'id'       => Random::str(1, 64),
-                    'saved'    => Random::bool(),
-                    'title'    => Random::str(10, 20),
+                    'type' => PaymentMethodType::SBERBANK,
+                    'phone' => Random::str(4, 15, '0123456789'),
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'          => PaymentMethodType::YOO_MONEY,
+                    'type' => PaymentMethodType::YOO_MONEY,
                     'account_number' => Random::str(31, '0123456789'),
-                    'id'            => Random::str(1, 64),
-                    'saved'         => Random::bool(),
-                    'title'         => Random::str(10, 20),
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'           => PaymentMethodType::YOO_MONEY,
+                    'type' => PaymentMethodType::YOO_MONEY,
                     'account_number' => Random::str(31, '0123456789'),
-                    'id'             => Random::str(1, 64),
-                    'saved'          => Random::bool(),
-                    'title'          => Random::str(10, 20),
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'           => PaymentMethodType::INSTALLMENTS,
-                    'id'             => Random::str(1, 64),
-                    'saved'          => Random::bool(),
-                    'title'          => Random::str(10, 20),
+                    'type' => PaymentMethodType::INSTALLMENTS,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
                 ),
             ),
             array(
                 array(
-                    'type'           => PaymentMethodType::B2B_SBERBANK,
-                    'id'             => Random::str(1, 64),
-                    'saved'          => Random::bool(),
+                    'type' => PaymentMethodType::B2B_SBERBANK,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
                 ),
             ),
             array(
                 array(
-                    'type'           => PaymentMethodType::TINKOFF_BANK,
-                    'id'             => Random::str(1, 64),
-                    'saved'          => Random::bool(),
+                    'type' => PaymentMethodType::TINKOFF_BANK,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
                 ),
             ),
             array(
                 array(
-                    'type'           => PaymentMethodType::SBP,
-                    'id'             => Random::str(1, 64),
-                    'saved'          => Random::bool(),
-                    'title'          => Random::str(10, 20),
+                    'type' => PaymentMethodType::SBP,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
+                ),
+            ),
+            array(
+                array(
+                    'type' => PaymentMethodType::ALFA_PAY,
+                    'id' => Random::str(1, 64),
+                    'saved' => Random::bool(),
+                    'title' => Random::str(10, 20),
+                    'card' => array(
+                        'last4' => Random::str(4, '0123456789'),
+                        'first6' => Random::str(6, '0123456789'),
+                        'expiry_year' => Random::int(2000, 2200),
+                        'expiry_month' => Random::value(array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12')),
+                        'card_type' => Random::str(3, 10),
+                    ),
                 ),
             ),
         );

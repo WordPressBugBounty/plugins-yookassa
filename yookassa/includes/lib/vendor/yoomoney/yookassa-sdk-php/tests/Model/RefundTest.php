@@ -25,7 +25,10 @@
 
 namespace Tests\YooKassa\Model;
 
+use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Helpers\StringObject;
 use YooKassa\Model\AmountInterface;
@@ -80,22 +83,22 @@ class RefundTest extends TestCase
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setId($value);
     }
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->id = $value;
     }
@@ -114,7 +117,7 @@ class RefundTest extends TestCase
             array(Random::str(35)),
             array(Random::str(37, 48)),
             array(Random::str(37)),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(1),
             array(0),
             array(-1),
@@ -140,17 +143,17 @@ class RefundTest extends TestCase
     /**
      * @dataProvider invalidSourcesDataProvider
      * @param $value
-     * @expectedException \InvalidArgumentException
      */
     public function testSetInvalidSources($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setSources($value);
     }
 
     /**
      * @return array[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function validSources()
     {
@@ -205,33 +208,33 @@ class RefundTest extends TestCase
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidPaymentId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setPaymentId($value);
     }
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidPaymentId($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->paymentId = $value;
     }
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidPayment_id($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->payment_id = $value;
     }
@@ -272,22 +275,22 @@ class RefundTest extends TestCase
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setStatus($value);
     }
 
     /**
      * @dataProvider invalidIdDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidStatus($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->status = $value;
     }
@@ -302,7 +305,7 @@ class RefundTest extends TestCase
 
         if (is_numeric($value)) {
             $expected = $value;
-        } elseif ($value instanceof \DateTime) {
+        } elseif ($value instanceof DateTime) {
             $expected = $value->getTimestamp();
         } else {
             $expected = strtotime((string)$value);
@@ -336,8 +339,8 @@ class RefundTest extends TestCase
     public function validCreatedAtDataProvider()
     {
         return array(
-            array(new \DateTime()),
-            array(new \DateTime(date(YOOKASSA_DATE, Random::int(1, time())))),
+            array(new DateTime()),
+            array(new DateTime(date(YOOKASSA_DATE, Random::int(1, time())))),
             array(time()),
             array(Random::int(1, time())),
             array(date(YOOKASSA_DATE)),
@@ -349,33 +352,33 @@ class RefundTest extends TestCase
 
     /**
      * @dataProvider invalidCreatedAtDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setCreatedAt($value);
     }
 
     /**
      * @dataProvider invalidCreatedAtDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreatedAt($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->createdAt = $value;
     }
 
     /**
      * @dataProvider invalidCreatedAtDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidCreated_at($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->created_at = $value;
     }
@@ -389,7 +392,7 @@ class RefundTest extends TestCase
             array(null),
             array(''),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array('test'),
         );
     }
@@ -433,11 +436,11 @@ class RefundTest extends TestCase
     public function testSetInvalidAmount($value)
     {
         if ($value instanceof AmountInterface) {
-            self::setExpectedException('InvalidArgumentException');
+            self::expectException('InvalidArgumentException');
             $instance = new Refund();
             $instance->setAmount($value);
         } elseif (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Refund();
             $instance->setAmount($value);
         }
@@ -450,11 +453,11 @@ class RefundTest extends TestCase
     public function testSetterInvalidAmount($value)
     {
         if ($value instanceof AmountInterface) {
-            self::setExpectedException('InvalidArgumentException');
+            self::expectException('InvalidArgumentException');
             $instance = new Refund();
             $instance->amount = $value;
         } elseif (class_exists('TypeError')) {
-            self::setExpectedException('TypeError');
+            self::expectException('TypeError');
             $instance = new Refund();
             $instance->amount = $value;
         }
@@ -473,7 +476,7 @@ class RefundTest extends TestCase
             array(new MonetaryAmount()),
             array(array()),
             array(1),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -522,33 +525,33 @@ class RefundTest extends TestCase
 
     /**
      * @dataProvider invalidReceiptRegisteredDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetInvalidReceiptRegistered($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setReceiptRegistration($value);
     }
 
     /**
      * @dataProvider invalidReceiptRegisteredDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReceiptRegistration($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->receiptRegistration = $value;
     }
 
     /**
      * @dataProvider invalidReceiptRegisteredDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $value
      */
     public function testSetterInvalidReceipt_registration($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->receipt_registration = $value;
     }
@@ -564,7 +567,7 @@ class RefundTest extends TestCase
             array(true),
             array(false),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(1, 10)),
             array(new StringObject(Random::str(1, 10))),
         );
@@ -603,22 +606,22 @@ class RefundTest extends TestCase
 
     /**
      * @dataProvider invalidDescriptionDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetInvalidDescription($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setDescription($value);
     }
 
     /**
      * @dataProvider invalidDescriptionDataProvider
-     * @expectedException \InvalidArgumentException
      * @param mixed $value
      */
     public function testSetterInvalidDescription($value)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->description = $value;
     }
@@ -631,7 +634,7 @@ class RefundTest extends TestCase
             array(array()),
             array(true),
             array(false),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -675,7 +678,7 @@ class RefundTest extends TestCase
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDealDataProvider()
     {
@@ -692,7 +695,7 @@ class RefundTest extends TestCase
      */
     public function testSetInvalidDeal($value)
     {
-        self::setExpectedException('InvalidArgumentException');
+        self::expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->setDeal($value);
     }
@@ -703,7 +706,7 @@ class RefundTest extends TestCase
      */
     public function testSetterInvalidDeal($value)
     {
-        self::setExpectedException('InvalidArgumentException');
+        self::expectException('InvalidArgumentException');
         $instance = new Refund();
         $instance->deal = $value;
     }
@@ -718,7 +721,7 @@ class RefundTest extends TestCase
             array(false),
             array(new MonetaryAmount()),
             array(1),
-            array(new \stdClass()),
+            array(new stdClass()),
         );
     }
 

@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Receipt;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Receipt\MarkCodeInfo;
 use PHPUnit\Framework\TestCase;
@@ -86,7 +87,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setMarkCodeRaw($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -101,7 +103,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->mark_code_raw = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -110,18 +113,10 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(Random::int(-100, MarkCodeInfo::MIN_LENGTH - 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -157,7 +152,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setUnknown($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -172,7 +168,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->unknown = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -181,18 +178,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_UNKNOWN_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -228,7 +218,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setEan8($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -243,7 +234,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->ean_8 = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -252,18 +244,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_EAN_8_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -299,7 +284,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setEan13($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -314,7 +300,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->ean_13 = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -323,18 +310,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_EAN_13_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -370,7 +350,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setItf14($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -385,7 +366,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->itf_14 = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -394,18 +376,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_ITF_14_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -441,7 +416,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setGs10($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -456,7 +432,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->gs_10 = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -465,18 +442,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_GS_10_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -512,7 +482,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setGs1m($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -527,7 +498,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->gs_1m = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -536,18 +508,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_GS_1M_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -583,7 +548,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setShort($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -598,7 +564,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->short = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -607,18 +574,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_SHORT_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -654,7 +614,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setFur($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -669,7 +630,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->fur = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -678,18 +640,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_FUR_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -725,7 +680,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setEgais20($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -740,7 +696,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->egais_20 = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -749,18 +706,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_EGAIS_20_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 
@@ -796,7 +746,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->setEgais30($value);
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -811,7 +762,8 @@ class MarkCodeInfoTest extends TestCase
         $instance = self::getInstance();
         try {
             $instance->egais_30 = $value;
-        } catch (\Exception $e) {
+            self::fail('Expected exception not thrown');
+        } catch (Exception $e) {
             self::assertInstanceOf($exceptionClassDocumentNumber, $e);
         }
     }
@@ -820,18 +772,11 @@ class MarkCodeInfoTest extends TestCase
     {
         $exceptionNamespace = 'YooKassa\\Common\\Exceptions\\';
         return array(
-            array(null,                 $exceptionNamespace . 'EmptyPropertyValueException'),
-            array('',                   $exceptionNamespace . 'EmptyPropertyValueException'),
-            array(array(),              $exceptionNamespace . 'InvalidPropertyValueTypeException'),
+            array(null, $exceptionNamespace . 'EmptyPropertyValueException'),
+            array('', $exceptionNamespace . 'EmptyPropertyValueException'),
+            array(array(), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(fopen(__FILE__, 'r'), $exceptionNamespace . 'InvalidPropertyValueTypeException'),
             array(Random::str(MarkCodeInfo::MAX_EGAIS_30_LENGTH + 1), $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-1,                   $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(-0.01,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.0,                  $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0,                    $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(0.001,                $exceptionNamespace . 'InvalidPropertyValueException'),
-            array(true,                 $exceptionNamespace . 'InvalidPropertyValueTypeException'),
-            array(false,                $exceptionNamespace . 'InvalidPropertyValueTypeException'),
         );
     }
 

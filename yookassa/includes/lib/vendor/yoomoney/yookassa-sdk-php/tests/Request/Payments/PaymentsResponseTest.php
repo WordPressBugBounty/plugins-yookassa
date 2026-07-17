@@ -92,10 +92,10 @@ class PaymentsResponseTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      * @param array $options
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidData($options)
     {
+        $this->expectException('InvalidArgumentException');
         new PaymentsResponse($options);
     }
 

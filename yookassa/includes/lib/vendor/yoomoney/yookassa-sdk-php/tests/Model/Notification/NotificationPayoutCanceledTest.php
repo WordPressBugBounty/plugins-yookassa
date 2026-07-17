@@ -25,6 +25,7 @@
 
 namespace Tests\YooKassa\Model\Notification;
 
+use Exception;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Notification\NotificationPayoutCanceled;
 use YooKassa\Model\NotificationEventType;
@@ -36,12 +37,12 @@ use YooKassa\Model\Payout\PayoutCancellationDetailsPartyCode;
 use YooKassa\Model\Payout\PayoutCancellationDetailsReasonCode;
 use YooKassa\Model\PayoutStatus;
 
-class NotificationPayoutCanceledTest extends AbstractNotificationTest
+class NotificationPayoutCanceledTest extends AbstractNotificationTestCase
 {
     /**
      * @param array $source
      * @return NotificationPayoutCanceled
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getTestInstance(array $source)
     {
@@ -77,7 +78,7 @@ class NotificationPayoutCanceledTest extends AbstractNotificationTest
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function validDataProvider()
     {
@@ -103,12 +104,12 @@ class NotificationPayoutCanceledTest extends AbstractNotificationTest
             array(
                 'type' => $this->getExpectedType(),
                 'event' => $this->getExpectedEvent(),
-                    'object' => array(
+                'object' => array(
                     'id' => Random::str(36, 50),
                     'status' => Random::value(PayoutStatus::getValidValues()),
                     'amount' => array('value' => Random::int(1, 10000), 'currency' => 'RUB'),
                     'description' => Random::str(1, Payout::MAX_LENGTH_DESCRIPTION),
-                    'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY,PaymentMethodType::BANK_CARD))],
+                    'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY, PaymentMethodType::BANK_CARD))],
                     'created_at' => date(YOOKASSA_DATE, mt_rand(111111111, time())),
                     'test' => true,
                     'deal' => array('id' => Random::str(36, 50)),
@@ -125,10 +126,10 @@ class NotificationPayoutCanceledTest extends AbstractNotificationTest
             $object = array(
                 'id' => Random::str(36, 50),
                 'status' => Random::value(PayoutStatus::getValidValues()),
-                'amount' =>  array('value' => Random::int(1, 10000), 'currency' => 'RUB'),
+                'amount' => array('value' => Random::int(1, 10000), 'currency' => 'RUB'),
                 'description' => ($i == 0 ? null : ($i == 1 ? '' : ($i == 2 ? Random::str(Payout::MAX_LENGTH_DESCRIPTION)
                     : Random::str(1, Payout::MAX_LENGTH_DESCRIPTION)))),
-                'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY,PaymentMethodType::BANK_CARD))],
+                'payout_destination' => $payoutDestinations[Random::value(array(PaymentMethodType::YOO_MONEY, PaymentMethodType::BANK_CARD))],
                 'created_at' => date(YOOKASSA_DATE, mt_rand(1, time())),
                 'test' => (bool)($i % 2),
                 'metadata' => array(Random::str(3, 128, 'abcdefghijklmnopqrstuvwxyz') => Random::str(1, 512)),

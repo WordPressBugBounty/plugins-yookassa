@@ -26,6 +26,7 @@
 namespace Tests\YooKassa\Request\Payouts\PayoutDestinationData;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use YooKassa\Helpers\Random;
 use YooKassa\Model\Payout\PayoutDestinationType;
 use YooKassa\Model\PaymentMethodType;
@@ -55,11 +56,11 @@ class PayoutDestinationDataFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidTypeDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $type
      */
     public function testInvalidFactory($type)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factory($type);
     }
@@ -93,11 +94,11 @@ class PayoutDestinationDataFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidDataArrayDataProvider
-     * @expectedException \InvalidArgumentException
      * @param $options
      */
     public function testInvalidFactoryFromArray($options)
     {
+        $this->expectException('InvalidArgumentException');
         $instance = $this->getTestInstance();
         $instance->factoryFromArray($options);
     }
@@ -121,7 +122,7 @@ class PayoutDestinationDataFactoryTest extends TestCase
             array(-1),
             array('5'),
             array(array()),
-            array(new \stdClass()),
+            array(new stdClass()),
             array(Random::str(10)),
         );
     }
@@ -129,7 +130,7 @@ class PayoutDestinationDataFactoryTest extends TestCase
     public function validArrayDataProvider()
     {
         $result = array(
-             array(
+            array(
                 array(
                     'type' => PaymentMethodType::BANK_CARD,
                     'card' => new PayoutDestinationDataBankCardCard(),
@@ -141,7 +142,7 @@ class PayoutDestinationDataFactoryTest extends TestCase
                     'account_number' => Random::str(11, 33, '1234567890')
                 ),
             ),
-         );
+        );
         foreach (PayoutDestinationType::getEnabledValues() as $value) {
             $result[] = array(array('type' => $value));
         }
