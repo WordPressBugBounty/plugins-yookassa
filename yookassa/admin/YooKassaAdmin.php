@@ -733,6 +733,7 @@ class YooKassaAdmin
         }
 
         YooKassaLogger::sendHeka(array('settings.save.success'));
+        do_action('yookassa_after_save_settings');
         echo json_encode(array('status' => 'success'));
         wp_die();
     }

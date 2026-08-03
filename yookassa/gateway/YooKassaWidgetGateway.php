@@ -118,8 +118,7 @@ class YooKassaWidgetGateway extends YooKassaGateway
      */
     public function receipt_page($order_id)
     {
-        global $woocommerce;
-        $order     = new WC_Order($order_id);
+        $order     = wc_get_order($order_id);
         $paymentId = $order->get_transaction_id();
 
         $data = array(
@@ -144,7 +143,7 @@ class YooKassaWidgetGateway extends YooKassaGateway
             } else {
                 if (in_array($payment->getStatus(), self::getValidPaidStatuses())
                     || ($payment->getStatus() === PaymentStatus::PENDING && $payment->getPaid())) {
-                    $woocommerce->cart->empty_cart();
+                    WC()->cart->empty_cart();
                     wp_redirect($this->get_success_fail_url('yookassa_success', $order));
                 } else {
                     wp_redirect($this->get_success_fail_url('yookassa_fail', $order));
@@ -207,9 +206,7 @@ JS;
      */
     public function process_payment($order_id)
     {
-        global $woocommerce;
-
-        $order = new WC_Order($order_id);
+        $order = wc_get_order($order_id);
 
         if (YooKassaHandler::isReceiptEnabled() && YooKassaHandler::isSelfEmployed()) {
             try {
@@ -246,8 +243,8 @@ JS;
 
             if ($result->status === PaymentStatus::PENDING) {
                 $order->update_status('wc-pending');
-                if (get_option('yookassa_force_clear_cart') == '1' && !empty($woocommerce->cart)) {
-                    $woocommerce->cart->empty_cart();
+                if (get_option('yookassa_force_clear_cart') == '1' && !empty(WC()->cart)) {
+                    WC()->cart->empty_cart();
                 }
                 return array(
                     'result' => 'success',

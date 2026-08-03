@@ -68,7 +68,7 @@ class YooKassaPaymentChargeDispatcher
 
         if ($result) {
             $orderId = $result->post_id;
-            $order   = new WC_Order($orderId);
+            $order   = wc_get_order($orderId);
 
             return $order;
         } else {
@@ -82,7 +82,7 @@ class YooKassaPaymentChargeDispatcher
 
             if ($result) {
                 $orderId = $result->order_id;
-                $order   = new WC_Order($orderId);
+                $order   = wc_get_order($orderId);
 
                 return $order;
             }

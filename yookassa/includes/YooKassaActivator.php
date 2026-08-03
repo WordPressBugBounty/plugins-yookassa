@@ -17,12 +17,37 @@ class YooKassaActivator extends YooKassaInstaller
         YooKassaLogger::sendHeka(array('module.install.init'));
         try {
             self::update_db();
+            self::syncReceiptAttributes();
             YooKassaLogger::sendHeka(array('module.install.success'));
             self::log('info', 'YooKassa plugin activate!');
         } catch (Exception $ex) {
             $message = 'YooKassa plugin activate error: ' . $ex->getMessage();
             self::log('error', $message);
             YooKassaLogger::sendAlertLog($message, array('exception' => $ex), array('module.install.fail'));
+        }
+    }
+
+    /**
+     * Sync receipt attributes on activation.
+     */
+    private static function syncReceiptAttributes()
+    {
+        if (!class_exists('YooKassaGateway')) {
+            $gateway_file = plugin_dir_path(dirname(__FILE__)) . 'gateway/YooKassaGateway.php';
+            self::log('info', 'Trying to load YooKassaGateway from: ' . $gateway_file . ' (exists: ' . (file_exists($gateway_file) ? 'yes' : 'no') . ')');
+            if (file_exists($gateway_file)) {
+                require_once $gateway_file;
+            }
+        }
+        if (class_exists('YooKassaGateway')) {
+            try {
+                YooKassaGateway::syncStaticReceiptAttributes();
+                self::log('info', 'Receipt attributes synced successfully');
+            } catch (Exception $e) {
+                self::log('error', 'Failed to sync receipt attributes: ' . $e->getMessage());
+            }
+        } else {
+            self::log('error', 'YooKassaGateway class not found for receipt sync');
         }
     }
 

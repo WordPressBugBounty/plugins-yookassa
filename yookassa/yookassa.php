@@ -15,7 +15,7 @@
  * Plugin Name:       ЮKassa для WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/yookassa/
  * Description:       Платежный модуль для работы с сервисом ЮKassa через плагин WooCommerce
- * Version:           2.16.2
+ * Version:           2.16.3
  * Author:            YooMoney
  * Author URI:        http://yookassa.ru
  * License URI:       https://yoomoney.ru/doc.xml?id=527132
@@ -24,9 +24,9 @@
  *
  * Requires Plugins: woocommerce
  * Requires at least: 5.2
- * Tested up to: 7.0
+ * Tested up to: 7.0.2
  * WC requires at least: 3.7
- * WC tested up to: 10.8
+ * WC tested up to: 10.9.4
  */
 // If this file is called directly, abort.
 
@@ -95,11 +95,32 @@ function yookassa_upgrade_function( $upgrader_object, $options ) {
             if ($each_plugin === $current_plugin_path_name) {
                 YooKassaLogger::info("Upgrade plugin $current_plugin_path_name start");
                 YooKassaHandler::replaceOldTaxRates();
+                if (class_exists('YooKassaGateway')) {
+                    YooKassaGateway::syncStaticReceiptAttributes();
+                }
                 YooKassaLogger::info("Upgrade plugin $current_plugin_path_name end");
             }
         }
     }
 }
+
+/**
+ * Sync receipt attributes when YooKassa settings are saved via admin page.
+ */
+add_action('update_option_yookassa_enable_receipt', function ($old_value, $value) {
+    if ($value && class_exists('YooKassaGateway')) {
+        YooKassaGateway::syncStaticReceiptAttributes();
+    }
+}, 10, 2);
+
+/**
+ * Sync receipt attributes after AJAX save on YooKassa admin page.
+ */
+add_action('yookassa_after_save_settings', function () {
+    if (get_option('yookassa_enable_receipt') && class_exists('YooKassaGateway')) {
+        YooKassaGateway::syncStaticReceiptAttributes();
+    }
+});
 
 add_action( 'woocommerce_blocks_loaded', 'yookassa_gateway_block_support' );
 function yookassa_gateway_block_support() {

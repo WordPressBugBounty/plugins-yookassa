@@ -131,12 +131,6 @@ class YooKassaGateway extends WC_Payment_Gateway
     {
         parent::init_settings();
 
-        $paymentSubjectEnum = YooKassaHandler::getPaymentSubjectEnum();
-        $paymentModeEnum = YooKassaHandler::getPaymentModeEnum();
-
-        $this->syncReceiptAttribute('yookassa_payment_subject', __('Признак предмета расчета', 'yookassa'), $paymentSubjectEnum);
-        $this->syncReceiptAttribute('yookassa_payment_mode', __('Признак способа расчёта', 'yookassa'), $paymentModeEnum);
-
         $isSelfEmployed = (bool)get_option('yookassa_self_employed', '0');
 
         if ($isSelfEmployed) {
@@ -195,11 +189,10 @@ class YooKassaGateway extends WC_Payment_Gateway
         YooKassaLogger::info(
             'Return process init.'
         );
-        global $woocommerce;
         $order_id = wc_get_order_id_by_order_key(wc_clean(wp_unslash($orderId)));
         $order    = wc_get_order($order_id);
         if ( class_exists('sitepress') ) {
-            do_action( 'wpml_switch_language', get_post_meta($order_id, 'wpml_language')[0] );
+            do_action( 'wpml_switch_language', $order->get_meta('wpml_language') );
         }
         $apiClient = $this->getApiClient();
         $paymentId = $order->get_transaction_id();
@@ -210,7 +203,7 @@ class YooKassaGateway extends WC_Payment_Gateway
         try {
             $payment = $apiClient->getPaymentInfo($paymentId);
             if ($this->isPaymentSuccess($payment)) {
-                $woocommerce->cart->empty_cart();
+                WC()->cart->empty_cart();
                 wp_redirect($this->get_success_fail_url('yookassa_success', $order));
             } else {
                 wp_redirect($this->get_success_fail_url('yookassa_fail', $order));
@@ -340,9 +333,7 @@ class YooKassaGateway extends WC_Payment_Gateway
      */
     public function process_payment($order_id)
     {
-        global $woocommerce;
-
-        $order = new WC_Order($order_id);
+        $order = wc_get_order($order_id);
 
         try {
             $this->prepareSubscription();
@@ -364,8 +355,8 @@ class YooKassaGateway extends WC_Payment_Gateway
 
                 if ($result->status === PaymentStatus::PENDING) {
                     $order->update_status('wc-pending');
-                    if (get_option('yookassa_force_clear_cart') == '1' && !empty($woocommerce->cart)) {
-                        $woocommerce->cart->empty_cart();
+                    if (get_option('yookassa_force_clear_cart') == '1' && !empty(WC()->cart)) {
+                        WC()->cart->empty_cart();
                     }
                     if ($result->confirmation->type === ConfirmationType::EXTERNAL) {
                         return array('result' => 'success', 'redirect' => $order->get_checkout_order_received_url());
@@ -598,6 +589,7 @@ class YooKassaGateway extends WC_Payment_Gateway
         $taxonomy_name = wc_attribute_taxonomy_name($attributeName);
 
         if (!$attribute_id) {
+            YooKassaLogger::info("syncReceiptAttribute: creating attribute {$attributeName}");
             wc_create_attribute(array(
                 'name' => $rawName,
                 'slug' => $attributeName,
@@ -619,6 +611,7 @@ class YooKassaGateway extends WC_Payment_Gateway
         } else {
             $attribute = wc_get_attribute($attribute_id);
             if ($attribute && $attribute->name !== $rawName) {
+                YooKassaLogger::info("syncReceiptAttribute: updating attribute {$attributeName} name");
                 wc_update_attribute($attribute_id, array(
                     'name' => $rawName,
                     'slug' => $attributeName,
@@ -626,6 +619,9 @@ class YooKassaGateway extends WC_Payment_Gateway
             }
         }
 
+        $termsCreated = 0;
+        $termsUpdated = 0;
+        $termsSkipped = 0;
         foreach ($terms as $term => $description) {
             $existing = term_exists($term, $taxonomy_name);
             if (!$existing) {
@@ -634,14 +630,21 @@ class YooKassaGateway extends WC_Payment_Gateway
                     'parent'      => 0,
                     'slug'        => $term,
                 ));
+                $termsCreated++;
             } else {
                 $current = get_term($existing['term_id'], $taxonomy_name);
                 if ($current && $current->description !== $description) {
                     wp_update_term($existing['term_id'], $taxonomy_name, array(
                         'description' => $description,
                     ));
+                    $termsUpdated++;
+                } else {
+                    $termsSkipped++;
                 }
             }
+        }
+        if ($termsCreated > 0 || $termsUpdated > 0) {
+            YooKassaLogger::info("syncReceiptAttribute: {$attributeName} — created {$termsCreated}, updated {$termsUpdated}, skipped {$termsSkipped} terms");
         }
 
         $existing_terms = get_terms(array(
@@ -650,12 +653,40 @@ class YooKassaGateway extends WC_Payment_Gateway
             'fields'     => 'id=>slug',
         ));
         if (!is_wp_error($existing_terms)) {
+            $termsDeleted = 0;
             foreach ($existing_terms as $term_id => $term_slug) {
                 if (!isset($terms[$term_slug])) {
                     wp_delete_term($term_id, $taxonomy_name);
+                    $termsDeleted++;
                 }
             }
+            if ($termsDeleted > 0) {
+                YooKassaLogger::info("syncReceiptAttribute: {$attributeName} — deleted {$termsDeleted} obsolete terms");
+            }
         }
+    }
+
+    /**
+     * Process admin options and sync receipt attributes when settings are saved.
+     */
+    public function process_admin_options()
+    {
+        parent::process_admin_options();
+        self::syncStaticReceiptAttributes();
+    }
+
+    /**
+     * Synchronize receipt attributes and terms.
+     * Should be called only when necessary (activation, upgrade, settings save).
+     */
+    public static function syncStaticReceiptAttributes()
+    {
+        $paymentSubjectEnum = YooKassaHandler::getPaymentSubjectEnum();
+        $paymentModeEnum = YooKassaHandler::getPaymentModeEnum();
+
+        $gateway = new self();
+        $gateway->syncReceiptAttribute('yookassa_payment_subject', __('Признак предмета расчета', 'yookassa'), $paymentSubjectEnum);
+        $gateway->syncReceiptAttribute('yookassa_payment_mode', __('Признак способа расчёта', 'yookassa'), $paymentModeEnum);
     }
 
     /**
