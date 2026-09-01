@@ -20,7 +20,7 @@ class YooKassaGatewayElectronicCertificate extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'assets/images/kassa.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/kassa.svg';
 
         $this->method_title           = __('Оплата электронным сертификатом', 'yookassa');
         $this->method_description     = __('Покупатель сможет заплатить за покупку сертификатом, привязанным к карте «Мир»', 'yookassa');
@@ -43,6 +43,10 @@ class YooKassaGatewayElectronicCertificate extends YooKassaGateway
 
     public function is_available()
     {
+        if (get_option('yookassa_electronic_certificate_enabled') !== '1') {
+            return false;
+        }
+
         if (!parent::is_available()) {
             return false;
         }

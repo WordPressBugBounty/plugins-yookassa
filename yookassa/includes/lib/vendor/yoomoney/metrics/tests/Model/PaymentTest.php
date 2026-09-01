@@ -55,6 +55,17 @@ class PaymentTest extends TestCase
      * @dataProvider dataProvider
      * @return void
      */
+    public function testSetAndGetSberBnplEnabled($data)
+    {
+        $payment = new Payment();
+        $payment->setSberBnplEnabled($data['sber_bnpl_enabled']);
+        $this->assertEquals($data['sber_bnpl_enabled'], $payment->getSberBnplEnabled());
+    }
+
+    /**
+     * @dataProvider dataProvider
+     * @return void
+     */
     public function testSetAll($data)
     {
         $payment = new Payment($data);
@@ -64,6 +75,7 @@ class PaymentTest extends TestCase
         $this->assertEquals($data['save_card_enabled'], $payment->getSaveCardEnabled());
         $this->assertEquals($data['hold_enabled'], $payment->getHoldEnabled());
         $this->assertEquals($data['sbbol_enabled'], $payment->getSbbolEnabled());
+        $this->assertEquals($data['sber_bnpl_enabled'], $payment->getSberBnplEnabled());
     }
 
     public function dataProvider()
@@ -75,6 +87,7 @@ class PaymentTest extends TestCase
                     'save_card_enabled'=> false,
                     'hold_enabled'=> true,
                     'sbbol_enabled'=> true,
+                    'sber_bnpl_enabled'=> false,
                 )
             ),
             array(
@@ -83,6 +96,7 @@ class PaymentTest extends TestCase
                     'save_card_enabled'=> false,
                     'hold_enabled'=> true,
                     'sbbol_enabled'=> true,
+                    'sber_bnpl_enabled'=> true,
                 )
             ),
             array(
@@ -91,6 +105,7 @@ class PaymentTest extends TestCase
                     'save_card_enabled'=> false,
                     'hold_enabled'=> true,
                     'sbbol_enabled'=> true,
+                    'sber_bnpl_enabled'=> false,
                 )
             ),
         );

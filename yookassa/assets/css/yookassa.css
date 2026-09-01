@@ -5,3 +5,7 @@
 ul.wc_payment_methods li img {
     float: right;
 }
+
+.sber-bnpl-info {
+    margin-bottom: 1rem;
+}

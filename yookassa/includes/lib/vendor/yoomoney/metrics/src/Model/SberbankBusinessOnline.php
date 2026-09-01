@@ -2,15 +2,20 @@
 
 namespace Cmssdk\Metrics\Model;
 
+use OpenApi\Attributes as OA;
 use YooKassa\Common\AbstractObject;
 
+#[OA\Schema()]
 class SberbankBusinessOnline extends AbstractObject
 {
-    /** @var string|null */
+    /** @var string|null Шаблон описания платежа */
+    #[OA\Property(property: "purposeTemplate", example: "Оплата заказа №%order_number%")]
     private $purposeTemplate;
-    /** @var string|null */
+    /** @var string|null Ставка НДС по умолчанию */
+    #[OA\Property(property: "defaultTaxRate", example: "untaxed")]
     private $defaultTaxRate;
-    /** @var array<string, string>|null */
+    /** @var array<string, string>|null Налоговые ставки */
+    #[OA\Property(property: "taxRates", type: "array", example: [["key"=>"2","value"=>"untaxed"],["key"=>"3","value"=>"10"]])]
     private $taxRates;
 
     /**
@@ -67,6 +72,10 @@ class SberbankBusinessOnline extends AbstractObject
         return $this;
     }
 
+    #[\ReturnTypeWillChange]
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         $data = parent::jsonSerialize();

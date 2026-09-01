@@ -275,6 +275,20 @@ a:hover, a:focus {
     transition: 0.25s ease;
     box-shadow: inset 0 0 0 0.125em #007bff;
 }
+/* disabled */
+.tab-content input[type="checkbox"].disabled,
+.tab-content input[type="checkbox"].disabled:checked::before,
+.tab-content input[type="checkbox"]:disabled,
+.tab-content input[type="checkbox"]:disabled:checked::before,
+.tab-content input[type="checkbox"][aria-disabled="true"],
+.tab-content input[type="radio"].disabled,
+.tab-content input[type="radio"].disabled:checked::before,
+.tab-content input[type="radio"]:disabled,
+.tab-content input[type="radio"]:disabled:checked::before,
+.tab-content input[type="radio"][aria-disabled="true"] {
+    opacity: 0;
+    cursor: default;
+}
 /**/
 h4.success {
     font-size: 20px;

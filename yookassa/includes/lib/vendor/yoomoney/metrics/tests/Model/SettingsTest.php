@@ -8,8 +8,8 @@ use Cmssdk\Metrics\Model\ShopInfo;
 use Cmssdk\Metrics\Model\Payment;
 use Cmssdk\Metrics\Model\Fiscalization;
 use Cmssdk\Metrics\Model\SberbankBusinessOnline;
+use Cmssdk\Metrics\Model\SberBnpl;
 use Cmssdk\Metrics\Model\Advanced;
-use DateTime;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,7 @@ class SettingsTest extends TestCase
             $settings->setEventTime($data['eventTime']);
             $this->assertEquals(date('Y-m-d H:i:s'), $settings->getEventTime()->format('Y-m-d H:i:s'));
         } elseif (!empty($data['eventTime'])) {
-            $eventTime = DateTime::createFromFormat(YOOKASSA_DATE, $data['eventTime']);
+            $eventTime = date_create($data['eventTime']);
             $settings->setEventTime($data['eventTime']);
             $this->assertEquals($eventTime->format('Y-m-d H:i:s'), $settings->getEventTime()->format('Y-m-d H:i:s'));
         } else {
@@ -144,6 +144,27 @@ class SettingsTest extends TestCase
      * @dataProvider validDataSettingsProvider
      * @return void
      */
+    public function testSetAndGetSberBnpl($data)
+    {
+        $settings = $this->getInstance();
+        $sberBnpl = new SberBnpl($data['sber_bnpl']);
+
+        $settings->setSberBnpl($data['sber_bnpl']);
+        if (is_array($data['sber_bnpl']) && !empty($data['sber_bnpl'])) {
+            $this->assertEquals($sberBnpl, $settings->getSberBnpl());
+            $this->assertEquals($data['sber_bnpl']['sber_bnpl_product_enabled'], $settings->getSberBnpl()->toArray()['sber_bnpl_product_enabled']);
+        }
+
+        $settings->setSberBnpl($sberBnpl);
+        if (is_array($data['sber_bnpl']) && !empty($data['sber_bnpl'])) {
+            $this->assertEquals($data['sber_bnpl']['sber_bnpl_product_enabled'], $settings->getSberBnpl()->toArray()['sber_bnpl_product_enabled']);
+        }
+    }
+
+    /**
+     * @dataProvider validDataSettingsProvider
+     * @return void
+     */
     public function testSetAndGetAdvanced($data)
     {
         $settings = $this->getInstance();
@@ -169,8 +190,8 @@ class SettingsTest extends TestCase
     {
         $settings = $this->getInstance($data);
 
-        $this->assertIsString($settings->getId());
-        $this->assertIsObject($settings->getEventTime());
+        $this->assertTrue(is_string($settings->getId()));
+        $this->assertTrue(is_object($settings->getEventTime()));
 
         if (!empty($data['id'])) {
             $this->assertEquals($data['id'], $settings->getId());
@@ -189,6 +210,9 @@ class SettingsTest extends TestCase
         }
         if (is_array($data['sbbol']) && !empty($data['sbbol'])) {
             $this->assertEquals($data['sbbol']['default_tax_rate'], $settings->getSbbol()->toArray()['default_tax_rate']);
+        }
+        if (is_array($data['sber_bnpl']) && !empty($data['sber_bnpl'])) {
+            $this->assertEquals($data['sber_bnpl'], $settings->getSberBnpl()->toArray());
         }
         if (is_array($data['advanced']) && !empty($data['advanced'])) {
             $this->assertEquals($data['advanced'], $settings->getAdvanced()->toArray());
@@ -250,6 +274,12 @@ class SettingsTest extends TestCase
                             '2'=> 'mixed',
                         ),
                     ),
+                    'sber_bnpl'=> array(
+                        'sber_bnpl_product_enabled'=> true,
+                        'sber_bnpl_list_enabled'=> true,
+                        'sber_bnpl_cart_enabled'=> false,
+                        'sber_bnpl_checkout_enabled'=> false,
+                    ),
                     'advanced'=> array(
                         'description_template'=> 'Оплата заказа №%order_number%',
                         'success_url'=> 'wc_success',
@@ -307,6 +337,12 @@ class SettingsTest extends TestCase
                             '1'=> 'untaxed',
                             '2'=> 'calculated',
                         ),
+                    ),
+                    'sber_bnpl'=> array(
+                        'sber_bnpl_product_enabled'=> false,
+                        'sber_bnpl_list_enabled'=> false,
+                        'sber_bnpl_cart_enabled'=> true,
+                        'sber_bnpl_checkout_enabled'=> true,
                     ),
                     'advanced'=> array(
                         'description_template'=> 'Оплата заказа №%order_number%',
@@ -368,6 +404,12 @@ class SettingsTest extends TestCase
                         'default_tax_rate'=> 'untaxed',
                         'tax_rates'=> false,
                     ),
+                    'sber_bnpl'=> array(
+                        'sber_bnpl_product_enabled'=> true,
+                        'sber_bnpl_list_enabled'=> false,
+                        'sber_bnpl_cart_enabled'=> true,
+                        'sber_bnpl_checkout_enabled'=> false,
+                    ),
                     'advanced'=> array(
                         'description_template'=> 'Оплата заказа №%order_number%',
                         'success_url'=> 'wc_success',
@@ -388,6 +430,7 @@ class SettingsTest extends TestCase
                     'payment'=> null,
                     'fiscalization'=> null,
                     'sbbol'=> null,
+                    'sber_bnpl'=> null,
                     'advanced'=> null,
                 )
             ),

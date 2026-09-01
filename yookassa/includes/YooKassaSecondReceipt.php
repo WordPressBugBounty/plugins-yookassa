@@ -24,6 +24,11 @@ use YooKassa\Request\Receipts\ReceiptResponseItemInterface;
  */
 class YooKassaSecondReceipt
 {
+    const RETRY_HOOK = 'yookassa_second_receipt_retry';
+    const RETRY_DELAY_SECONDS = 3;
+    const MAX_RETRY_ATTEMPTS = 10;
+    const SENT_META_KEY = '_yookassa_second_receipt_sent';
+
     /** @var string|null Тип кассовой системы */
     private $provider;
 
@@ -93,7 +98,7 @@ class YooKassaSecondReceipt
      */
     public function changeOrderStatusToProcessing($order_id)
     {
-        $this->changeOrderStatus($order_id, 'ChangeOrderStatusToProcessing');
+        $this->changeOrderStatus($order_id, 'ChangeOrderStatusToProcessing', 'processing');
     }
 
     /**
@@ -103,7 +108,19 @@ class YooKassaSecondReceipt
      */
     public function changeOrderStatusToCompleted($order_id)
     {
-        $this->changeOrderStatus($order_id, 'ChangeOrderStatusToCompleted');
+        $this->changeOrderStatus($order_id, 'ChangeOrderStatusToCompleted', 'completed');
+    }
+
+    /**
+     * Повторная попытка отправки второго чека, запускается через WP-Cron.
+     *
+     * @param int $order_id
+     * @param string $triggeredStatus
+     * @param int $attempt
+     */
+    public function retrySecondReceipt($order_id, $triggeredStatus, $attempt)
+    {
+        $this->changeOrderStatus($order_id, 'Retry#' . $attempt, $triggeredStatus, $attempt);
     }
 
     /**
@@ -396,6 +413,35 @@ class YooKassaSecondReceipt
     }
 
     /**
+     * @param WC_Order $order
+     */
+    private function markReceiptSent(WC_Order $order)
+    {
+        $order->update_meta_data(self::SENT_META_KEY, '1');
+        $order->save_meta_data();
+    }
+
+    /**
+     * @param int $order_id
+     * @param string $triggeredStatus
+     * @param int $attempt
+     */
+    private function scheduleRetry($order_id, $triggeredStatus, $attempt)
+    {
+        wp_schedule_single_event(
+            time() + self::RETRY_DELAY_SECONDS,
+            self::RETRY_HOOK,
+            array($order_id, $triggeredStatus, $attempt)
+        );
+        YooKassaLogger::info(sprintf(
+            '[Order #%d] First receipt not ready yet, scheduled retry #%d in %d seconds',
+            $order_id,
+            $attempt,
+            self::RETRY_DELAY_SECONDS
+        ));
+    }
+
+    /**
      * @param $paymentId
      * @return mixed|ReceiptResponseInterface
      * @throws ApiException
@@ -452,8 +498,10 @@ class YooKassaSecondReceipt
     /**
      * @param int $order_id
      * @param string $type
+     * @param string $triggeredStatus статус, переход к которому вызвал хук
+     * @param int $attempt номер текущей попытки (начиная с 1)
      */
-    private function changeOrderStatus($order_id, $type)
+    private function changeOrderStatus($order_id, $type, $triggeredStatus, $attempt = 1)
     {
         if (YooKassaHandler::isSelfEmployed()) {
             return;
@@ -477,8 +525,14 @@ class YooKassaSecondReceipt
             return;
         }
 
-        if (!$this->isNeedSecondReceipt($order->get_status())) {
+        if (!$this->isNeedSecondReceipt($triggeredStatus)) {
             YooKassaLogger::info('Second receipt is not need!');
+            YooKassaLogger::sendHeka(array('second-receipt.webhook.skip'));
+            return;
+        }
+
+        if ($order->get_meta(self::SENT_META_KEY)) {
+            YooKassaLogger::info(sprintf('[Order #%d] Second receipt already sent, skipping', $order_id));
             YooKassaLogger::sendHeka(array('second-receipt.webhook.skip'));
             return;
         }
@@ -487,8 +541,17 @@ class YooKassaSecondReceipt
 
         try {
             if (!($lastReceipt = $this->getLastReceipt($paymentId))) {
-                YooKassaLogger::info($type . ' LastReceipt is empty!');
-                YooKassaLogger::sendHeka(array('second-receipt.webhook.fail'));
+                if ($attempt < self::MAX_RETRY_ATTEMPTS) {
+                    $this->scheduleRetry($order_id, $triggeredStatus, $attempt + 1);
+                } else {
+                    YooKassaLogger::error(sprintf(
+                        '%s LastReceipt is empty after %d attempts for order #%d!',
+                        $type,
+                        $attempt,
+                        $order_id
+                    ));
+                    YooKassaLogger::sendHeka(array('second-receipt.webhook.fail'));
+                }
                 return;
             }
 
@@ -506,7 +569,6 @@ class YooKassaSecondReceipt
                 'methodid' => 'POST/changeOrderStatus',
                 'exception' => $e,
             ), array('second-receipt.webhook.fail'));
-            return;
         }
     }
 
@@ -546,10 +608,11 @@ class YooKassaSecondReceipt
 
         if (count($items) <= $limit) {
             $this->sendSingleReceipt($receiptRequest, $order);
-            return;
+        } else {
+            $this->sendSplitReceipts($receiptRequest, $order, $limit);
         }
 
-        $this->sendSplitReceipts($receiptRequest, $order, $limit);
+        $this->markReceiptSent($order);
     }
 
     /**
@@ -715,7 +778,6 @@ class YooKassaSecondReceipt
                 );
             }
         }
-
         YooKassaLogger::sendHeka(array('second-receipt.webhook.success'));
     }
 

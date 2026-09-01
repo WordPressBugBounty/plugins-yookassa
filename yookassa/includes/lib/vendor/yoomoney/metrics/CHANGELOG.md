@@ -1,3 +1,7 @@
+### v1.1.0 от 18.08.2026
+* Added OpenApi attributes
+* Added Settings.sberBnpl
+
 ### v1.0.2 от 10.07.2025
 * Added Fiscalization.markingEnabled
 

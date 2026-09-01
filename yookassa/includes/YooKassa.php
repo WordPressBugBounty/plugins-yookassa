@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.16.3';
+        $this->version     = '2.17.0';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 
@@ -62,6 +62,7 @@ class YooKassa
         $this->setLocale();
         $this->defineAdminHooks();
         $this->definePaymentHooks();
+        $this->defineSberBnplHooks();
         $this->defineChangeOrderStatuses();
 
         if (get_option('yookassa_marking_enabled') && get_option('yookassa_enable_second_receipt')) {
@@ -123,6 +124,7 @@ class YooKassa
          */
         require_once self::$pluginPath . 'includes/YooKassaPayment.php';
         require_once self::$pluginPath . 'includes/YooKassaHandler.php';
+        require_once self::$pluginPath . 'includes/YooKassaSberBnpl.php';
         require_once self::$pluginPath . 'includes/YooKassaOrderHelper.php';
         require_once self::$pluginPath . 'includes/YooKassaSecondReceipt.php';
         require_once self::$pluginPath . 'includes/YooKassaLogger.php';
@@ -232,6 +234,21 @@ class YooKassa
     }
 
     /**
+     * Register all of the hooks related to the SberBnpl functionality.
+     */
+    private function defineSberBnplHooks()
+    {
+        $sberBnpl = new YooKassaSberBnpl($this->getPluginName());
+
+        $this->loader->addAction('woocommerce_single_product_summary', $sberBnpl, 'showInfo', 15);
+        $this->loader->addAction('woocommerce_after_shop_loop_item_title', $sberBnpl, 'showListInfo', 9);
+        $this->loader->addAction('woocommerce_cart_totals_after_order_total', $sberBnpl, 'showCartInfo');
+        $this->loader->addAction('woocommerce_checkout_terms', $sberBnpl, 'showExtraCheckoutInfo', 9);
+        $this->loader->addAction('wp_footer', $sberBnpl, 'renderBlockFallback');
+        $this->loader->addAction('wp_footer', $sberBnpl, 'renderListFallback');
+    }
+
+    /**
      * Register all of the hooks related to the changes of order statuses
      *
      * @since    1.0.0
@@ -243,6 +260,7 @@ class YooKassa
 
         $this->loader->addAction('woocommerce_order_status_processing', $secondReceipt, 'changeOrderStatusToProcessing');
         $this->loader->addAction('woocommerce_order_status_completed', $secondReceipt, 'changeOrderStatusToCompleted');
+        $this->loader->addAction(YooKassaSecondReceipt::RETRY_HOOK, $secondReceipt, 'retrySecondReceipt', 10, 3);
     }
 
     /**

@@ -1,3 +1,6 @@
+### v2.14.2 от 19.08.2026
+* Исправлена ошибка в CreatePaymentRequestSerializer
+
 ### v2.14.1 от 09.07.2026
 * Исправлена ошибка в CreatePersonalDataRequestSerializer
 * Увеличено покрытие тестами

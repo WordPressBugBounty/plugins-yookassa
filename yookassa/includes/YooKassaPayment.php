@@ -128,12 +128,9 @@ class YooKassaPayment
         } else {
             $methods[] = 'YooKassaWidgetGateway';
         }
-        if (get_option('yookassa_enable_sbbol') == '1') {
-            $methods[] = 'YooKassaGatewayB2BSberbank';
-        }
-        if (get_option('yookassa_electronic_certificate_enabled') == '1') {
-            $methods[] = 'YooKassaGatewayElectronicCertificate';
-        }
+        $methods[] = 'YooKassaGatewayB2BSberbank';
+        $methods[] = 'YooKassaGatewayElectronicCertificate';
+        $methods[] = 'YooKassaGatewaySberBnpl';
 
         return $methods;
     }
@@ -145,6 +142,7 @@ class YooKassaPayment
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayB2bSberbank.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaWidgetGateway.php';
         require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewayElectronicCertificate.php';
+        require_once plugin_dir_path(dirname(__FILE__)).'gateway/YooKassaGatewaySberBnpl.php';
     }
 
     public function addGatewaysScripts()

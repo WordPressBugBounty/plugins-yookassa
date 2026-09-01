@@ -2,23 +2,32 @@
 
 namespace Cmssdk\Metrics\Model;
 
+use OpenApi\Attributes as OA;
 use YooKassa\Common\AbstractObject;
 
+#[OA\Schema()]
 class ShopInfo extends AbstractObject
 {
-    /** @var string|null */
+    /** @var string|null ShopID магазина */
+    #[OA\Property(property: "account_id", example: "123456")]
     private $accountId;
-    /** @var string|null */
+    /** @var string|null Статус магазина */
+    #[OA\Property(property: "status", example: "enabled")]
     private $status;
-    /** @var bool|null */
+    /** @var bool|null Тестовый или нет */
+    #[OA\Property(property: "test", example: false)]
     private $test;
-    /** @var Fiscalization|null */
+    /** @var Fiscalization|null Установки фискализации */
+    #[OA\Property(property: "fiscalization")]
     private $fiscalization;
-    /** @var bool|null */
+    /** @var bool|null Статус фискализации */
+    #[OA\Property(property: "fiscalization_enabled", example: true)]
     private $fiscalizationEnabled;
-    /** @var array<int, string> */
+    /** @var array<int, string> Доступные платёжные методы */
+    #[OA\Property(property: "payment_methods", type: "array", example: ["bank_card", "yoo_money"])]
     private $paymentMethods;
-    /** @var string|null */
+    /** @var string|null ИНН магазина */
+    #[OA\Property(property: "itn", example: "123456789012")]
     private $itn;
 
     /**

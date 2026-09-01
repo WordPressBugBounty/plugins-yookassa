@@ -2,23 +2,32 @@
 
 namespace Cmssdk\Metrics\Model;
 
+use OpenApi\Attributes as OA;
 use YooKassa\Common\AbstractObject;
 
+#[OA\Schema()]
 class ModuleInfo extends AbstractObject
 {
     /** @var string|null */
+    #[OA\Property(property: "os_version", example: "Ubuntu/14.04")]
     private $osVersion;
     /** @var string|null */
+    #[OA\Property(property: "php_version", example: "PHP/7.3.28")]
     private $phpVersion;
     /** @var string|null */
+    #[OA\Property(property: "cms_version", example: "Wordpress/5.8.10")]
     private $cmsVersion;
     /** @var string|null */
+    #[OA\Property(property: "framework_version", example: "Woocommerce/5.9.0")]
     private $frameworkVersion;
     /** @var string|null */
+    #[OA\Property(property: "module_version", example: "PaymentGateway/2.10.2")]
     private $moduleVersion;
     /** @var string|null */
+    #[OA\Property(property: "sdk_version", example: "YooKassa.PHP/2.11.1")]
     private $sdkVersion;
     /** @var string|null */
+    #[OA\Property(property: "host", example: "merchant-site.ru")]
     private $host;
 
     /**

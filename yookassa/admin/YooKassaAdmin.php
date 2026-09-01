@@ -6,6 +6,7 @@ use Cmssdk\Metrics\Model\MetricsType;
 use Cmssdk\Metrics\Model\ModuleInfo;
 use Cmssdk\Metrics\Model\Payment;
 use Cmssdk\Metrics\Model\SberbankBusinessOnline;
+use Cmssdk\Metrics\Model\SberBnpl;
 use Cmssdk\Metrics\Model\Settings;
 use Cmssdk\Metrics\Model\ShopInfo;
 use YooKassa\Model\CurrencyCode;
@@ -148,6 +149,16 @@ class YooKassaAdmin
                 'ajaxUrl' => admin_url('admin-ajax.php'),
             )
         );
+
+        // SberBnpl preview widget — only loaded on the settings page (this hook
+        // fires only for the YooKassa admin page, see addMenu()).
+        wp_enqueue_script(
+            'yookassa-sber-bnpl-widget',
+            'https://yookassa.ru/integration/oauth-cms/widgets/sber-bnpl-widget.js',
+            array(),
+            null,
+            true
+        );
     }
 
     public function addMenu()
@@ -220,6 +231,40 @@ class YooKassaAdmin
         register_setting('woocommerce-yookassa', 'yookassa_marking_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_apple_pay_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_electronic_certificate_enabled');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_enabled');
+        register_setting('woocommerce-yookassa', 'yookassa_add_sber_bnpl_product');
+        register_setting('woocommerce-yookassa', 'yookassa_add_sber_bnpl_cart');
+        register_setting('woocommerce-yookassa', 'yookassa_add_sber_bnpl_checkout');
+        register_setting('woocommerce-yookassa', 'yookassa_add_sber_bnpl_list');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_theme');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_template');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_size');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_compact');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_hide_sum');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_product_theme');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_product_template');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_product_size');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_product_compact');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_product_hide_sum');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_product_align');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_list_theme');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_list_template');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_list_size');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_list_compact');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_list_hide_sum');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_list_align');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_cart_theme');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_cart_template');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_cart_size');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_cart_compact');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_cart_hide_sum');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_cart_align');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_checkout_theme');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_checkout_template');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_checkout_size');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_checkout_compact');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_checkout_hide_sum');
+        register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_checkout_align');
 
         update_option(
             'yookassa_sbbol_tax_rates_enum',
@@ -301,14 +346,57 @@ class YooKassaAdmin
         $sbbolTaxRates          = get_option('yookassa_sbbol_tax_rate');
         $isECEnabled            = get_option('yookassa_electronic_certificate_enabled');
 
+        $isSberBnplEnabled          = (get_option('yookassa_sber_bnpl_enabled') == '1');
+        $isSberBnplProductEnabled   = (get_option('yookassa_add_sber_bnpl_product') == '1');
+        $isSberBnplCartEnabled      = (get_option('yookassa_add_sber_bnpl_cart') == '1');
+        $isSberBnplCheckoutEnabled  = (get_option('yookassa_add_sber_bnpl_checkout') == '1');
+        $isSberBnplListEnabled      = (get_option('yookassa_add_sber_bnpl_list') == '1');
+        $isSberBnplCompactEnabled   = (get_option('yookassa_sber_bnpl_compact') == '1');
+        $isSberBnplHideSumEnabled   = (get_option('yookassa_sber_bnpl_hide_sum') == '1');
+        $sberBnplTheme              = get_option('yookassa_sber_bnpl_theme', 'classic');
+        $sberBnplTemplate           = get_option('yookassa_sber_bnpl_template', 'informer');
+        $sberBnplSize               = get_option('yookassa_sber_bnpl_size', 'medium');
+
+        $sberBnplProductTheme          = get_option('yookassa_sber_bnpl_product_theme', 'classic');
+        $sberBnplListTheme             = get_option('yookassa_sber_bnpl_list_theme', 'classic');
+        $sberBnplCartTheme             = get_option('yookassa_sber_bnpl_cart_theme', 'classic');
+        $sberBnplCheckoutTheme         = get_option('yookassa_sber_bnpl_checkout_theme', 'classic');
+
+        $sberBnplProductTemplate       = get_option('yookassa_sber_bnpl_product_template', 'informer');
+        $sberBnplListTemplate          = get_option('yookassa_sber_bnpl_list_template', 'informer');
+        $sberBnplCartTemplate          = get_option('yookassa_sber_bnpl_cart_template', 'informer');
+        $sberBnplCheckoutTemplate      = get_option('yookassa_sber_bnpl_checkout_template', 'informer');
+
+        $sberBnplProductSize           = get_option('yookassa_sber_bnpl_product_size', 'medium');
+        $sberBnplListSize              = get_option('yookassa_sber_bnpl_list_size', 'medium');
+        $sberBnplCartSize              = get_option('yookassa_sber_bnpl_cart_size', 'medium');
+        $sberBnplCheckoutSize          = get_option('yookassa_sber_bnpl_checkout_size', 'medium');
+
+        $sberBnplProductAlign          = get_option('yookassa_sber_bnpl_product_align', 'left');
+        $sberBnplListAlign             = get_option('yookassa_sber_bnpl_list_align', 'left');
+        $sberBnplCartAlign             = get_option('yookassa_sber_bnpl_cart_align', 'left');
+        $sberBnplCheckoutAlign         = get_option('yookassa_sber_bnpl_checkout_align', 'left');
+
+        $isSberBnplProductCompactEnabled = (get_option('yookassa_sber_bnpl_product_compact') == '1');
+        $isSberBnplListCompactEnabled    = (get_option('yookassa_sber_bnpl_list_compact') == '1');
+        $isSberBnplCartCompactEnabled    = (get_option('yookassa_sber_bnpl_cart_compact') == '1');
+        $isSberBnplCheckoutCompactEnabled = (get_option('yookassa_sber_bnpl_checkout_compact') == '1');
+
+        $isSberBnplProductHideSumEnabled = (get_option('yookassa_sber_bnpl_product_hide_sum') == '1');
+        $isSberBnplListHideSumEnabled    = (get_option('yookassa_sber_bnpl_list_hide_sum') == '1');
+        $isSberBnplCartHideSumEnabled    = (get_option('yookassa_sber_bnpl_cart_hide_sum') == '1');
+        $isSberBnplCheckoutHideSumEnabled = (get_option('yookassa_sber_bnpl_checkout_hide_sum') == '1');
+
         $isTestShop = false;
         $isFiscalizationEnabled = false;
         $isSberLoanAvailable = false;
+        $isSberBnplAvailable = false;
         $validCredentials = false;
         if ($shopInfo) {
             $isTestShop = isset($shopInfo['test']) && $shopInfo['test'];
             $isFiscalizationEnabled = isset($shopInfo['fiscalization_enabled']) && $shopInfo['fiscalization_enabled'];
             $isSberLoanAvailable = isset($shopInfo['payment_methods']) && in_array(PaymentMethodType::SBER_LOAN, $shopInfo['payment_methods'], true);
+            $isSberBnplAvailable = isset($shopInfo['payment_methods']) && in_array(PaymentMethodType::SBER_BNPL, $shopInfo['payment_methods'], true);
             $validCredentials = true;
         }
 
@@ -373,11 +461,46 @@ class YooKassaAdmin
             'yookassaNonce'          => wp_create_nonce('yookassa-nonce'),
             'isSaveCard'             => $isSaveCard,
             'isSberLoanAvailable'    => $isSberLoanAvailable,
+            'isSberBnplAvailable'    => $isSberBnplAvailable,
             'defaultTaxSystemCode'   => $defaultTaxSystemCode,
             'defaultTaxRate'         => $defaultTaxRate,
             'sbbolDefaultTaxRate'    => $sbbolDefaultTaxRate,
             'sbbolTaxRates'          => $sbbolTaxRates,
             'isECEnabled'            => $isECEnabled,
+            'isSberBnplEnabled'          => $isSberBnplEnabled,
+            'isSberBnplProductEnabled'   => $isSberBnplProductEnabled,
+            'isSberBnplCartEnabled'      => $isSberBnplCartEnabled,
+            'isSberBnplCheckoutEnabled'  => $isSberBnplCheckoutEnabled,
+            'isSberBnplListEnabled'      => $isSberBnplListEnabled,
+            'isSberBnplCompactEnabled'   => $isSberBnplCompactEnabled,
+            'isSberBnplHideSumEnabled'   => $isSberBnplHideSumEnabled,
+            'sberBnplTheme'              => $sberBnplTheme,
+            'sberBnplTemplate'           => $sberBnplTemplate,
+            'sberBnplSize'               => $sberBnplSize,
+            'sberBnplProductTheme'           => $sberBnplProductTheme,
+            'sberBnplListTheme'              => $sberBnplListTheme,
+            'sberBnplCartTheme'              => $sberBnplCartTheme,
+            'sberBnplCheckoutTheme'          => $sberBnplCheckoutTheme,
+            'sberBnplProductTemplate'        => $sberBnplProductTemplate,
+            'sberBnplListTemplate'           => $sberBnplListTemplate,
+            'sberBnplCartTemplate'           => $sberBnplCartTemplate,
+            'sberBnplCheckoutTemplate'       => $sberBnplCheckoutTemplate,
+            'sberBnplProductSize'            => $sberBnplProductSize,
+            'sberBnplListSize'               => $sberBnplListSize,
+            'sberBnplCartSize'               => $sberBnplCartSize,
+            'sberBnplCheckoutSize'           => $sberBnplCheckoutSize,
+            'sberBnplProductAlign'           => $sberBnplProductAlign,
+            'sberBnplListAlign'              => $sberBnplListAlign,
+            'sberBnplCartAlign'              => $sberBnplCartAlign,
+            'sberBnplCheckoutAlign'          => $sberBnplCheckoutAlign,
+            'isSberBnplProductCompactEnabled'   => $isSberBnplProductCompactEnabled,
+            'isSberBnplListCompactEnabled'      => $isSberBnplListCompactEnabled,
+            'isSberBnplCartCompactEnabled'      => $isSberBnplCartCompactEnabled,
+            'isSberBnplCheckoutCompactEnabled'  => $isSberBnplCheckoutCompactEnabled,
+            'isSberBnplProductHideSumEnabled'   => $isSberBnplProductHideSumEnabled,
+            'isSberBnplListHideSumEnabled'      => $isSberBnplListHideSumEnabled,
+            'isSberBnplCartHideSumEnabled'      => $isSberBnplCartHideSumEnabled,
+            'isSberBnplCheckoutHideSumEnabled'  => $isSberBnplCheckoutHideSumEnabled,
         );
     }
 
@@ -732,6 +855,21 @@ class YooKassaAdmin
             YooKassaLogger::error('Failed send bi metric. Error: ' . $e->getMessage());
         }
 
+        // Sync WooCommerce gateway enabled state from plugin options.
+        $gatewayMap = array(
+            'yookassa_sber_bnpl_enabled' => 'yookassa_sber_bnpl',
+            'yookassa_enable_sbbol' => 'yookassa_b2b_sberbank',
+            'yookassa_electronic_certificate_enabled' => 'yookassa_electronic_certificate',
+        );
+        foreach ($gatewayMap as $pluginOption => $gatewayId) {
+            $optionValue = get_option($pluginOption);
+            $wcSettings = get_option('woocommerce_' . $gatewayId . '_settings', array());
+            if (is_array($wcSettings)) {
+                $wcSettings['enabled'] = ($optionValue === '1') ? 'yes' : 'no';
+                update_option('woocommerce_' . $gatewayId . '_settings', $wcSettings);
+            }
+        }
+
         YooKassaLogger::sendHeka(array('settings.save.success'));
         do_action('yookassa_after_save_settings');
         echo json_encode(array('status' => 'success'));
@@ -849,6 +987,7 @@ class YooKassaAdmin
         $result->setPayment((new Payment())
             ->setScenario($settings['payMode'])
             ->setSbbolEnabled($settings['isSbBOLEnabled'])
+            ->setSberBnplEnabled($settings['isSberBnplEnabled'])
             ->setSaveCardEnabled($settings['isSaveCard'])
             ->setHoldEnabled($settings['isHoldEnabled'])
         );
@@ -857,6 +996,14 @@ class YooKassaAdmin
                 ->setPurposeTemplate($settings['sbbolTemplate'])
                 ->setTaxRates($settings['sbbolTaxRates'])
                 ->setDefaultTaxRate($settings['sbbolDefaultTaxRate'])
+            );
+        }
+        if ($settings['isSberBnplEnabled']) {
+            $result->setSberBnpl((new SberBnpl())
+                ->setSberBnplListEnabled($settings['isSberBnplListEnabled'])
+                ->setSberBnplProductEnabled($settings['isSberBnplProductEnabled'])
+                ->setSberBnplCartEnabled($settings['isSberBnplCartEnabled'])
+                ->setSberBnplCheckoutEnabled($settings['isSberBnplCheckoutEnabled'])
             );
         }
         if ($settings['isReceiptEnabled']) {

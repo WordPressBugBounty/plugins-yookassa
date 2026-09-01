@@ -18,10 +18,10 @@ class YooKassaGatewayEPL extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon = YooKassa::$pluginUrl.'assets/images/kassa.png';
+        $this->icon = YooKassa::$pluginUrl.'assets/images/kassa.svg';
 
         $this->method_title           = __('Умный платёж', 'yookassa');
-        $this->method_description     = __('Из вашего магазина покупатель перейдёт на страницу ЮKassa и заплатит любым из способов, которые вы подключили.', 'yookassa');
+        $this->method_description     = __('Готовая платёжная форма с привычными способами оплаты.', 'yookassa');
 
         $this->defaultTitle           = __('Онлайн-оплата', 'yookassa');
         $this->defaultDescription     = __('Банковской картой или другим способом', 'yookassa');

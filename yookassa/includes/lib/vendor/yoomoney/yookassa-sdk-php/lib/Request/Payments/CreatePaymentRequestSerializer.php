@@ -77,7 +77,7 @@ class CreatePaymentRequestSerializer
         PaymentMethodType::WECHAT                 => 'serializePaymentData',
         PaymentMethodType::SBP                    => 'serializePaymentData',
         PaymentMethodType::SBER_LOAN              => 'serializePaymentData',
-        PaymentMethodType::SBER_BNPL              => 'serializePaymentData',
+        PaymentMethodType::SBER_BNPL              => 'serializePaymentDataMobilePhone',
         PaymentMethodType::ELECTRONIC_CERTIFICATE => 'serializePaymentDataElectronicCertificate',
     );
 

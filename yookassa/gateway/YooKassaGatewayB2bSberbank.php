@@ -22,7 +22,7 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
     {
         parent::__construct();
 
-        $this->icon               = YooKassa::$pluginUrl.'assets/images/sberbank.png';
+        $this->icon               = YooKassa::$pluginUrl.'assets/images/sberbank.svg';
 
         $this->method_title       = __('СберБанк Бизнес Онлайн', 'yookassa');
         $this->method_description = __('Покупатель нажмёт кнопку на вашем сайте и перейдёт к оплате счёта. Сразу после оплаты вам придёт сообщение — значит, можно отгружать товары.', 'yookassa');
@@ -32,6 +32,20 @@ class YooKassaGatewayB2BSberbank extends YooKassaGateway
 
         $this->title       = $this->getTitle();
         $this->description = $this->getDescription();
+    }
+
+    /**
+     * Проверяет доступность метода оплаты.
+     *
+     * @return bool
+     */
+    public function is_available()
+    {
+        if (get_option('yookassa_enable_sbbol') !== '1') {
+            return false;
+        }
+
+        return parent::is_available();
     }
 
     /**

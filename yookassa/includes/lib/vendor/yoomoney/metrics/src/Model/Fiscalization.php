@@ -2,35 +2,50 @@
 
 namespace Cmssdk\Metrics\Model;
 
+use OpenApi\Attributes as OA;
 use YooKassa\Common\AbstractObject;
 
+#[OA\Schema()]
 class Fiscalization extends AbstractObject
 {
-    /** @var bool|null */
+    /** @var bool|null Флаг работы с чеками */
+    #[OA\Property(property: "receipt_enabled", example: true)]
     private $receiptEnabled;
-    /** @var bool|null */
+    /** @var bool|null Флаг самозанятого */
+    #[OA\Property(property: "self_employed", example: false)]
     private $selfEmployed;
-    /** @var string|null */
+    /** @var string|null Версия ФФД */
+    #[OA\Property(property: "ffd", example: "ffd12")]
     private $ffd;
-    /** @var string|null */
+    /** @var string|null Ставка НДС по умолчанию */
+    #[OA\Property(property: "default_tax_rate", example: "1")]
     private $defaultTaxRate;
-    /** @var string|null */
+    /** @var string|null Система налогообложения по умолчанию */
+    #[OA\Property(property: "default_tax_system_code", example: "6")]
     private $defaultTaxSystemCode;
-    /** @var string|null */
+    /** @var string|null Предмет расчета по умолчанию */
+    #[OA\Property(property: "default_payment_subject", example: "commodity")]
     private $defaultPaymentSubject;
-    /** @var string|null */
+    /** @var string|null Способ расчета по умолчанию */
+    #[OA\Property(property: "default_payment_mode", example: "full_prepayment")]
     private $defaultPaymentMode;
-    /** @var string|null */
+    /** @var string|null Предмет расчета по умолчанию для доставки */
+    #[OA\Property(property: "default_shipping_payment_subject", example: "service")]
     private $defaultShippingPaymentSubject;
-    /** @var string|null */
+    /** @var string|null Способ расчета по умолчанию для доставки */
+    #[OA\Property(property: "default_shipping_payment_mode", example: "full_payment")]
     private $defaultShippingPaymentMode;
-    /** @var array<string, string>|null */
+    /** @var array<string, string>|null Налоговые ставки */
+    #[OA\Property(property: "tax_rates", type: "array", example: [["key"=>"2","value"=>"1"],["key"=>"3","value"=>"1"]])]
     private $taxRates;
-    /** @var bool|null */
+    /** @var bool|null Флаг работы с маркировкой */
+    #[OA\Property(property: "marking_enabled", example: false)]
     private $markingEnabled;
-    /** @var bool|null */
+    /** @var bool|null Флаг работы со вторым чеком */
+    #[OA\Property(property: "second_receipt_enabled", example: true)]
     private $secondReceiptEnabled;
-    /** @var string|null */
+    /** @var string|null Статус заказа при котором формируется второй чек */
+    #[OA\Property(property: "second_receipt_order_status", example: "wc-processing")]
     private $secondReceiptOrderStatus;
 
     /**
@@ -264,6 +279,10 @@ class Fiscalization extends AbstractObject
         return $this;
     }
 
+    #[\ReturnTypeWillChange]
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         $data = parent::jsonSerialize();

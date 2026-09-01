@@ -97,8 +97,13 @@ class YooKassaGateway extends WC_Payment_Gateway
         $this->has_fields = false;
         $this->init_form_fields();
         $this->init_settings();
-        $this->title       = $this->settings['title'];
-        $this->description = $this->settings['description'];
+        $this->title       = isset($this->settings['title']) ? $this->settings['title'] : $this->defaultTitle;
+        $this->description = isset($this->settings['description']) ? $this->settings['description'] : $this->defaultDescription;
+
+        if ($this->getPluginOptionKey()) {
+            add_action('update_option_' . $this->get_option_key(), array($this, 'syncEnabledToPluginOption'), 10, 2);
+        }
+
         $this->supports    = array(
             'products',
         );
@@ -163,6 +168,41 @@ class YooKassaGateway extends WC_Payment_Gateway
         );
     }
 
+    /**
+     * Возвращает ключ опции плагина, соответствующий гейтвею, или null.
+     *
+     * @return string|null
+     */
+    protected function getPluginOptionKey()
+    {
+        $map = array(
+            'yookassa_sber_bnpl'            => 'yookassa_sber_bnpl_enabled',
+            'yookassa_b2b_sberbank'         => 'yookassa_enable_sbbol',
+            'yookassa_electronic_certificate' => 'yookassa_electronic_certificate_enabled',
+        );
+
+        return isset($map[$this->id]) ? $map[$this->id] : null;
+    }
+
+    /**
+     * Синхронизирует WooCommerce gateway enabled → опцию плагина.
+     *
+     * Вызывается при обновлении опции woocommerce_{id}_settings.
+     *
+     * @param mixed $oldValue Старое значение опции.
+     * @param mixed $newValue Новое значение опции.
+     */
+    public function syncEnabledToPluginOption($oldValue, $newValue)
+    {
+        $pluginOption = $this->getPluginOptionKey();
+        if (!$pluginOption) {
+            return;
+        }
+
+        $enabled = (is_array($newValue) && isset($newValue['enabled']) && 'yes' === $newValue['enabled']) ? '1' : '0';
+        update_option($pluginOption, $enabled);
+    }
+
     public function admin_options()
     {
         echo '<h5>'.__(
@@ -191,6 +231,15 @@ class YooKassaGateway extends WC_Payment_Gateway
         );
         $order_id = wc_get_order_id_by_order_key(wc_clean(wp_unslash($orderId)));
         $order    = wc_get_order($order_id);
+
+        if ( ! $order ) {
+            YooKassaLogger::warning(sprintf(
+                'Order not found by key: orderKey=%s', $orderId
+            ));
+            wp_redirect(home_url());
+            exit;
+        }
+
         if ( class_exists('sitepress') ) {
             do_action( 'wpml_switch_language', $order->get_meta('wpml_language') );
         }
@@ -671,8 +720,11 @@ class YooKassaGateway extends WC_Payment_Gateway
      */
     public function process_admin_options()
     {
-        parent::process_admin_options();
+        $result = parent::process_admin_options();
+
         self::syncStaticReceiptAttributes();
+
+        return $result;
     }
 
     /**
@@ -813,14 +865,14 @@ class YooKassaGateway extends WC_Payment_Gateway
                     'payment_id' => $paymentId,
                 )
             );
-            if ($result) {
+            if ($result !== false) {
                 YooKassaLogger::sendHeka(array('payment-status.change.success'));
             }
         } else {
             $result = null;
         }
 
-        if (!$result) {
+        if ($result === false) {
             YooKassaLogger::sendHeka(array('payment-status.change.fail'));
             YooKassaLogger::error('Не удалось обновить данные платежа '.$paymentId.' в базе данных!');
         }
