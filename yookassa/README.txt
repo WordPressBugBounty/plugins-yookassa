@@ -4,7 +4,7 @@ Tags: woocommerce, payment, gateway, yookassa, юkassa
 Requires PHP: 5.6.20
 Requires at least: 5.2
 Tested up to: 7.0.2
-Stable tag: 2.17.0
+Stable tag: 2.17.1
 License: GPLv3
 License URI: https://yoomoney.ru/doc.xml?id=527132
 
@@ -62,6 +62,9 @@ License URI: https://yoomoney.ru/doc.xml?id=527132
 15. Оформление заказа - Выбор способа оплаты
 
 == Changelog ==
+= 2.17.1 =
+* Исправлены размеры логотипов для платежных методов
+
 = 2.17.0 =
 * Добавлен способ оплаты «Плати частями» от Сбера
 * Добавлен виджет для отображения графиков платежей через «Плати частями» от Сбера
