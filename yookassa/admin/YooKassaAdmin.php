@@ -229,6 +229,7 @@ class YooKassaAdmin
         register_setting('woocommerce-yookassa', 'yookassa_access_token');
         register_setting('woocommerce-yookassa', 'yookassa_save_card');
         register_setting('woocommerce-yookassa', 'yookassa_marking_enabled');
+        register_setting('woocommerce-yookassa', 'yookassa_marking_base64_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_apple_pay_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_electronic_certificate_enabled');
         register_setting('woocommerce-yookassa', 'yookassa_sber_bnpl_enabled');
@@ -323,6 +324,11 @@ class YooKassaAdmin
         $isReceiptEnabled       = get_option('yookassa_enable_receipt');
         $isSecondReceiptEnabled = get_option('yookassa_enable_second_receipt');
         $isMarkingEnabled       = get_option('yookassa_marking_enabled');
+        $markingBase64Option    = get_option('yookassa_marking_base64_enabled', '');
+        $fiscalizationProvider  = isset($shopInfo['fiscalization']['provider']) ? $shopInfo['fiscalization']['provider'] : null;
+        $isBase64ProviderDefault = $fiscalizationProvider !== null
+            && in_array($fiscalizationProvider, YooKassaMarkingCodeHandler::BASE64_ENCODED_PROVIDER, true);
+        $isMarkingBase64Enabled = ($markingBase64Option !== '') ? (bool)$markingBase64Option : $isBase64ProviderDefault;
         $orderStatusReceipt     = get_option('yookassa_second_receipt_order_status', 'wc-completed');
         $isDebugEnabled         = (bool)get_option('yookassa_debug_enabled', '0');
         $forceClearCart         = (bool)get_option('yookassa_force_clear_cart', '0');
@@ -434,6 +440,7 @@ class YooKassaAdmin
             'isReceiptEnabled'       => $isReceiptEnabled,
             'isSecondReceiptEnabled' => $isSecondReceiptEnabled,
             'isMarkingEnabled'       => $isMarkingEnabled,
+            'isMarkingBase64Enabled' => $isMarkingBase64Enabled,
             'orderStatusReceipt'     => $orderStatusReceipt,
             'testMode'               => $testMode,
             'isDebugEnabled'         => $isDebugEnabled,

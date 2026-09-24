@@ -13,6 +13,7 @@
 /** @var array $wcOrderStatuses */
 /** @var string $yookassaNonce */
 /** @var string $isMarkingEnabled */
+/** @var bool $isMarkingBase64Enabled */
 ?>
 <form id="yoomoney-form-4" class="yoomoney-form">
     <div class="col-md-12">
@@ -179,6 +180,46 @@
                     </div>
                 </div>
 
+                <div class="qa-marking-base64">
+                    <div id="marking-base64-collapsible" class="in collapse<?=($isMarkingEnabled && $isSecondReceiptEnabled) ? ' show' : ''; ?>">
+                        <div class="row padding-bottom">
+                            <div class="col-md-7 form-group">
+                                <div class="custom-control custom-switch qa-marking-base64-toggle-control">
+                                    <input <?=($isMarkingBase64Enabled)?' checked':'';?> type="checkbox" class="custom-control-input" id="yookassa_marking_base64_toggle" data-toggle="collapse" data-target="#marking-base64-settings-collapsible" aria-controls="marking-base64-settings-collapsible">
+                                    <label class="custom-control-label" for="yookassa_marking_base64_toggle">
+                                        <?= __('Кодирование маркировки', 'yookassa'); ?>
+                                    </label>
+                                </div>
+                                <p class="help-block text-muted qa-marking-base64-toggle-info">
+                                    <?= __('Настройка может помочь, когда «Честный знак» из-за особенностей онлайн-кассы не может вывести товар из оборота после отправки второго чека.', 'yookassa');?>
+                                </p>
+                            </div>
+                        </div>
+                        <div id="marking-base64-settings-collapsible" class="in collapse<?=($isMarkingBase64Enabled) ? ' show' : ''; ?>">
+                            <div class="row padding-bottom">
+                                <div class="col-md-7 form-group">
+                                    <div class="custom-control custom-checkbox qa-marking-base64-control">
+                                        <input type="hidden" name="yookassa_marking_base64_enabled" value="0">
+                                        <input <?=($isMarkingBase64Enabled)?' checked':'';?> type="checkbox" class="custom-control-input" id="yookassa_marking_base64_enabled" name="yookassa_marking_base64_enabled" value="1">
+                                        <label class="custom-control-label" for="yookassa_marking_base64_enabled">
+                                            <?= __('Включить кодировку в Base64', 'yookassa'); ?>
+                                        </label>
+                                    </div>
+                                    <p class="help-block text-muted qa-marking-base64-control-info">
+                                        <?= __('Настройка выставляется автоматически в зависимости от онлайн-кассы. Например, для «АТОЛ Онлайн» она включена по умолчанию, так как онлайн-касса требует кодировать данные в Base64, а для digitalkassa — отключена, потому что кодирование не требуется.', 'yookassa');?>
+                                    </p>
+                                    <p class="help-block text-muted">
+                                        <?= __('Иногда из-за особенностей кассовой техники после отправки чека «Честный знак» не может вывести товар из оборота. В этом случае может помочь включение или выключение кодировки.', 'yookassa');?>
+                                    </p>
+                                    <p class="help-block text-muted">
+                                        <?= __('Если решите изменить настройку, напишите сначала в чат ЮKassa — вам подскажут, точно ли нужно её менять или лучше оставить как есть.', 'yookassa');?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="qa-second-receipt">
                     <div class="row">
                         <div class="col-md-7 form-group">
@@ -216,6 +257,17 @@
                 </div>
             </div>
 
+        </div>
+
+        <div id="yookassa-marking-base64-modal" class="yookassa-modal-overlay" role="dialog" aria-modal="true" style="display: none;">
+            <div class="yookassa-modal-dialog" role="document">
+                <h4 class="yookassa-modal-title"><?= __('Уверены, что хотите изменить настройку кодировки?', 'yookassa'); ?></h4>
+                <p class="yookassa-modal-text"><?= __('Если сейчас после отправки второго чека товар выводится из оборота, оставьте настройку как есть — иначе всё сломается', 'yookassa'); ?></p>
+                <div class="yookassa-modal-actions">
+                    <button type="button" class="btn btn-primary qa-marking-base64-modal-yes"><?= __('Да, меняем', 'yookassa'); ?></button>
+                    <button type="button" class="btn btn-default qa-marking-base64-modal-no"><?= __('Нет, оставляем', 'yookassa'); ?></button>
+                </div>
+            </div>
         </div>
 
         <div class="row form-footer">

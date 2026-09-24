@@ -263,7 +263,44 @@
         } else {
             closeReceiptSection();
         }
+        updateMarkingBase64Section();
     }
+
+    /**
+     * Показывает раздел кодирования в Base64 только при включённой маркировке
+     */
+    function updateMarkingBase64Section() {
+        if ($('#yookassa_marking_enabled').is(':checked')) {
+            $('#marking-base64-collapsible').addClass('show').removeClass('collapse');
+        } else {
+            $('#marking-base64-collapsible').removeClass('show').addClass('collapse');
+        }
+    }
+
+    /**
+     * Изменение кодировки маркировки применяется только после подтверждения в поп-апе
+     */
+    $(document).on('click', '#yookassa_marking_base64_enabled', function(e) {
+        e.preventDefault();
+        $('#yookassa-marking-base64-modal').show();
+    });
+
+    $(document).on('click', '.qa-marking-base64-modal-yes', function() {
+        $('#yookassa_marking_base64_enabled').prop('checked', function(index, checked) {
+            return !checked;
+        });
+        $('#yookassa-marking-base64-modal').hide();
+    });
+
+    $(document).on('click', '.qa-marking-base64-modal-no', function() {
+        $('#yookassa-marking-base64-modal').hide();
+    });
+
+    $(document).on('click', '#yookassa-marking-base64-modal', function(e) {
+        if (e.target === this) {
+            $(this).hide();
+        }
+    });
 
     $(document).on('click', '#yookassa_marking_enabled', function() {
         updateReceiptSection();

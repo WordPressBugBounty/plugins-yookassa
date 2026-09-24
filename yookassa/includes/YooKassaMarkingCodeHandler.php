@@ -173,6 +173,18 @@ class YooKassaMarkingCodeHandler
     }
 
     /**
+     * Проверяет, включено ли кодирование маркировочных кодов в base64 настройками модуля.
+     * Если пользователь не менял настройку, кодирование применяется по умолчанию для касс
+     * из списка base64-провайдеров; при выключенной настройке коды передаются как есть.
+     *
+     * @return bool
+     */
+    private function isBase64EncodingEnabled()
+    {
+        return get_option('yookassa_marking_base64_enabled') !== '0';
+    }
+
+    /**
      * Подготавливает маркировочный код в зависимости от типа кассы
      *
      * @param string $provider Тип кассовой системы
@@ -184,7 +196,10 @@ class YooKassaMarkingCodeHandler
     private function prepareMarkCode($provider, $markField, $markCode)
     {
         if (in_array($provider, self::BASE64_ENCODED_PROVIDER, true)) {
-            return array($markField => base64_encode($markCode));
+            if ($this->isBase64EncodingEnabled()) {
+                return array($markField => base64_encode($markCode));
+            }
+            return array($markField => $markCode);
         }
 
         if (in_array($provider, self::RAW_CODE_PROVIDER, true)) {
