@@ -58,7 +58,7 @@ class YooKassaGatewaySberBnpl extends YooKassaGateway
         // gateway then would prevent it from appearing in the block checkout at all.
         if ($is_available && function_exists('WC') && WC()->cart) {
             $total = (float) WC()->cart->total;
-            if (0 < $total && ($total < 1000 || $total > 50000)) {
+            if (0 < $total && ($total < YooKassaSberBnpl::MIN_SUM || $total > YooKassaSberBnpl::MAX_SUM)) {
                 $is_available = false;
             }
         }

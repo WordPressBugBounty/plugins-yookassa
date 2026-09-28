@@ -10,6 +10,9 @@ class YooKassaSberBnpl
 {
     private $plugin_name;
 
+    const MIN_SUM = 1000;
+    const MAX_SUM = 50000;
+
     /**
      * YooKassaSberBnpl constructor.
      *
@@ -28,6 +31,52 @@ class YooKassaSberBnpl
     private function isMethodEnabled()
     {
         return get_option('yookassa_sber_bnpl_enabled') === '1';
+    }
+
+    /**
+     * Whether the current page is a product list (shop, category, tag or taxonomy archive).
+     *
+     * @return bool
+     */
+    private function isListPage()
+    {
+        return is_shop() || is_product_category() || is_product_tag() || is_product_taxonomy();
+    }
+
+    /**
+     * Send a Heka metric that the widget was shown on the given place.
+     *
+     * Fires at most once per place per request, so a shop page with many
+     * products still produces a single metric for the whole page.
+     *
+     * @param string $place The placement key: 'product', 'list', 'cart' or 'checkout'.
+     */
+    private function sendShowMetric($place)
+    {
+        static $sent = array();
+        if (isset($sent[$place])) {
+            return;
+        }
+        $sent[$place] = true;
+
+        $shopId = get_option('yookassa_shop_id', 'null');
+        $host = str_replace(array('http://', 'https://', '.', '/', ':'), array('', '', '-', '-', '-'), get_site_url());
+
+        YooKassaLogger::sendHeka(array('shop.' . $shopId . '.host.' . $host . '.bnpl-widget.' . $place));
+    }
+
+    /**
+     * Whether the given sum falls into the SberBnpl widget range.
+     *
+     * Zero and negative sums are treated as allowed so that empty carts and
+     * products without a price do not hide the widget.
+     *
+     * @param int|float $sum The order/product sum.
+     * @return bool
+     */
+    private function isSumAllowed($sum)
+    {
+        return 0 >= $sum || ($sum >= self::MIN_SUM && $sum <= self::MAX_SUM);
     }
 
     /**
@@ -73,9 +122,6 @@ class YooKassaSberBnpl
      */
     public function showInfo()
     {
-        $this->enqueue_styles();
-        $this->enqueue_scripts();
-
         global $product;
         if (!$product) {
             return;
@@ -90,6 +136,13 @@ class YooKassaSberBnpl
         }
 
         $sum = $product->get_price();
+        if (!$this->isSumAllowed($sum)) {
+            return;
+        }
+        $this->sendShowMetric('product');
+
+        $this->enqueue_styles();
+        $this->enqueue_scripts();
 
         echo '<div class="sber-bnpl-info">';
         echo $this->getWidgetAttributes($sum, 'product');
@@ -101,11 +154,12 @@ class YooKassaSberBnpl
      */
     public function showListInfo()
     {
-        $this->enqueue_styles();
-        $this->enqueue_scripts();
-
         global $product;
         if (!$product) {
+            return;
+        }
+
+        if (!$this->isListPage()) {
             return;
         }
 
@@ -118,6 +172,17 @@ class YooKassaSberBnpl
         }
 
         $sum = $product->get_price();
+        if (!$this->isSumAllowed($sum)) {
+            return;
+        }
+        $this->sendShowMetric('list');
+
+        if (!function_exists('WC') || !WC()->cart) {
+            return;
+        }
+
+        $this->enqueue_styles();
+        $this->enqueue_scripts();
 
         echo '<div class="sber-bnpl-info">';
         echo $this->getWidgetAttributes($sum, 'list');
@@ -129,9 +194,6 @@ class YooKassaSberBnpl
      */
     public function showCartInfo()
     {
-        $this->enqueue_styles();
-        $this->enqueue_scripts();
-
         if (!$this->isMethodEnabled()) {
             return;
         }
@@ -145,6 +207,13 @@ class YooKassaSberBnpl
         }
 
         $sum = (float)WC()->cart->total;
+        if (!$this->isSumAllowed($sum)) {
+            return;
+        }
+        $this->sendShowMetric('cart');
+
+        $this->enqueue_styles();
+        $this->enqueue_scripts();
 
         echo '<div class="sber-bnpl-info">';
         echo $this->getWidgetAttributes($sum, 'cart');
@@ -156,9 +225,6 @@ class YooKassaSberBnpl
      */
     public function showExtraCheckoutInfo()
     {
-        $this->enqueue_styles();
-        $this->enqueue_scripts();
-
         if (!$this->isMethodEnabled()) {
             return;
         }
@@ -172,6 +238,13 @@ class YooKassaSberBnpl
         }
 
         $sum = (float)WC()->cart->total;
+        if (!$this->isSumAllowed($sum)) {
+            return;
+        }
+        $this->sendShowMetric('checkout');
+
+        $this->enqueue_styles();
+        $this->enqueue_scripts();
 
         echo '<li class="sber-bnpl-info" style="display:none;">';
         echo $this->getWidgetAttributes($sum, 'checkout');
@@ -268,13 +341,18 @@ class YooKassaSberBnpl
             return;
         }
 
-        $this->enqueue_styles();
-        $this->enqueue_scripts();
-
         $sum = 0;
         if (function_exists('WC') && WC()->cart) {
             $sum = (float)WC()->cart->total;
         }
+
+        if (!$this->isSumAllowed($sum)) {
+            return;
+        }
+        $this->sendShowMetric($isCart ? 'cart' : 'checkout');
+
+        $this->enqueue_styles();
+        $this->enqueue_scripts();
 
         $widgetHtml = $this->getWidgetAttributes($sum, $isCart ? 'cart' : 'checkout');
         if ($isCart) {
@@ -337,6 +415,10 @@ class YooKassaSberBnpl
      */
     public function renderListFallback()
     {
+        if (!$this->isListPage()) {
+            return;
+        }
+
         if (!$this->isMethodEnabled()) {
             return;
         }
@@ -344,6 +426,8 @@ class YooKassaSberBnpl
         if (get_option('yookassa_add_sber_bnpl_list') !== '1') {
             return;
         }
+
+        $this->sendShowMetric('list');
 
         $this->enqueue_styles();
         $this->enqueue_scripts();

@@ -54,7 +54,7 @@ class YooKassa
     public function __construct()
     {
         $this->plugin_name = 'yookassa';
-        $this->version     = '2.17.2';
+        $this->version     = '2.17.3';
         self::$pluginUrl   = plugin_dir_url(dirname(__FILE__));
         self::$pluginPath  = plugin_dir_path(dirname(__FILE__));
 
@@ -243,7 +243,7 @@ class YooKassa
         $this->loader->addAction('woocommerce_single_product_summary', $sberBnpl, 'showInfo', 15);
         $this->loader->addAction('woocommerce_after_shop_loop_item_title', $sberBnpl, 'showListInfo', 9);
         $this->loader->addAction('woocommerce_cart_totals_after_order_total', $sberBnpl, 'showCartInfo');
-        $this->loader->addAction('woocommerce_checkout_terms', $sberBnpl, 'showExtraCheckoutInfo', 9);
+        $this->loader->addAction('woocommerce_checkout_before_terms_and_conditions', $sberBnpl, 'showExtraCheckoutInfo', 9);
         $this->loader->addAction('wp_footer', $sberBnpl, 'renderBlockFallback');
         $this->loader->addAction('wp_footer', $sberBnpl, 'renderListFallback');
     }
